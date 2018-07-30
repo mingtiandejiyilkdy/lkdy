@@ -1,0 +1,20 @@
+﻿@model Movie.ViewModel.LayoutViewModel
+@{
+    ViewBag.Title = "_TopMenuVModel.cshtml";
+}
+<ul class="layui-nav layui-nav-tree" lay-filter="test">
+    @foreach (var menu in Model.menuList.FindAll(o => o.ParentID == 0))
+    {  
+        <li class="layui-nav-item layui-nav-itemed">
+            <a class="" href="javascript:;">@menu.MenuName</a>
+            <dl class="layui-nav-child">
+                @foreach (var subMenu in Model.menuList.FindAll(o => o.ParentID == menu.ID))
+                {  
+                    <dd>
+                        <a href="@subMenu.MenuUrl">@subMenu.MenuName</a>
+                    </dd> 
+                }
+            </dl>
+        </li>
+    }
+</ul>

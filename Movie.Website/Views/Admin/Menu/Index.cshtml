@@ -1,0 +1,223 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminManageLayout.cshtml";
+}
+<div class="layui-form-item">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">
+                    菜单名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="MenuName" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div> 
+            <div class="layui-inline">
+                <label class="layui-form-label">
+                    菜单标识</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="MenuKey" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>  
+            <div class="layui-inline">
+                <label class="layui-form-label">
+                    状态</label>
+                <div class="layui-input-inline">
+                    <select name="Status">
+                        <option value="">全部</option>
+                        <option value="1">启用</option>
+                        <option value="0">禁用</option>
+                    </select><div class="layui-unselect layui-form-select">
+                        <div class="layui-select-title">
+                            <input type="text" placeholder="请选择标签" value="" readonly="" class="layui-input layui-unselect"><i
+                                class="layui-edge"></i></div>
+                        <dl class="layui-anim layui-anim-upbit" style="">
+                            <dd lay-value="" class="layui-select-tips layui-this">
+                                全部</dd><dd lay-value="0" class="">禁用</dd><dd lay-value="1" class="">启用</dd></dl>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layuiadmin-btn-list layui-btn-normal" lay-submit="" lay-filter="LAY-app-contlist-search">
+                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                </button>
+                <button class="layui-btn layuiadmin-btn-list layui-btn-normal" data-type="add">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="layui-hide" id="test" lay-filter="demo">
+</table>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#test'
+    , url: '/Admin/Menu/list'
+    , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+        //,curr: 5 //设定初始在第 5 页
+      , groups: 1 //只显示 1 个连续页码
+      , first: false //不显示首页
+      , last: false //不显示尾页
+
+    }
+    , cols: [[
+      { field: 'ID',  title: 'ID', }
+      , { field: 'MenuName', title: '菜单名' }
+      , { field: 'MenuKey', title: '菜单标识' }
+      , { field: 'MenuUrl', title: '菜单地址' }
+      , { field: 'MenuType', title: '菜单类型' }
+      , { field: 'Remark', title: '备注' }
+      , { field: 'Sort', title: '排序' } 
+      , { field: 'CreateTIme', width:170, title: '创建时间', }
+      ,{field:'Status', title:'启用', width:85, templet: '#switchTpl', unresize: true}
+      , { field: 'lock', title: '操作', width: 180, toolbar: '#barDemo', unresize: true }
+    ]]
+
+        });
+    });
+</script>
+<script type="text/html" id="switchTpl">
+  <!-- 这里的 checked 的状态只是演示 -->
+  <input type="checkbox" name="Status" value="{{d.ID}}" lay-skin="switch" lay-text="是|否" lay-filter="sexDemo" {{ d.Status ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="barDemo">
+  <!-- 这里的 checked 的状态只是演示 --> 
+  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="del">删除</a>
+</script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['table', 'form', 'layedit', 'laydate'], function () {
+        var table = layui.table
+        , form = layui.form
+        , admin = layui.admin;
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('test', {
+                where: field
+            });
+        });
+
+
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function (obj) {
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(demo)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('确定要删除么', function (index) {
+                    DelById(obj.data.ID,table);
+                });
+            } else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2
+                  , title: '编辑管菜单'
+                  , content: '/Admin/Menu/Show/'+obj.data.ID
+                  , maxmin: true
+                  , area: ['550px', '550px']
+                  , btn: ['确定', '取消']
+                  , yes: function (index, layero) {
+                      //点击确认触发 iframe 内容中的按钮提交
+                      var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+                      submit.click();
+                  }
+                }); 
+            }
+        });
+
+        //监听禁用操作
+        form.on('switch(sexDemo)', function (obj) {
+            //请求接口
+            SetStatus(obj.value, obj.elem.checked ? 1 : 0, obj);
+            return false;
+        });
+
+        var $ = layui.$, active = {
+            batchdel: function () {
+                var checkStatus = table.checkStatus('layui-table')
+        , checkData = checkStatus.data; //得到选中的数据
+
+                if (checkData.length === 0) {
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function (index) {
+
+                    //执行 Ajax 后重载
+                    /*
+                    admin.req({
+                    url: 'xxx'
+                    //,……
+                    });
+                    */
+                    table.reload('test');
+                    layer.msg('已删除');
+                });
+            },
+            add: function () {
+                layer.open({
+                    type: 2
+                  , title: '新增菜单'
+                  , content: '/Admin/Menu/Show/0'
+                  , maxmin: true
+                  , area: ['550px', '550px']
+                  , btn: ['确定', '取消']
+                  , yes: function (index, layero) {
+                      //点击确认触发 iframe 内容中的按钮提交
+                      var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+                      submit.click();
+                  }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+
+    function SetStatus(Id, status, obj) {
+        $.ajax({
+            type: 'POST',
+            url: "/Admin/Menu/SetStatus", // ajax请求路径
+            data: {
+                Id: Id,
+                status: status
+            },
+            dataType: 'json',
+            success: function (data) {
+                layer.tips("操作成功", obj.othis);
+            }
+        });
+    };
+
+    function DelById(Id, table) {
+        $.ajax({
+            type: 'POST',
+            url: "/Admin/Menu/DeleteById", // ajax请求路径
+            data: {
+                Id: Id,
+            },
+            dataType: 'json',
+            success: function (data) {     
+                //执行重载
+                table.reload('test');
+                layer.msg('已删除');
+            }
+        });
+    };
+
+
+</script>
