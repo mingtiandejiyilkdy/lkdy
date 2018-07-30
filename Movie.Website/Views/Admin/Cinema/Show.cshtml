@@ -1,8 +1,8 @@
-﻿@using Movie.Model;
+﻿@using Movie.Model.Cinema;
 @{
     ViewBag.Title = "Add";
     Layout = null;
-    AdminAccount account = ViewBag.model == null ? new AdminAccount() : (Movie.Model.AdminAccount)ViewBag.model;
+    CinemaModel showModel = ViewBag.model == null ? new CinemaModel() : (CinemaModel)ViewBag.model;
 }
 <link href="~/Plugins/layui/css/layui.css" rel="stylesheet" type="text/css" />
 <script src="~/Plugins/layui/layui.js" type="text/javascript"></script>
@@ -12,7 +12,7 @@
     <label class="layui-form-label">
         Id</label>
     <div class="layui-input-block">
-        <input type="text" name="Id" lay-verify="Id" autocomplete="off" placeholder="" value="@account.ID"
+        <input type="text" name="Id" lay-verify="Id" autocomplete="off" placeholder="" value="@showModel.ID"
             class="layui-input">
     </div>
 </div>
@@ -163,7 +163,16 @@
 
         //表单初始赋值
         form.val('example', {
-            "IsEnable": true //开关状态 
+            "CinemaName": "@showModel.CinemaName"
+            ,"CinemaChainId": "@showModel.CinemaChainId"
+            ,"LinkPhone": "@showModel.LinkPhone"
+            ,"LinkName": "@showModel.LinkName"
+            ,"LinkMobile": "@showModel.LinkMobile"
+            ,"CinemaArea": "@showModel.CinemaArea"
+            ,"CinemaAddress": "@showModel.CinemaAddress"
+            ,"Status": "@showModel.Status"
+            , "Sort": "@showModel.Sort"
+            , "IsEnable": true //开关状态 
         })
 
 

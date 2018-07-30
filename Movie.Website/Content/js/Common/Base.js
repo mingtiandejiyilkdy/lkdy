@@ -34,7 +34,6 @@
             ids[key] = data[i].ID; 
         }
          
-        //var id=data[0].ID;
         if (active == "Add") {
             Add();
         }
@@ -48,7 +47,8 @@
                 layer.msg(msg);
                 return;
             }
-                if (active == "Edit") { 
+            var id=data[0].ID;
+            if (active == "Edit") { 
                 Edit(id); 
             }else if (active == "SetRole") { 
                 SetRole(id); 
