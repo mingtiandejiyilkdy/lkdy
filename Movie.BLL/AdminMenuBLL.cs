@@ -131,9 +131,9 @@ namespace Movie.BLL
         /// </summary>
         /// <param name="customerID"></param>
         /// <returns></returns>
-        public AdminMenu GetModelById(int accountId)
+        public AdminMenu GetModelById(long Id)
         {
-            AdminMenu model = new AdminMenu() { ID = accountId };
+            AdminMenu model = new AdminMenu() { ID = Id };
             if (EntityQuery<AdminMenu>.Fill(model))
                 return model;
             else
@@ -156,7 +156,7 @@ namespace Movie.BLL
         /// <param name="model"></param>
         /// <returns></returns>
         public JsonRsp Save(AdminMenu model)
-        {
+        { 
             if (model.ID == 0)
             {
                 model.CreateTime = DateTime.Now;
@@ -171,13 +171,13 @@ namespace Movie.BLL
         /// <summary>
         ///  启用/禁用
         /// </summary>
-        /// <param name="accountStatus"></param>
+        /// <param name="Status"></param>
         /// <returns></returns>
-        public JsonRsp SetStatus(int accountId, int status)
+        public JsonRsp SetStatus(int Id, int status)
         {
-            AdminMenu dbAccount = GetModelById(accountId);
-            dbAccount.Status = status;
-            return Update(dbAccount);
+            AdminMenu model = GetModelById(Id);
+            model.Status = status;
+            return Update(model);
         }
         #endregion
 
@@ -200,6 +200,7 @@ namespace Movie.BLL
             {
                 return new TreeSelect()
                 {
+                    id=o.ID,
                     value = o.ID,
                     ParentID=o.ParentID, 
                     name = o.MenuName,
@@ -230,7 +231,7 @@ namespace Movie.BLL
                     List<TreeSelect> childrenMenu = getMenuNodes(parentId, menu.value, allMenus);
                     if (childrenMenu.Count() > 0)
                     {
-                        menu.list = childrenMenu;
+                        menu.children = childrenMenu;
                     }
                     menus.Add(menu);
                 }

@@ -5,6 +5,8 @@ using System.Text;
 using PWMIS.Core.Extensions;
 using Movie.Model;
 using Movie.Model.Cinema;
+using Movie.Model.Custom;
+using Movie.Model.Ticket;
 
 namespace Movie.BLL
 {
@@ -32,6 +34,14 @@ namespace Movie.BLL
             CheckTableExists<CinemaChainModel>();
             //创建影院表
             CheckTableExists<CinemaModel>();
+            //创建客户类型表
+            CheckTableExists<CustomTypeModel>();
+            //创建客户表
+            CheckTableExists<CustomModel>();
+            //创建凭据类型表
+            CheckTableExists<TicketTypeModel>();
+            //创建制卡批次表
+            CheckTableExists<TicketBatchModel>();
             
             return true;
         }

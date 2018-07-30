@@ -151,6 +151,10 @@
     <Compile Include="Controllers\Admin\RoleController.cs" />
     <Compile Include="Controllers\Admin\MenuController.cs" />
     <Compile Include="Controllers\Admin\CinemaController.cs" />
+    <Compile Include="Controllers\Admin\CustomTypeController.cs" />
+    <Compile Include="Controllers\Admin\CustomController.cs" />
+    <Compile Include="Controllers\Admin\TicketTypeController.cs" />
+    <Compile Include="Controllers\Admin\TicketBatchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -320,6 +324,7 @@
     <Content Include="Images\login-bg.jpg" />
     <Content Include="Plugins\bootstrap\bootstrap.min.css" />
     <Content Include="Plugins\extends\authtree.js" />
+    <Content Include="Plugins\extends\treeselect.js" />
     <Content Include="Plugins\layui\css\layui.css" />
     <Content Include="Plugins\layui\css\modules\code.css" />
     <Content Include="Plugins\layui\css\modules\laydate\icon.png" />
@@ -508,6 +513,15 @@
     <Content Include="Views\Admin\CinemaChain\Show.cshtml" />
     <Content Include="Views\Admin\Cinema\Index.cshtml" />
     <Content Include="Views\Admin\Cinema\Show.cshtml" />
+    <Content Include="Views\Admin\CustomType\Index.cshtml" />
+    <Content Include="Views\Admin\CustomType\Show.cshtml" />
+    <Content Include="Views\Admin\Menu\副本 Show.cshtml" />
+    <Content Include="Views\Admin\Custom\Index.cshtml" />
+    <Content Include="Views\Admin\Custom\Show.cshtml" />
+    <Content Include="Views\Admin\TicketType\Index.cshtml" />
+    <Content Include="Views\Admin\TicketType\Show.cshtml" />
+    <Content Include="Views\Admin\TicketBatch\Index.cshtml" />
+    <Content Include="Views\Admin\TicketBatch\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Movie.BLL\Movie.BLL.csproj">

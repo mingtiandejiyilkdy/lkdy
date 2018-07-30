@@ -1,8 +1,8 @@
-﻿@using Movie.Model.Cinema;
+﻿@using Movie.Model.Ticket;
 @{
     ViewBag.Title = "Add";
     Layout = null;
-    CinemaChainModel showModel = ViewBag.model == null ? new CinemaChainModel() : (CinemaChainModel)ViewBag.model;
+    TicketTypeModel showModel = ViewBag.model == null ? new TicketTypeModel() : (TicketTypeModel)ViewBag.model;
 }
 <link href="~/Plugins/layui/css/layui.css" rel="stylesheet" type="text/css" />
 <script src="~/Plugins/layui/layui.js" type="text/javascript"></script>
@@ -18,10 +18,10 @@
 </div>
 <div class="layui-form-item" lay-filter="">
     <label class="layui-form-label">
-        院线名称</label>
+        凭据类型</label>
     <div class="layui-input-inline">
-        <input type="text" name="CinemaChainName" lay-verify="CinemaChainName" autocomplete="off"
-            placeholder="请输入院线名称" class="layui-input">
+        <input type="text" name="TicketTypeName" lay-verify="TicketTypeName" autocomplete="off"
+            placeholder="请输入凭据类型" class="layui-input">
     </div>
     <div class="layui-form-mid layui-word-aux">
         字母或数字，最小5位</div>
@@ -61,11 +61,11 @@
 
         //自定义验证规则
         form.verify({
-            CinemaChainName: function (value) {
-                if (value.length < 3) {
-                    return '用户名至少3个字符';
+            TicketTypeName: function (value) {
+                if (value.length < 2) {
+                    return '凭据类型至少2个字符';
                 }
-            } 
+            }
     , content: function (value) {
         layedit.sync(editIndex);
     }
@@ -91,16 +91,16 @@
         function PostData(data) {
             $.ajax({
                 type: 'POST',
-                url: "/Admin/CinemaChain/Save", // ajax请求路径
+                url: "/Admin/TicketType/Save", // ajax请求路径
                 data: data,
                 dataType: 'json',
                 success: function (data) {
                     if (data.success) {
-                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引  
-
+                        //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引  
+                        var index = 1;
                         //提交 Ajax 成功后，关闭当前弹层并重载表格
                         //$.ajax({});
-                        parent.layui.table.reload('test'); //重载表格    
+                        parent.layui.table.reload('idTest'); //重载表格    
                         layer.msg('操作成功');
                         parent.layer.close(index); //再执行关闭 
                     }
@@ -114,7 +114,7 @@
 
         //表单初始赋值
         form.val('example', {
-            "CinemaChainName": "@showModel.CinemaChainName"
+            "TicketTypeName": "@showModel.TicketTypeName"
             , "Sort": "@showModel.Sort"
             , "IsEnable": true //开关状态 
         })
