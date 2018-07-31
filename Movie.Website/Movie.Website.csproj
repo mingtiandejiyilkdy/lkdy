@@ -149,12 +149,15 @@
     <Compile Include="Controllers\Admin\CustomController.cs" />
     <Compile Include="Controllers\Admin\TicketTypeController.cs" />
     <Compile Include="Controllers\Admin\TicketBatchController.cs" />
+    <Compile Include="Controllers\Admin\TicketInfoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\js\Area\areadata.js" />
+    <Content Include="Content\js\Area\live_to_payment.js" />
     <Content Include="Content\js\Common\Base_temp.js" />
     <Content Include="Content\js\Common\Base.js" />
     <Content Include="Content\lib\layui\css\layui.css" />
@@ -516,6 +519,9 @@
     <Content Include="Views\Admin\TicketType\Show.cshtml" />
     <Content Include="Views\Admin\TicketBatch\Index.cshtml" />
     <Content Include="Views\Admin\TicketBatch\Show.cshtml" />
+    <Content Include="Views\Admin\TicketInfo\Index.cshtml" />
+    <Content Include="Views\Admin\TicketInfo\Show.cshtml" />
+    <Content Include="Views\Admin\TicketInfo\副本 Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Movie.BLL\Movie.BLL.csproj">
@@ -551,7 +557,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>36351</DevelopmentServerPort>
+          <DevelopmentServerPort>13906</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

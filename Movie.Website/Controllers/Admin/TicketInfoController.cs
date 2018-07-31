@@ -9,11 +9,11 @@ using Movie.BLL.Ticket;
 namespace Movie.Website.Controllers.Admin
 {
 
-    public class TicketBatchController : BaseController
+    public class TicketInfoController : BaseController
     {
-        protected readonly TicketBatchBLL bll = new TicketBatchBLL();
+        protected readonly TicketBLL bll = new TicketBLL();
         //
-        // GET: /Admin/TicketBatch/
+        // GET: /Admin/TicketInfo/
         public ActionResult Index()
         {
             return View();
@@ -21,7 +21,7 @@ namespace Movie.Website.Controllers.Admin
 
 
         //
-        // GET: /Admin/TicketBatch/AllList
+        // GET: /Admin/TicketInfo/AllList
         [HttpGet]
         public JsonResult AllList()
         {
@@ -29,7 +29,7 @@ namespace Movie.Website.Controllers.Admin
         }
 
         //
-        // GET: /Admin/TicketBatch/List
+        // GET: /Admin/TicketInfo/List
         [HttpGet]
         public JsonResult List(int page, int limit)
         {
@@ -37,7 +37,7 @@ namespace Movie.Website.Controllers.Admin
         }
 
         //
-        // GET: /Admin/TicketBatch/Show
+        // GET: /Admin/TicketInfo/Show
         public ActionResult Show(int Id)
         {
             ViewBag.selectTrees = new TicketTypeBLL().GetSelectTrees();
@@ -46,22 +46,22 @@ namespace Movie.Website.Controllers.Admin
         }
 
         //
-        // GET: //Admin/TicketBatch/Add
+        // GET: //Admin/TicketInfo/Add
         [HttpPost]
-        public ActionResult Save(TicketBatchModel model)
+        public ActionResult Save(TicketInfo model)
         {
             return Json(bll.Save(model), JsonRequestBehavior.AllowGet);
         }
 
         //
-        // GET: //Admin/TicketBatch/Delete
+        // GET: //Admin/TicketInfo/Delete
         [HttpPost]
         public ActionResult DeleteById(long[] Ids)
         {
             return Json(bll.DeleteById(Ids), JsonRequestBehavior.AllowGet);
         }
 
-        // GET: /Admin/TicketBatch/IsEnable
+        // GET: /Admin/TicketInfo/IsEnable
         [HttpPost]
         public ActionResult IsEnable(long[] Ids)
         {
@@ -69,7 +69,7 @@ namespace Movie.Website.Controllers.Admin
         }
 
 
-        // GET: /Admin/TicketBatch/UnEnable
+        // GET: /Admin/TicketInfo/UnEnable
         [HttpPost]
         public ActionResult UnEnable(long[] Ids)
         {

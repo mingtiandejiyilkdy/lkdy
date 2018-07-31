@@ -62,13 +62,19 @@
     <Compile Include="AdminRole.cs" />
     <Compile Include="AdminMenu.cs" />
     <Compile Include="AdminAccountRole.cs" />
+    <Compile Include="Ticket\TicketInfo.cs" />
     <Compile Include="Ticket\TicketTypeModel.cs" />
     <Compile Include="Ticket\TicketBatchModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Movie.Enum\Movie.Enum.csproj">
+      <Project>{23D5494B-5670-4A04-8EE3-7409376612E2}</Project>
+      <Name>Movie.Enum</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
