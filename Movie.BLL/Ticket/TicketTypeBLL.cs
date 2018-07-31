@@ -26,7 +26,7 @@ namespace Movie.BLL.Ticket
             JsonRsp<TicketTypeViewModel> rsp = new JsonRsp<TicketTypeViewModel>();
             TicketTypeModel model = new TicketTypeModel();
             OQL q = OQL.From(model)
-                .Select()
+                .Select() 
                 .OrderBy(model.ID, "asc")
                 .END;
             List<TicketTypeModel> list = q.ToList<TicketTypeModel>();//使用OQL扩展
@@ -40,7 +40,7 @@ namespace Movie.BLL.Ticket
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     Sort = o.Sort,
-                    Status = o.Status,
+                    Status = o.Status, 
                     UpdateBy = o.UpdateBy,
                     UpdateIP = o.UpdateIP,
                     UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"), 

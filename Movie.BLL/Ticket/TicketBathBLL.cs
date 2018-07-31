@@ -63,37 +63,40 @@ namespace Movie.BLL.Ticket
         {
             JsonRsp<TicketBatchViewModel> rsp = new JsonRsp<TicketBatchViewModel>();
 
-            TicketBatchModel m = new TicketBatchModel();
-            OQL q = OQL.From(m)
+
+            TicketBatchModel ticket = new TicketBatchModel();
+            TicketTypeModel ticketType = new TicketTypeModel();
+
+            //Select 方法不指定具体要选择的实体类属性，可以推迟到EntityContainer类的MapToList 方法上指定
+            OQL joinQ = OQL.From(ticket)
+                .Join(ticketType).On(ticket.TicketTypeId, ticketType.ID)
                 .Select()
-                .OrderBy(m.ID, "asc")
+                .OrderBy(ticket.ID, "asc")
                 .END;
-            //分页
-            q.Limit(pageSize, pageIndex, true);
-            //q.PageWithAllRecordCount = allCount;
-            //List<Employee> list= EntityQuery<Employee>.QueryList(q);
-            List<TicketBatchModel> list = q.ToList<TicketBatchModel>();//使用OQL扩展
-            rsp.data = list.ConvertAll<TicketBatchViewModel>(o =>
+
+            joinQ.Limit(pageSize, pageIndex, true);
+
+            PWMIS.DataProvider.Data.AdoHelper db = PWMIS.DataProvider.Adapter.MyDB.GetDBHelper();
+            EntityContainer ec = new EntityContainer(joinQ, db);
+
+            rsp.data = (List<TicketBatchViewModel>)ec.MapToList<TicketBatchViewModel>(() => new TicketBatchViewModel()
             {
-                return new TicketBatchViewModel()
-                {
-                    ID = o.ID,
-                    TicketTypeId = o.TicketTypeId,
-                    TicketBatchNo = o.TicketBatchNo,
-                    TicketPrefix = o.TicketPrefix,
-                    Amount = o.Amount,
-                    TicketBatchName = o.TicketBatchName,
-                    CreateBy = o.CreateBy,
-                    CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Sort = o.Sort,
-                    Status = o.Status,
-                };
-            }
-            );
+                ID = ticket.ID,
+                TicketTypeId = ticket.TicketTypeId,
+                TicketTypeIdStr = ticketType.TicketTypeName,
+                TicketBatchNo = ticket.TicketBatchNo,
+                TicketPrefix = ticket.TicketPrefix,
+                Amount = ticket.Amount,
+                TicketBatchName = ticket.TicketBatchName,
+                CreateBy = ticket.CreateBy,
+                CreateIP = ticket.CreateIP,
+                CreateTime = ticket.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                Sort = ticket.Sort,
+                Status = ticket.Status,
+            });  
             rsp.success = true;
             rsp.code = 0;
-            rsp.count = q.PageWithAllRecordCount;
+            rsp.count = joinQ.PageWithAllRecordCount;
             return rsp;
         }
 
