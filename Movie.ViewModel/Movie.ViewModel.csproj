@@ -53,6 +53,12 @@
     <Compile Include="Ticket\TicketTypeViewModel.cs" />
     <Compile Include="Ticket\TicketBatchViewModel.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Movie.Enum\Movie.Enum.csproj">
+      <Project>{23D5494B-5670-4A04-8EE3-7409376612E2}</Project>
+      <Name>Movie.Enum</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
