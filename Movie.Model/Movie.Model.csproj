@@ -56,17 +56,19 @@
     <Compile Include="BaseModel.cs" />
     <Compile Include="Cinema\CinemaChainModel.cs" />
     <Compile Include="Cinema\CinemaModel.cs" />
+    <Compile Include="Custom\CustomModel.cs" />
+    <Compile Include="Custom\CustomTypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdminRole.cs" />
     <Compile Include="AdminMenu.cs" />
     <Compile Include="AdminAccountRole.cs" />
+    <Compile Include="Ticket\TicketTypeModel.cs" />
+    <Compile Include="Ticket\TicketBatchModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Custom\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

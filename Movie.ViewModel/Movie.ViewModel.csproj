@@ -43,11 +43,15 @@
     <Compile Include="AccountViewModel.cs" />
     <Compile Include="Cinema\CinemaChainViewModel.cs" />
     <Compile Include="Cinema\CinemaViewModel.cs" />
+    <Compile Include="Custom\CustomViewModel.cs" />
     <Compile Include="LayoutViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleViewModel.cs" />
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="AccountRoleViewModel.cs" />
+    <Compile Include="Custom\CustomTypeViewModel.cs" />
+    <Compile Include="Ticket\TicketTypeViewModel.cs" />
+    <Compile Include="Ticket\TicketBatchViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

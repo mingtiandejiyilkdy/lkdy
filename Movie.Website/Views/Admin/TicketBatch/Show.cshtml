@@ -1,8 +1,8 @@
-﻿@using Movie.Model.Cinema;
+﻿@using Movie.Model.Ticket;
 @{
     ViewBag.Title = "Add";
     Layout = null;
-    CinemaChainModel showModel = ViewBag.model == null ? new CinemaChainModel() : (CinemaChainModel)ViewBag.model;
+    TicketBatchModel showModel = ViewBag.model == null ? new TicketBatchModel() : (TicketBatchModel)ViewBag.model;
 }
 <link href="~/Plugins/layui/css/layui.css" rel="stylesheet" type="text/css" />
 <script src="~/Plugins/layui/layui.js" type="text/javascript"></script>
@@ -18,13 +18,53 @@
 </div>
 <div class="layui-form-item" lay-filter="">
     <label class="layui-form-label">
-        院线名称</label>
+        批次号</label>
     <div class="layui-input-inline">
-        <input type="text" name="CinemaChainName" lay-verify="CinemaChainName" autocomplete="off"
-            placeholder="请输入院线名称" class="layui-input">
+        <input type="text" name="TicketBatchNo" lay-verify="TicketBatchNo" autocomplete="off"
+            placeholder="自动生成" value="@("P"+DateTime.Now.ToString("yyyyMMddMMhhss"))" disabled="disabled" class="layui-input">
     </div>
     <div class="layui-form-mid layui-word-aux">
         字母或数字，最小5位</div>
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        卡描述</label>
+    <div class="layui-input-inline">
+        <input type="text" name="TicketBatchName" lay-verify="TicketBatchName" autocomplete="off"
+            placeholder="请输入卡描述" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">
+        如：工行专用卡</div>
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        卡号前缀</label>
+    <div class="layui-input-inline">
+        <input type="text" name="TicketPrefix" lay-verify="TicketPrefix" autocomplete="off"
+            placeholder="请输入卡号前缀" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">
+        如：0371</div>
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        卡类型</label>
+    <div class="layui-input-inline">
+        <input type="text" name="TicketTypeId" lay-verify="TicketTypeId" autocomplete="off"
+            placeholder="请输入卡类型" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">
+        请选择卡类型</div>
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        制卡张数</label>
+    <div class="layui-input-inline">
+        <input type="text" name="Amount" lay-verify="Amount" autocomplete="off"
+            placeholder="请输入制卡张数" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">
+        如：1000</div>
 </div> 
 <div class="layui-form-item" lay-filter="">
     <label class="layui-form-label">
@@ -61,11 +101,11 @@
 
         //自定义验证规则
         form.verify({
-            CinemaChainName: function (value) {
-                if (value.length < 3) {
-                    return '用户名至少3个字符';
+            TicketBatchName: function (value) {
+                if (value.length < 2) {
+                    return '卡描述至少2个字符';
                 }
-            } 
+            }
     , content: function (value) {
         layedit.sync(editIndex);
     }
@@ -91,16 +131,16 @@
         function PostData(data) {
             $.ajax({
                 type: 'POST',
-                url: "/Admin/CinemaChain/Save", // ajax请求路径
+                url: "/Admin/TicketBatch/Save", // ajax请求路径
                 data: data,
                 dataType: 'json',
                 success: function (data) {
                     if (data.success) {
-                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引  
-
+                        //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引  
+                        var index = 1;
                         //提交 Ajax 成功后，关闭当前弹层并重载表格
                         //$.ajax({});
-                        parent.layui.table.reload('test'); //重载表格    
+                        parent.layui.table.reload('idTest'); //重载表格    
                         layer.msg('操作成功');
                         parent.layer.close(index); //再执行关闭 
                     }
@@ -114,7 +154,7 @@
 
         //表单初始赋值
         form.val('example', {
-            "CinemaChainName": "@showModel.CinemaChainName"
+            "TicketBatchName": "@showModel.TicketBatchName"
             , "Sort": "@showModel.Sort"
             , "IsEnable": true //开关状态 
         })

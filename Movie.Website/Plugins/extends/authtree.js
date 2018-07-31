@@ -72,9 +72,9 @@ layui.define(['jquery', 'form'], function(exports){
 			var openall = opt.openall;
 			var str = '<div class="auth-single">';
 			layui.each(tree, function(index, item){
-				var hasChild = item.list ? 1 : 0;
+			    var hasChild = item.children ? 1 : 0;
 				// 注意：递归调用时，this的环境会改变！
-				var append = hasChild ? obj.renderAuth(item.list, dept+1, opt) : '';
+				var append = hasChild ? obj.renderAuth(item.children, dept + 1, opt) : '';
 
 				// '+new Array(dept * 4).join('&nbsp;')+'
 				str += '<div><div class="auth-status"> '+(hasChild?'<i class="layui-icon auth-icon '+(openall?'active':'')+'" style="cursor:pointer;">'+(openall?'&#xe625;':'&#xe623;')+'</i>':'<i class="layui-icon auth-leaf" style="opacity:0;">&#xe626;</i>')+(dept > 0 ? '<span>├─ </span>':'')+'<input type="checkbox" name="'+inputname+'" title="'+item.name+'" value="'+item.value+'" lay-skin="primary" lay-filter="'+layfilter+'" '+(item.isChecked?'checked="checked"':'')+'> </div> <div class="auth-child" style="'+(openall?'':'display:none;')+'padding-left:40px;"> '+append+'</div></div>'

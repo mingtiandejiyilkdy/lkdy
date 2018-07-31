@@ -24,6 +24,17 @@
             placeholder="请输入用户名" class="layui-input">
     </div> 
 </div> 
+  <div class="layui-form-item">
+        <label class="layui-form-label">上级菜单</label>
+        <div class="layui-input-inline">
+            <div class="layui-unselect layui-form-select downpanel">
+                <div class="layui-select-title"> 
+                    <input type="text" id="ParentId" name="ParentId" value="@Menu.ParentID" lay-filter="demo" placeholder="顶级菜单" autocomplete="off" class="layui-input">
+                    <i class="layui-edge"></i>
+                </div> 
+            </div>
+        </div>
+    </div>
 <div class="layui-form-item" lay-filter="">
     <label class="layui-form-label">
         菜单标识</label>
@@ -162,3 +173,58 @@
     }); 
      
 </script>
+
+
+  <script>
+   
+      //config的设置是全局的
+      layui.config({
+          base: '../../../plugins/extends/' //假设这是test.js所在的目录
+      }).extend({ //设定模块别名
+          treeselect: 'treeselect' //如果test.js是在根目录，也可以不用设定别名 
+      });
+
+      layui.use(['treeselect', 'jquery','form'], function () {
+          var $ = layui.jquery
+          var authtree = layui.authtree;
+          var treeselect = layui.treeselect;
+          var form = layui.form;
+
+          //绑定下拉框
+          $.ajax({
+              url: '/admin/menu/GetMenuTreeSelect/1',
+              dataType: 'json',
+              success: function (data) {
+                  treeselect.render(
+                {
+                    elem: "#ParentId",
+                    data: data.data, //可以是treedata，也可以是 获取treedata的URL地址
+                    method: "GET"
+                });
+              }
+          })
+      });
+
+  </script>
+  
+    <style type="text/css"> 
+        .layui-form-select .layui-tree {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 42px;
+            padding: 5px 0;
+            z-index: 999;
+            min-width: 100%;
+            border: 1px solid #d2d2d2;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.12);
+            box-sizing: border-box;
+        }
+        .layui-form-selected .layui-tree {
+            display: block;
+        }
+    </style>

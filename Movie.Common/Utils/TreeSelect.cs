@@ -17,6 +17,10 @@ namespace Movie.Common.Utils
         /// <summary>
         /// 值
         /// </summary>
+        public long id { get; set; }
+        /// <summary>
+        /// 值
+        /// </summary>
         public long value { get; set; }
         /// <summary>
         /// 上级ID
@@ -29,6 +33,6 @@ namespace Movie.Common.Utils
         /// <summary>
         /// 嵌套结构
         /// </summary>
-        public List<TreeSelect> list { get; set; }
+        public List<TreeSelect> children { get; set; }
     }
 }
