@@ -50,6 +50,7 @@
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="AccountRoleViewModel.cs" />
     <Compile Include="Custom\CustomTypeViewModel.cs" />
+    <Compile Include="Ticket\TicketViewModel.cs" />
     <Compile Include="Ticket\TicketTypeViewModel.cs" />
     <Compile Include="Ticket\TicketBatchViewModel.cs" />
   </ItemGroup>

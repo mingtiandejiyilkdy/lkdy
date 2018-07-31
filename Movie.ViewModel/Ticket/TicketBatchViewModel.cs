@@ -22,10 +22,12 @@ namespace Movie.ViewModel.Ticket
         public string CreateIP { get; set; }
         public string CreateTime { get; set; }
 
-        public string StatusStr {
-            get {
+        public string StatusStr
+        {
+            get
+            {
                 return Util.getStatus(Status, typeof(BaseEnum.CredentialTypeEnum));
             }
-        }
+        } 
     }
 }

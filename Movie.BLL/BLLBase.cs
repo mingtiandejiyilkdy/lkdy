@@ -42,6 +42,8 @@ namespace Movie.BLL
             CheckTableExists<TicketTypeModel>();
             //创建制卡批次表
             CheckTableExists<TicketBatchModel>();
+            //创建凭据表
+            CheckTableExists<TicketInfo>();
             
             return true;
         }

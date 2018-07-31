@@ -21,36 +21,16 @@ namespace Movie.BLL.Ticket
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<TicketTypeViewModel> GetAllList()
+        public List<TicketTypeModel> GetAllModelList()
         {
-            JsonRsp<TicketTypeViewModel> rsp = new JsonRsp<TicketTypeViewModel>();
             TicketTypeModel model = new TicketTypeModel();
             OQL q = OQL.From(model)
-                .Select() 
+                .Select()
+                .OrderBy(model.Sort, "desc")
                 .OrderBy(model.ID, "asc")
                 .END;
-            List<TicketTypeModel> list = q.ToList<TicketTypeModel>();//使用OQL扩展
-            rsp.data = list.ConvertAll<TicketTypeViewModel>(o =>
-            {
-                return new TicketTypeViewModel()
-                {
-                    ID = o.ID,
-                    TicketTypeName = o.TicketTypeName,
-                    CreateBy = o.CreateBy,
-                    CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Sort = o.Sort,
-                    Status = o.Status, 
-                    UpdateBy = o.UpdateBy,
-                    UpdateIP = o.UpdateIP,
-                    UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"), 
-                };
-            }
-            );
-            rsp.success = true;
-            rsp.code = 0;
-            return rsp;
-        }
+            return q.ToList<TicketTypeModel>();//使用OQL扩展             
+        } 
 
         /// <summary>
         /// 获取管理员列表（分页）
@@ -65,7 +45,7 @@ namespace Movie.BLL.Ticket
             TicketTypeModel m = new TicketTypeModel();
             OQL q = OQL.From(m)
                 .Select()
-                .OrderBy(m.ID, "asc")
+                .OrderBy(m.Sort, "desc") 
                 .END;
             //分页
             q.Limit(pageSize, pageIndex, true);
@@ -201,6 +181,58 @@ namespace Movie.BLL.Ticket
             int returnvalue = EntityQuery<TicketTypeModel>.Instance.ExecuteOql(q);
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
+        #endregion
+
+        #region ViewModel
+
+        #region 获取列表（全部）
+        /// <summary>
+        /// 获取管理员列表（全部）
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonRsp<TicketTypeViewModel> GetAllList()
+        {
+            JsonRsp<TicketTypeViewModel> rsp = new JsonRsp<TicketTypeViewModel>();
+
+            rsp.data = GetAllModelList().ConvertAll<TicketTypeViewModel>(o =>
+            {
+                return new TicketTypeViewModel()
+                {
+                    ID = o.ID,
+                    TicketTypeName = o.TicketTypeName,
+                    CreateBy = o.CreateBy,
+                    CreateIP = o.CreateIP,
+                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Sort = o.Sort,
+                    Status = o.Status,
+                    UpdateBy = o.UpdateBy,
+                    UpdateIP = o.UpdateIP,
+                    UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"),
+                };
+            }
+            );
+            rsp.success = true;
+            rsp.code = 0;
+            return rsp;
+        }
+        #endregion
+
+        #region  获取凭据类型SelectTree
+        public List<TreeSelect> GetSelectTrees() {
+            List<TreeSelect> treeSelects = new List<TreeSelect>();
+            foreach (var item in GetAllModelList()) {
+                treeSelects.Add(new TreeSelect { 
+                     id=item.ID,
+                      name=item.TicketTypeName,
+                        value=item.ID,
+                });
+            }
+            return treeSelects;
+        }
+        #endregion
+
         #endregion
     }
 }

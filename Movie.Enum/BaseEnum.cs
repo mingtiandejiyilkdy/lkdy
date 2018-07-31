@@ -77,9 +77,10 @@ namespace Movie.Enum
        /// </summary>
        public enum MoneyTypeEnum
        {
-           应收 = 0,
-           赠送 = 1,
-           置换 = 2
+           初始化 = 0,
+           应收 = 1,
+           赠送 = 2,
+           置换 = 3
        }
 
 
@@ -88,9 +89,10 @@ namespace Movie.Enum
        /// </summary>
        public enum ConsumptionlevelEnum
        {
-           一级 = 0,
-           二级 = 1,
-           三级 = 2
+           初始化 = 0 ,
+           一级 = 1,
+           二级 = 2,
+           三级 = 3
        }
 
        /// <summary>
