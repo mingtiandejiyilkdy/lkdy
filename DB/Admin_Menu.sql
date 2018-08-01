@@ -1,5 +1,3 @@
-﻿DELETE FROM Admin_Menu;
-
 INSERT INTO [Admin_Menu] VALUES (0, 'RoleManage', '权限管理', '#', 1, '1', '菜单', 0, 1, '2018-7-29 03:19:28', NULL);
 GO
 INSERT INTO [Admin_Menu] VALUES (1, 'AdminAccount', '用户管理', '/Admin/Account/', 1, '1,2', '用户管理', 0, 0, '2018-7-29 03:24:04', NULL);
@@ -62,5 +60,9 @@ INSERT INTO [Admin_Menu] VALUES (27, 'TicketImport', '凭据导入', '/Admin/Tic
 GO
 INSERT INTO [Admin_Menu] VALUES (27, 'TicketBatch', '凭据批次', '/Admin/TicketBatch', 1, NULL, '1', 1, 0, '2018-7-31 02:04:16', NULL);
 GO
-INSERT INTO [Admin_Menu] VALUES (27, 'Ticket', '凭据列表', '/Admin/Ticket/', 1, NULL, '凭据列表', 1, 0, '2018-7-31 02:05:12', NULL);
-GO 
+INSERT INTO [Admin_Menu] VALUES (27, 'Ticket', '凭据列表', '/Admin/TicketInfo/', 1, NULL, '凭据列表', 1, 0, '2018-7-31 02:05:12', NULL);
+GO
+INSERT INTO [Admin_Menu] VALUES (0, 'Financial', '财务管理', '/Admin/Financial', 1, NULL, '财务管理', 99, 0, '2018-8-1 21:37:43', NULL);
+GO
+INSERT INTO [Admin_Menu] VALUES (33, 'Contract', '合同协议', '/Admin/Contract', 1, NULL, '合同协议', 1, 0, '2018-8-1 21:39:00', NULL);
+GO
