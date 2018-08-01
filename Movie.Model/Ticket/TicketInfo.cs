@@ -75,10 +75,10 @@ namespace Movie.Model.Ticket
             set { setProperty("InitialAmount", value); }
         }
 
-        public decimal CostAmount
+        public decimal Deductions
         {
-            get { return getProperty<decimal>("CostAmount"); }
-            set { setProperty("CostAmount", value); }
+            get { return getProperty<decimal>("Deductions"); }
+            set { setProperty("Deductions", value); }
         }
 
         public decimal Balance

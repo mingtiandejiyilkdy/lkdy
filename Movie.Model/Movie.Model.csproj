@@ -56,8 +56,11 @@
     <Compile Include="BaseModel.cs" />
     <Compile Include="Cinema\CinemaChainModel.cs" />
     <Compile Include="Cinema\CinemaModel.cs" />
+    <Compile Include="Contract\ContractModel.cs" />
     <Compile Include="Custom\CustomModel.cs" />
     <Compile Include="Custom\CustomTypeModel.cs" />
+    <Compile Include="Financial\CustomFinancialModel.cs" />
+    <Compile Include="Financial\CustomFinancialDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdminRole.cs" />
     <Compile Include="AdminMenu.cs" />

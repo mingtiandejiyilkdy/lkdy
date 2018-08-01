@@ -135,7 +135,7 @@ namespace Movie.BLL.Ticket
                     MoneyTyp = BaseEnum.MoneyTypeEnum.初始化,
                     CustomID = 0,
                     InitialAmount = 0,
-                    CostAmount = 0,
+                    Deductions = 0,
                     Balance = 0,
                     Status = (int)BaseEnum.CredentialEnum.未交付,
                     IsExpire = false,
