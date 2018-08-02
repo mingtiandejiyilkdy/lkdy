@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountViewModel.cs" />
+    <Compile Include="ChargeCard\CustomChargeCardViewModel.cs" />
     <Compile Include="Cinema\CinemaChainViewModel.cs" />
     <Compile Include="Cinema\CinemaViewModel.cs" />
     <Compile Include="Contract\ContractViewModel.cs" />
