@@ -25,5 +25,30 @@ namespace Movie.Common.Utils
             }
             return "";
         }
+
+
+
+        #region 根据枚举int获取string
+        /// <summary>
+        /// 根据枚举int获取string
+        /// </summary>
+        /// <param name="status">int</param>
+        /// <param name="enumType">string</param>
+        /// <returns></returns>
+        public static string getStatus(int status, Type enumType)
+        {
+            string str = "";
+            var dic = EnumHelper.GetEnumDictionary(enumType);
+            foreach (var item in dic)
+            {
+                if (item.Key == status)
+                {
+                    str = item.Value;
+                    break;
+                }
+            }
+            return str;
+        }
+        #endregion
     }
 }

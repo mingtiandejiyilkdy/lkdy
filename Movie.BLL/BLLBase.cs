@@ -7,6 +7,7 @@ using Movie.Model;
 using Movie.Model.Cinema;
 using Movie.Model.Custom;
 using Movie.Model.Ticket;
+using Movie.Model.Contract;
 
 namespace Movie.BLL
 {
@@ -42,6 +43,10 @@ namespace Movie.BLL
             CheckTableExists<TicketTypeModel>();
             //创建制卡批次表
             CheckTableExists<TicketBatchModel>();
+            //创建凭据表
+            CheckTableExists<TicketInfo>();
+            //创建合同协议表
+            CheckTableExists<ContractModel>();
             
             return true;
         }

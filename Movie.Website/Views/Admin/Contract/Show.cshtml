@@ -1,9 +1,9 @@
-﻿@using Movie.Model.Ticket
+﻿@using Movie.Model.Contract
 @using Movie.Common.Utils
 @{
     ViewBag.Title = "Add";
     Layout = null;
-    TicketBatchModel showModel = ViewBag.model == null ? new TicketBatchModel() : (TicketBatchModel)ViewBag.model;
+    ContractModel showModel = ViewBag.model == null ? new ContractModel() : (ContractModel)ViewBag.model;
     List<TreeSelect> treeSelects = (List<TreeSelect>)ViewBag.selectTrees;
 }
 <link href="~/Plugins/layui/css/layui.css" rel="stylesheet" type="text/css" />
@@ -22,71 +22,89 @@
 </div>
 <div class="layui-form-item" lay-filter="">
     <label class="layui-form-label">
-        批次号</label>
+        协议单号</label>
     <div class="layui-input-inline">
-        <input type="text" name="TicketBatchNo" lay-verify="TicketBatchNo" autocomplete="off"
-            placeholder="自动生成" value="@showModel.TicketBatchNo" disabled="disabled" class="layui-input">
+        <input type="text" name="ContractNo" lay-verify="ContractNo" autocomplete="off"
+            placeholder="自动生成" value="@showModel.ContractNo" disabled="disabled" class="layui-input">
     </div>
-    <div class="layui-form-mid layui-word-aux">
-        字母或数字，最小5位</div>
 </div> 
 <div class="layui-form-item" lay-filter="">
     <label class="layui-form-label">
-        卡描述</label>
+        客户名称</label>
     <div class="layui-input-inline">
-        <input type="text" name="TicketBatchName" lay-verify="TicketBatchName" autocomplete="off"
-            placeholder="请输入卡描述" class="layui-input">
-    </div>
-    <div class="layui-form-mid layui-word-aux">
-        如：工行专用卡</div>
-</div> 
-<div class="layui-form-item" lay-filter="">
-    <label class="layui-form-label">
-        区域</label>
-    <div class="layui-input-inline">
-        <select id="Select1" name="Select1" lay-filter="Select1" style="width: 120px">
-        </select>
-        <select id="Select2" name="Select2" lay-filter="Select2" style="width: 120px">
-        </select>
-        <select id="Select3" name="Select3" lay-filter="Select3" onchange="show(this.value)" style="width: 120px">
-        </select>
-    </div> 
-</div>  
-<div class="layui-form-item" lay-filter="">
-    <label class="layui-form-label">
-        卡号前缀</label>
-    <div class="layui-input-inline">
-        <input type="text" id="TicketPrefix" name="TicketPrefix" lay-verify="TicketPrefix" autocomplete="off"
-            placeholder="请输入卡号前缀" disabled class="layui-input">
-    </div>
-    <div class="layui-form-mid layui-word-aux">
-        如：0371</div>
-</div>  
-<div class="layui-form-item" lay-filter="">
-    <label class="layui-form-label">
-        卡类型</label>
-    <div class="layui-input-inline">
-         <select name="TicketTypeId" lay-filter="aihao">
+         <select name="CustomId" lay-filter="CustomId">
         <option value=""></option> 
         @foreach (var item in treeSelects)
         {
-        <option value="@item.value"  @(item.id==@showModel.TicketTypeId?"selected":"") >@item.name</option> 
+        <option value="@item.value"  @(item.id==@showModel.CustomId?"selected":"") >@item.name</option> 
         }
       </select>
     </div>
     <div class="layui-form-mid layui-word-aux">
-        请选择卡类型</div>
+        请选择客户</div>
 </div>  
 <div class="layui-form-item" lay-filter="">
     <label class="layui-form-label">
-        制卡张数</label>
+        应收金额</label>
     <div class="layui-input-inline">
-        <input type="text" name="Amount" lay-verify="Amount" autocomplete="off"
-            placeholder="请输入制卡张数" class="layui-input">
+        <input type="text" name="AccountReceivable" lay-verify="AccountReceivable" autocomplete="off"
+            placeholder="请输入应收金额" value="@showModel.AccountReceivable" class="layui-input">
     </div>
     <div class="layui-form-mid layui-word-aux">
-        如：1000</div>
+        计入应收金额</div>
 </div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        赠送金额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="AccountReceivable" lay-verify="LargessAmount" autocomplete="off"
+            placeholder="请输入赠送金额" value="@showModel.LargessAmount" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">
+        应收记0</div>
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        置换金额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="ExChangeAmount" lay-verify="ExChangeAmount" autocomplete="off"
+            placeholder="请输入置换金额" value="@showModel.ExChangeAmount" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">
+        应收记0</div>
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        协议总额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="ContractAmount" lay-verify="ContractAmount" autocomplete="off"
+            placeholder="请输入协议总额" value="@showModel.ContractAmount" class="layui-input">
+    </div> 
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        协议文档</label>
+    <div class="layui-input-inline">        
+        <input type="file" name="file" id="test20">
+    </div> 
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        支付期限</label>
+    <div class="layui-input-inline">
+        <input type="text" name="Deadline" lay-verify="Deadline" autocomplete="off"
+            placeholder="请输入支付期限" value="@showModel.Deadline" class="layui-input">
+    </div> 
+    <div class="layui-form-mid layui-word-aux">
+        如:2088-08-08</div>
+</div> 
+<div class="layui-form-item" lay-filter="">
+    <label class="layui-form-label">
+        备注</label>
+    <div class="layui-input-inline">
+        <textarea placeholder="请输入备注信息，如：磁条卡：50张、纸质通票：100张；实付金额：5000元；赠送：2000元；置换：3000元" name="Remark" class="layui-textarea">@showModel.Remark</textarea> 
+    </div> 
+</div>    
 <div class="layui-form-item" lay-filter="">
     <label class="layui-form-label">
         排序</label>
@@ -122,7 +140,7 @@
 
         //自定义验证规则
         form.verify({
-            TicketBatchName: function (value) {
+            ContractName: function (value) {
                 if (value.length < 2) {
                     return '卡描述至少2个字符';
                 }
@@ -152,7 +170,7 @@
         function PostData(data) {
             $.ajax({
                 type: 'POST',
-                url: "/Admin/TicketBatch/Save", // ajax请求路径
+                url: "/Admin/Contract/Save", // ajax请求路径
                 data: data,
                 dataType: 'json',
                 success: function (data) {
@@ -175,10 +193,7 @@
 
         //表单初始赋值
         form.val('example', { 
-            "TicketBatchName": "@showModel.TicketBatchName"
-            ,"TicketPrefix": "@showModel.TicketPrefix"
-            //,"TicketTypeId": "@showModel.TicketTypeId"
-            ,"Amount": "@showModel.Amount" 
+            "ContractNo": "@showModel.ContractNo"
             , "Sort": "@showModel.Sort"
             , "radio(IsEnable)": @showModel.Status //开关状态 
         })

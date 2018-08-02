@@ -13,7 +13,7 @@ using Movie.Enum;
 
 namespace Movie.BLL.Ticket
 {
-    public class TicketBatchBLL : BLLBase
+    public class TicketBLL : BLLBase
     {
         #region 基础方法
         /// <summary>
@@ -22,30 +22,40 @@ namespace Movie.BLL.Ticket
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<TicketBatchViewModel> GetAllList()
+        public JsonRsp<TicketViewModel> GetAllList()
         {
-            JsonRsp<TicketBatchViewModel> rsp = new JsonRsp<TicketBatchViewModel>();
-            TicketBatchModel model = new TicketBatchModel();
+            JsonRsp<TicketViewModel> rsp = new JsonRsp<TicketViewModel>();
+            TicketInfo model = new TicketInfo();
             OQL q = OQL.From(model)
                 .Select()
                 .OrderBy(model.ID, "asc")
                 .END;
-            List<TicketBatchModel> list = q.ToList<TicketBatchModel>();//使用OQL扩展
-            rsp.data = list.ConvertAll<TicketBatchViewModel>(o =>
+            List<TicketInfo> list = q.ToList<TicketInfo>();//使用OQL扩展
+            rsp.data = list.ConvertAll<TicketViewModel>(ticket =>
             {
-                return new TicketBatchViewModel()
+                return new TicketViewModel()
                 {
-                    ID = o.ID,
-                    TicketTypeId = o.TicketTypeId,
-                    TicketBatchNo = o.TicketBatchNo,
-                    TicketPrefix = o.TicketPrefix,
-                    Amount = o.Amount,
-                    TicketBatchName = o.TicketBatchName,
-                    CreateBy = o.CreateBy,
-                    CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Sort = o.Sort,
-                    Status = o.Status,
+                    ID = ticket.ID,
+                    TicketCode = ticket.TicketCode,
+                    TicketTypeId = ticket.TicketTypeId,
+                    Consumptionlevel = BaseEnum.ConsumptionlevelEnum.初始化,
+                    MoneyTyp = BaseEnum.MoneyTypeEnum.初始化,
+                    CustomID = 0,
+                    InitialAmount = 0,
+                    CostAmount = 0,
+                    Balance = 0,
+                    Status = BaseEnum.CredentialEnum.未交付,
+                    IsExpire = false,
+                    IsActivated = false,
+                    //MakeTime=null,
+                    //ExpireDate=null,
+                    TicketBatchNo = model.TicketBatchNo,
+                    GrantBy = 0,
+                    //GrantTime=null, 
+                    CreateBy = "admin",
+                    CreateIP = Util.GetLocalIP(),
+                    CreateTime = ticket.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Sort = ticket.Sort, 
                 };
             }
             );
@@ -60,12 +70,12 @@ namespace Movie.BLL.Ticket
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<TicketBatchViewModel> GetPageList(int pageIndex, int pageSize)
+        public JsonRsp<TicketViewModel> GetPageList(int pageIndex, int pageSize)
         {
-            JsonRsp<TicketBatchViewModel> rsp = new JsonRsp<TicketBatchViewModel>();
+            JsonRsp<TicketViewModel> rsp = new JsonRsp<TicketViewModel>();
 
 
-            TicketBatchModel ticket = new TicketBatchModel();
+            TicketInfo ticket = new TicketInfo();
             TicketTypeModel ticketType = new TicketTypeModel();
 
             //Select 方法不指定具体要选择的实体类属性，可以推迟到EntityContainer类的MapToList 方法上指定
@@ -80,20 +90,29 @@ namespace Movie.BLL.Ticket
             PWMIS.DataProvider.Data.AdoHelper db = PWMIS.DataProvider.Adapter.MyDB.GetDBHelper();
             EntityContainer ec = new EntityContainer(joinQ, db);
 
-            rsp.data = (List<TicketBatchViewModel>)ec.MapToList<TicketBatchViewModel>(() => new TicketBatchViewModel()
+            rsp.data = (List<TicketViewModel>)ec.MapToList<TicketViewModel>(() => new TicketViewModel()
             {
                 ID = ticket.ID,
+                TicketCode = ticket.TicketCode,
                 TicketTypeId = ticket.TicketTypeId,
-                TicketTypeIdStr = ticketType.TicketTypeName,
+                Consumptionlevel = BaseEnum.ConsumptionlevelEnum.初始化,
+                MoneyTyp = BaseEnum.MoneyTypeEnum.初始化,
+                CustomID = 0,
+                InitialAmount = 0,
+                CostAmount = 0,
+                Balance = 0,
+                Status = BaseEnum.CredentialEnum.未交付,
+                IsExpire = false,
+                IsActivated = false,
+                //MakeTime=null,
+                //ExpireDate=null,
                 TicketBatchNo = ticket.TicketBatchNo,
-                TicketPrefix = ticket.TicketPrefix,
-                Amount = ticket.Amount,
-                TicketBatchName = ticket.TicketBatchName,
-                CreateBy = ticket.CreateBy,
-                CreateIP = ticket.CreateIP,
+                GrantBy = 0,
+                //GrantTime=null, 
+                CreateBy = "admin",
+                CreateIP = Util.GetLocalIP(),
                 CreateTime = ticket.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                Sort = ticket.Sort,
-                Status = ticket.Status,
+                Sort = ticket.Sort, 
             });
             rsp.success = true;
             rsp.code = 0;
@@ -106,62 +125,18 @@ namespace Movie.BLL.Ticket
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Add(TicketBatchModel model)
+        public JsonRsp Add(TicketInfo model)
         {
-            model.TicketBatchNo = "P"+DateTime.Now.ToString("yyyyMMddHHmmss");
-            model.CreateBy = "admin";
-            model.CreateIP = Util.GetLocalIP();
-            model.CreateTime = DateTime.Now;
-            int returnvalue = EntityQuery<TicketBatchModel>.Instance.Insert(model);
-
-            List<TicketInfo> ticketList = new List<TicketInfo>();
-            long tickIndex = 0;
-            for (int i = 0; i < model.Amount; i++)
-            {
-                //salt
-                string salt = Guid.NewGuid().ToString();
-                string pwd = new RandomHelper().GetRandomInt(100000, 999999).ToString();
-                string MD5PWD = EncryptHelper.MD5Encoding(pwd, salt);
-
-                tickIndex += 1;
-                ticketList.Add(new TicketInfo
-                {
-                    TicketCode = model.TicketPrefix + model.TicketTypeId.ToString() + tickIndex.ToString("00000000"),
-                    TicketPwd = pwd,
-                    TicketMD5Pwd = MD5PWD,
-                    Salt = salt,
-                    TicketTypeId = model.TicketTypeId,
-                    Consumptionlevel = BaseEnum.ConsumptionlevelEnum.初始化,
-                    MoneyTyp = BaseEnum.MoneyTypeEnum.初始化,
-                    CustomID = 0,
-                    InitialAmount = 0,
-                    Deductions = 0,
-                    Balance = 0,
-                    Status = (int)BaseEnum.CredentialEnum.未交付,
-                    IsExpire = false,
-                    IsActivated = false,
-                    //MakeTime=null,
-                    //ExpireDate=null,
-                    TicketBatchNo = model.TicketBatchNo,
-                    GrantBy = 0,
-                    //GrantTime=null,
-                    Sort = i,
-                    CreateBy = "admin",
-                    CreateIP = Util.GetLocalIP(),
-                    CreateTime = DateTime.Now,
-                });
-            }
-            returnvalue=context.AddList<TicketInfo>(ticketList);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp();
         }
         /// <summary>
         /// 删
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Remove(TicketBatchModel model)
+        public JsonRsp Remove(TicketInfo model)
         {
-            int returnvalue = EntityQuery<TicketBatchModel>.Instance.Delete(model);
+            int returnvalue = EntityQuery<TicketInfo>.Instance.Delete(model);
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
         /// <summary>
@@ -169,9 +144,9 @@ namespace Movie.BLL.Ticket
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Update(TicketBatchModel model)
+        public JsonRsp Update(TicketInfo model)
         {
-            int returnvalue = EntityQuery<TicketBatchModel>.Instance.Update(model);
+            int returnvalue = EntityQuery<TicketInfo>.Instance.Update(model);
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
 
@@ -180,10 +155,10 @@ namespace Movie.BLL.Ticket
         /// </summary>
         /// <param name="TicketerID"></param>
         /// <returns></returns>
-        public TicketBatchModel GetModelById(int accountId)
+        public TicketInfo GetModelById(int accountId)
         {
-            TicketBatchModel model = new TicketBatchModel() { ID = accountId };
-            if (EntityQuery<TicketBatchModel>.Fill(model))
+            TicketInfo model = new TicketInfo() { ID = accountId };
+            if (EntityQuery<TicketInfo>.Fill(model))
                 return model;
             else
                 return null;
@@ -196,13 +171,13 @@ namespace Movie.BLL.Ticket
         public JsonRsp DeleteById(long[] Ids)
         {
             //删除 测试数据-----------------------------------------------------
-            TicketBatchModel user = new TicketBatchModel();
+            TicketInfo user = new TicketInfo();
 
             OQL deleteQ = OQL.From(user)
                             .Delete()
                             .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                          .END;
-            int returnvalue = EntityQuery<TicketBatchModel>.Instance.ExecuteOql(deleteQ);
+            int returnvalue = EntityQuery<TicketInfo>.Instance.ExecuteOql(deleteQ);
 
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
@@ -213,7 +188,7 @@ namespace Movie.BLL.Ticket
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Save(TicketBatchModel model)
+        public JsonRsp Save(TicketInfo model)
         {
             if (model.ID == 0)
             {
@@ -236,13 +211,13 @@ namespace Movie.BLL.Ticket
             {
                 return new JsonRsp { success = false, retmsg = "请选择要操作的数据" };
             }
-            TicketBatchModel user = new TicketBatchModel();
+            TicketInfo user = new TicketInfo();
             user.Status = status;
             OQL q = OQL.From(user)
                .Update(user.Status)
                           .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                        .END;
-            int returnvalue = EntityQuery<TicketBatchModel>.Instance.ExecuteOql(q);
+            int returnvalue = EntityQuery<TicketInfo>.Instance.ExecuteOql(q);
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
         #endregion

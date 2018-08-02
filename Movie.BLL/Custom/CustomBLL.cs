@@ -20,35 +20,15 @@ namespace Movie.BLL.Custom
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<CustomViewModel> GetAllList()
+        public List<CustomModel> GetAllModelList()
         {
             JsonRsp<CustomViewModel> rsp = new JsonRsp<CustomViewModel>();
             CustomModel model = new CustomModel();
             OQL q = OQL.From(model)
                 .Select()
-                .OrderBy(model.ID, "asc")
+                .OrderBy(model.Sort, "desc")
                 .END;
-            List<CustomModel> list = q.ToList<CustomModel>();//使用OQL扩展
-            rsp.data = list.ConvertAll<CustomViewModel>(o =>
-            {
-                return new CustomViewModel()
-                {
-                    ID = o.ID,
-                    CustomName = o.CustomName,
-                    CreateBy = o.CreateBy,
-                    CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Sort = o.Sort,
-                    Status = o.Status,
-                    UpdateBy = o.UpdateBy,
-                    UpdateIP = o.UpdateIP,
-                    UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"), 
-                };
-            }
-            );
-            rsp.success = true;
-            rsp.code = 0;
-            return rsp;
+            return q.ToList<CustomModel>();  
         }
 
         /// <summary>
@@ -206,6 +186,65 @@ namespace Movie.BLL.Custom
             int returnvalue = EntityQuery<CustomModel>.Instance.ExecuteOql(q);
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
+        #endregion
+
+        
+        #region ViewModel
+
+        #region 获取列表（全部）
+        /// <summary>
+        /// 获取管理员列表（全部）
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonRsp<CustomViewModel> GetAllList()
+        {
+            JsonRsp<CustomViewModel> rsp = new JsonRsp<CustomViewModel>();
+
+            rsp.data = GetAllModelList().ConvertAll<CustomViewModel>(o =>
+            {
+                return new CustomViewModel()
+                {
+                    ID = o.ID,
+                    CustomTypeId = o.CustomTypeId,
+                    CustomName = o.CustomName,
+                    LinkPhone = o.LinkPhone,
+                    LinkName = o.LinkName,
+                    LinkMobile = o.LinkMobile,
+                    CustomArea = o.CustomArea,
+                    CustomAddress = o.CustomAddress,
+                    CreateBy = o.CreateBy,
+                    CreateIP = o.CreateIP,
+                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Sort = o.Sort,
+                    Status = o.Status,
+                    UpdateBy = o.UpdateBy,
+                    UpdateIP = o.UpdateIP,
+                    UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"),
+                };
+            }
+            );
+            rsp.success = true;
+            rsp.code = 0;
+            return rsp;
+        }
+        #endregion
+
+        #region  获取凭据类型SelectTree
+        public List<TreeSelect> GetSelectTrees() {
+            List<TreeSelect> treeSelects = new List<TreeSelect>();
+            foreach (var item in GetAllModelList()) {
+                treeSelects.Add(new TreeSelect { 
+                     id=item.ID,
+                      name=item.CustomName,
+                        value=item.ID,
+                });
+            }
+            return treeSelects;
+        }
+        #endregion
+
         #endregion
     }
 }

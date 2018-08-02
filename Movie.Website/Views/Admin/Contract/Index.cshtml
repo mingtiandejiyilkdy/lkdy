@@ -23,9 +23,9 @@
             <div class="layui-form-item"> 
                 <div class="layui-inline">
                     <label class="layui-form-label">
-                        凭据批次</label>
+                        合同/协议号</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="TicketBatchName" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="ContractName" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -55,7 +55,7 @@
         </div>
     </div>
 </div>
-<table class="layui-table" lay-data="{ url:'/Admin/TicketBatch/list', page:true, id:'idTest'}"
+<table class="layui-table" lay-data="{ url:'/Admin/Contract/list', page:true, id:'idTest'}"
     lay-filter="demo">
     <thead>
         <tr>
@@ -64,43 +64,46 @@
             <th lay-data="{field:'ID', width:80, fixed: true}">
                 ID
             </th>
-            <th lay-data="{field:'TicketBatchNo', }">
-                批次号
+            <th lay-data="{field:'ContractNo', }">
+                协议单号
             </th>
-            <th lay-data="{field:'TicketBatchName', }">
-                描述
+            <th lay-data="{field:'CustomName', }">
+                客户名称
             </th>
-            <th lay-data="{field:'TicketTypeIdStr', }">
-                类型
+            <th lay-data="{field:'CustomTypeName', }">
+                客户类型
             </th>
-            <th lay-data="{field:'TicketPrefix', }">
-                前缀
+            <th lay-data="{field:'ContractAmount', }">
+                协议金额
             </th>
-            <th lay-data="{field:'Amount', }">
-                张数
+            <th lay-data="{field:'Deductions', }">
+                已充金额
+            </th>
+            <th lay-data="{field:'Balance', }">
+                剩余金额
+            </th>
+            <th lay-data="{field:'Remark', }">
+                备注
             </th>
             <th lay-data="{field:'Sort'}">
-                排序
-            </th>
-            <th lay-data="{field:'CreateBy'}">
-                添加人
-            </th>
-            <th lay-data="{field:'CreateIP'}">
-                添加IP
-            </th>
-            <th lay-data="{field:'CreateTime'}">
-                添加时间
-            </th>  
-            <th lay-data="{field:'StatusStr'}">
                 状态
             </th>
+            <th lay-data="{field:'CreateBy'}">
+                录入人
+            </th>
+            <th lay-data="{field:'CreateIP'}">
+                录入IP
+            </th>
+            <th lay-data="{field:'CreateTime'}">
+                录入时间
+            </th>   
         </tr>
     </thead>
 </table>
 <script type="text/javascript">
 
-    var moduleKey = "TicketBatch";
-    var moduleName = "凭据批次";
+    var moduleKey = "Contract";
+    var moduleName = "合同/协议";
     //js初始化
     layui.use(['table', 'form', 'layedit', 'laydate'], function () {
         var ajaxUrl = "/Admin/" + moduleName + "/";

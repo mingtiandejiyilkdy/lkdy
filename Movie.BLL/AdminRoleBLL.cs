@@ -300,7 +300,7 @@ namespace Movie.BLL
             OQL q = new OQL(model);
             q.Select()
                 .Where(q.Condition.AND(model.MenuType, "=", menuType))
-                .OrderBy(model.ID, "asc");
+                .OrderBy(model.ID, "desc");
 
             List<AdminMenu> list = q.ToList<AdminMenu>();//使用OQL扩展
             return list.ConvertAll<MenuViewModel>(o =>

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;   
-using Movie.Model.Ticket;
-using Movie.BLL.Ticket;
+using Movie.Model.Contract;
+using Movie.BLL.Contract;
+using Movie.BLL.Custom;
 
 namespace Movie.Website.Controllers.Admin
 {
 
-    public class TicketBatchController : BaseController
+    public class ContractController : BaseController
     {
-        protected readonly TicketBatchBLL bll = new TicketBatchBLL();
+        protected readonly ContractBLL bll = new ContractBLL();
         //
-        // GET: /Admin/TicketBatch/
+        // GET: /Admin/Contract/
         public ActionResult Index()
         {
             return View();
@@ -21,7 +22,7 @@ namespace Movie.Website.Controllers.Admin
 
 
         //
-        // GET: /Admin/TicketBatch/AllList
+        // GET: /Admin/Contract/AllList
         [HttpGet]
         public JsonResult AllList()
         {
@@ -29,7 +30,7 @@ namespace Movie.Website.Controllers.Admin
         }
 
         //
-        // GET: /Admin/TicketBatch/List
+        // GET: /Admin/Contract/List
         [HttpGet]
         public JsonResult List(int page, int limit)
         {
@@ -37,31 +38,31 @@ namespace Movie.Website.Controllers.Admin
         }
 
         //
-        // GET: /Admin/TicketBatch/Show
+        // GET: /Admin/Contract/Show
         public ActionResult Show(int Id)
         {
-            ViewBag.selectTrees = new TicketTypeBLL().GetSelectTrees();
+            ViewBag.selectTrees = new CustomBLL().GetSelectTrees();
             ViewBag.model = bll.GetModelById(Id);
             return View();
         }
 
         //
-        // GET: //Admin/TicketBatch/Add
+        // GET: //Admin/Contract/Add
         [HttpPost]
-        public ActionResult Save(TicketBatchModel model)
+        public ActionResult Save(ContractModel model)
         {
             return Json(bll.Save(model), JsonRequestBehavior.AllowGet);
         }
 
         //
-        // GET: //Admin/TicketBatch/Delete
+        // GET: //Admin/Contract/Delete
         [HttpPost]
         public ActionResult DeleteById(long[] Ids)
         {
             return Json(bll.DeleteById(Ids), JsonRequestBehavior.AllowGet);
         }
 
-        // GET: /Admin/TicketBatch/IsEnable
+        // GET: /Admin/Contract/IsEnable
         [HttpPost]
         public ActionResult IsEnable(long[] Ids)
         {
@@ -69,7 +70,7 @@ namespace Movie.Website.Controllers.Admin
         }
 
 
-        // GET: /Admin/TicketBatch/UnEnable
+        // GET: /Admin/Contract/UnEnable
         [HttpPost]
         public ActionResult UnEnable(long[] Ids)
         {

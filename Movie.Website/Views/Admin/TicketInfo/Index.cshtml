@@ -55,7 +55,7 @@
         </div>
     </div>
 </div>
-<table class="layui-table" lay-data="{ url:'/Admin/TicketBatch/list', page:true, id:'idTest'}"
+<table class="layui-table" lay-data="{ url:'/Admin/TicketInfo/list', page:true, id:'idTest'}"
     lay-filter="demo">
     <thead>
         <tr>
@@ -64,33 +64,27 @@
             <th lay-data="{field:'ID', width:80, fixed: true}">
                 ID
             </th>
-            <th lay-data="{field:'TicketBatchNo', }">
-                批次号
+            <th lay-data="{field:'TicketCode', }">
+                卡号
             </th>
-            <th lay-data="{field:'TicketBatchName', }">
-                描述
-            </th>
-            <th lay-data="{field:'TicketTypeIdStr', }">
+            <th lay-data="{field:'TicketTypeId', }">
                 类型
+            </th>  
+            <th lay-data="{field:'InitialAmount', }">
+                初始金额
+            </th>  
+            <th lay-data="{field:'IsExpire', }" width="60">
+                过期
             </th>
-            <th lay-data="{field:'TicketPrefix', }">
-                前缀
-            </th>
-            <th lay-data="{field:'Amount', }">
-                张数
-            </th>
+            <th lay-data="{field:'IsActivated', }">
+                网络激活
+            </th>  
+            <th lay-data="{field:'TicketBatchNo', }">
+                所属批次号
+            </th> 
             <th lay-data="{field:'Sort'}">
                 排序
-            </th>
-            <th lay-data="{field:'CreateBy'}">
-                添加人
-            </th>
-            <th lay-data="{field:'CreateIP'}">
-                添加IP
-            </th>
-            <th lay-data="{field:'CreateTime'}">
-                添加时间
-            </th>  
+            </th> 
             <th lay-data="{field:'StatusStr'}">
                 状态
             </th>
@@ -99,8 +93,8 @@
 </table>
 <script type="text/javascript">
 
-    var moduleKey = "TicketBatch";
-    var moduleName = "凭据批次";
+    var moduleKey = "TicketInfo";
+    var moduleName = "凭据列表";
     //js初始化
     layui.use(['table', 'form', 'layedit', 'laydate'], function () {
         var ajaxUrl = "/Admin/" + moduleName + "/";

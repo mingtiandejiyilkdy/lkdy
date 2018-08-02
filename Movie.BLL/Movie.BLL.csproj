@@ -31,22 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PWMIS.Core, Version=5.6.2.212, Culture=neutral, PublicKeyToken=17ba13a12b9fd814, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\PWMIS.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PWMIS.Core">
+      <HintPath>..\lib\PWMIS.Core.dll</HintPath>
     </Reference>
-    <Reference Include="PWMIS.Core.Extensions, Version=5.6.2.212, Culture=neutral, PublicKeyToken=17ba13a12b9fd814, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\PWMIS.Core.Extensions.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PWMIS.Core.Extensions">
+      <HintPath>..\lib\PWMIS.Core.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="PWMIS.Web">
+      <HintPath>..\lib\PWMIS.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Optimization">
-      <HintPath>..\..\lib\System.Web.Optimization.dll</HintPath>
+      <HintPath>..\lib\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -61,17 +61,24 @@
     <Compile Include="Cinema\CinemaBLL.cs" />
     <Compile Include="Custom\CustomBLL.cs" />
     <Compile Include="Custom\CustomTypeBLL.cs" />
+    <Compile Include="Contract\ContractBLL.cs" />
+    <Compile Include="Financial\CustomFinancialBLL.cs" />
     <Compile Include="LoginBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdminRoleBLL.cs" />
     <Compile Include="AdminMenuBLL.cs" />
     <Compile Include="Ticket\TicketTypeBLL.cs" />
     <Compile Include="Ticket\TicketBathBLL.cs" />
+    <Compile Include="Ticket\TicketBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Movie.Common\Movie.Common.csproj">
       <Project>{F9D17500-6F1B-4EBA-895F-B08B83AD300F}</Project>
       <Name>Movie.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movie.Enum\Movie.Enum.csproj">
+      <Project>{23D5494B-5670-4A04-8EE3-7409376612E2}</Project>
+      <Name>Movie.Enum</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movie.Model\Movie.Model.csproj">
       <Project>{2E1B814B-162B-48A4-A313-78E941C586B1}</Project>
