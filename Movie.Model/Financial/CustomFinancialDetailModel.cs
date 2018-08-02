@@ -7,45 +7,52 @@ using Movie.Enum;
 
 namespace Movie.Model.Financial
 {
-    public class CustomFinancialModel : EntityBase
+    public class CustomFinancialDetailModel : EntityBase
     {
-        public CustomFinancialModel()
+        public CustomFinancialDetailModel()
         {
-            TableName = "CustomFinancial";
-            IdentityName = "CustomFinancialId";
-            PrimaryKeys.Add("CustomFinancialId");//主键
+            TableName = "Custom_FinancialDetail";
+            IdentityName = "FinancialDetailId";
+            PrimaryKeys.Add("FinancialDetailId");//主键
         }
 
         public long ID
         {
-            get { return getProperty<long>("CustomFinancialId"); }
-            set { setProperty("CustomFinancialId", value); }
+            get { return getProperty<long>("FinancialDetailId"); }
+            set { setProperty("FinancialDetailId", value); }
         }
 
-        public long CustomId
+        public long CustomFinancialId
         {
-            get { return getProperty<long>("CustomId"); }
-            set { setProperty("CustomId", value); }
-        }
-        /// <summary>
-        /// 累计余额
-        /// </summary>
-        public decimal AccumulativeAmount
-        {
-            get { return getProperty<decimal>("AccumulativeAmount"); }
-            set { setProperty("AccumulativeAmount", value); }
+            get { return getProperty<long>("FinancialId"); }
+            set { setProperty("FinancialId", value); }
         } 
 
+        /// <summary>
+        /// 财务操作类型
+        /// </summary>
+        public int FinanciaOpeType
+        {
+            get { return getProperty<int>("FinanciaOpeType"); }
+            set { setProperty("FinanciaOpeType", value); }
+        }
+
+        /// <summary>
+        /// 当前操作金额
+        /// </summary>
+        public decimal CurrentAmount
+        {
+            get { return getProperty<decimal>("Amount"); }
+            set { setProperty("Amount", value); }
+        }
+
+        /// <summary>
+        /// 余额
+        /// </summary>
         public decimal Balance
         {
             get { return getProperty<decimal>("Balance"); }
             set { setProperty("Balance", value); }
-        }
-
-        public string BalanceKey
-        {
-            get { return getProperty<string>("BalanceKey"); }
-            set { setProperty("BalanceKey", value, 200); }
         }
 
         public string Remark
@@ -54,11 +61,6 @@ namespace Movie.Model.Financial
             set { setProperty("Remark", value); }
         }
 
-        public int Status
-        {
-            get { return getProperty<int>("Status"); }
-            set { setProperty("Status", value); }
-        }
         public string CreateBy
         {
             get { return getProperty<string>("CreateBy"); }

@@ -12,6 +12,7 @@ namespace Movie.Website.Controllers.Admin
     public class TicketBatchController : BaseController
     {
         protected readonly TicketBatchBLL bll = new TicketBatchBLL();
+        protected readonly TicketTypeBLL ticketTypeBLL = new TicketTypeBLL();
         //
         // GET: /Admin/TicketBatch/
         public ActionResult Index()
@@ -40,7 +41,7 @@ namespace Movie.Website.Controllers.Admin
         // GET: /Admin/TicketBatch/Show
         public ActionResult Show(int Id)
         {
-            ViewBag.selectTrees = new TicketTypeBLL().GetSelectTrees();
+            ViewBag.selectTrees = ticketTypeBLL.GetSelectTrees();
             ViewBag.model = bll.GetModelById(Id);
             return View();
         }

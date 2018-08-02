@@ -37,7 +37,7 @@
         if (active == "Add") {
             Add();
         }
-        else if (active == "Edit" || active == "SetRole") {
+        else if (active == "Edit" || active == "Audit" || active=="ChargeCard" || active == "SetRole") {
             if (count == 0) {
                 msg = "请选择一条数据";
                 layer.msg(msg);
@@ -50,6 +50,12 @@
             var id=data[0].ID;
             if (active == "Edit") { 
                 Edit(id); 
+            }else if(active == "Audit") { 
+              layer.confirm('确定审核通过么', function (index) {
+                Audit(ids); 
+              });
+            }else if (active == "ChargeCard") { 
+                ChargeCard(id); 
             }else if (active == "SetRole") { 
                 SetRole(id); 
             }
@@ -191,6 +197,32 @@
                 } 
             }
     }); 
+    }
+
+    
+    //审核通过
+    function Audit (Ids) {    
+        $.ajax({
+            type: 'POST',
+            url: ajaxUrl+"Audit", // ajax请求路径
+            data: {
+                Ids: Ids, 
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {                
+                    parent.layui.table.reload('idTest'); //重载表格  
+                }
+                else {
+                    layer.msg("操作不成功，"+data.retmsg);
+                } 
+            }
+    }); 
+    }    
+    
+    //充卡
+    function ChargeCard (Id) {          
+        location.href="/Admin/ChargeCard/?contractId="+Id;
     }
 
     //分配角色

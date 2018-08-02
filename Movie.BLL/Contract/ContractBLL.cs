@@ -72,9 +72,9 @@ namespace Movie.BLL.Contract
                 CustomName=custom.CustomName,
                 CustomTypeName=customType.CustomTypeName,
                 ContractNo = contract.ContractNo,
-                //ContractAmount = contract.ContractAmount.ToString("N2"),
-                //Deductions = contract.Deductions.ToString("N2"),
-                //Balance = contract.Balance.ToString("N2"),
+                ContractAmount = contract.ContractAmount.ToString("N2"),
+                Deductions = contract.Deductions.ToString("N2"),
+                Balance = contract.Balance.ToString("N2"),
                 Remark = contract.Remark,
                 Sort = contract.Sort,
                 Status = contract.Status,
@@ -95,11 +95,17 @@ namespace Movie.BLL.Contract
         /// <returns></returns>
         public JsonRsp Add(ContractModel model)
         { 
+            //合同信息
+            string salt = model.CreateTime.ToString("yyyyMMddHHmmss");
+            string signStr = model.ContractAmount.ToString() + model.Deductions.ToString() + model.Balance + salt;
+            model.BalanceKey = EncryptHelper.MD5Encoding(signStr, salt);
+
             model.ContractNo = "H"+DateTime.Now.ToString("yyyyMMddHHmmss");             
             model.CreateBy = "admin";
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
-            int returnvalue = EntityQuery<ContractModel>.Instance.Insert(model); 
+            int returnvalue = EntityQuery<ContractModel>.Instance.Insert(model);
+
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
         /// <summary>
@@ -128,9 +134,9 @@ namespace Movie.BLL.Contract
         /// </summary>
         /// <param name="TicketerID"></param>
         /// <returns></returns>
-        public ContractModel GetModelById(int accountId)
+        public ContractModel GetModelById(long id)
         {
-            ContractModel model = new ContractModel() { ID = accountId };
+            ContractModel model = new ContractModel() { ID = id };
             if (EntityQuery<ContractModel>.Fill(model))
                 return model;
             else
@@ -194,5 +200,106 @@ namespace Movie.BLL.Contract
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
         #endregion
+
+         /// <summary>
+        /// 增
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public JsonRsp Audit(long[] Ids, int status)
+        {
+            if (Ids == null)
+            {
+                return new JsonRsp { success = false, retmsg = "请选择要操作的数据" };
+            }
+            //更新状态
+            ContractModel model = new ContractModel();
+            model.Status = status;
+            OQL q = OQL.From(model)
+               .Update(model.Status)
+                          .Where(cmp => cmp.Comparer(model.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
+                       .END;
+            //初始化客户财务信息 
+
+            OQL qList = OQL.From(model)
+                .Select()
+                .OrderBy(model.Sort, "asc")
+                .END;
+            List<ContractModel> items= qList.ToList<ContractModel>();
+            int returnvalue = 0;
+            foreach (ContractModel item in items)
+            {
+                if (item.Status != 0) {
+                    return new JsonRsp { success = false, retmsg = "只能审核待审核合同，该合同当前状态为：" + Util.getStatus(item.Status, typeof(BaseEnum.ProtocolTypeEnum)) };
+                }
+                //客户财务信息初始化
+                CustomFinancialModel financialModel = new CustomFinancialModel();
+                financialModel.CreateBy = "admin";
+                financialModel.CreateIP = Util.GetLocalIP();
+                financialModel.CreateTime = DateTime.Now;
+                financialModel.CustomId = item.ID;
+                financialModel.AccumulativeAmount = item.ContractAmount;
+                financialModel.Balance = item.ContractAmount;
+                string salt = financialModel.CreateTime.ToString("yyyyMMddHHmmss");
+                string signStr = financialModel.AccumulativeAmount.ToString() + financialModel.Balance + salt;
+                financialModel.BalanceKey = EncryptHelper.MD5Encoding(signStr, salt);
+                financialModel.Remark = "合同/协议号：" + item.ContractNo;
+                returnvalue = EntityQuery<CustomFinancialModel>.Instance.Insert(financialModel);
+
+                //新增客户财务信息日志
+                CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
+                financialDetail.CreateBy = "admin";
+                financialDetail.CreateIP = Util.GetLocalIP();
+                financialDetail.CreateTime = DateTime.Now;
+                financialDetail.CustomFinancialId = financialModel.ID;
+                financialDetail.CurrentAmount = item.ContractAmount;
+                financialDetail.FinanciaOpeType = (int)FinanciaOpeTypeEnum.增加;
+                financialDetail.Balance = financialDetail.CurrentAmount;
+                financialDetail.Remark = "合同/协议号：" + item.ContractNo;
+                returnvalue = EntityQuery<CustomFinancialDetailModel>.Instance.Insert(financialDetail);
+            }
+            returnvalue = EntityQuery<ContractModel>.Instance.ExecuteOql(q);
+            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+        }
+
+        /// <summary>
+        /// 查 根据Id获取详情，如果没有则返回空对象
+        /// </summary>
+        /// <param name="TicketerID"></param>
+        /// <returns></returns>
+        public ContractViewModel GetViewModelById(long contractId)
+        {
+            ContractModel contract = GetModelById(contractId);
+            if (contract!=null)
+            {                
+                CustomModel customModel = new CustomModel() { ID = contract.CustomId };
+                if (EntityQuery<CustomModel>.Fill(customModel))
+                {     
+                   return new ContractViewModel()
+                        {
+                            ID = contract.ID,
+                            CustomId = contract.CustomId,
+                            CustomName = customModel.CustomName, 
+                            ContractNo = contract.ContractNo,
+                            ContractAmount = contract.ContractAmount.ToString("N2"),
+                            Deductions = contract.Deductions.ToString("N2"),
+                            Balance = contract.Balance.ToString("N2"),
+                            Remark = contract.Remark,
+                            Sort = contract.Sort,
+                            Status = contract.Status,
+                            CreateBy = contract.CreateBy,
+                            CreateIP = contract.CreateIP,
+                            CreateTime = contract.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        };
+                }
+                else
+                {
+                return null;
+                }
+            }
+            else
+                return null; 
+        }
+
     }
 }

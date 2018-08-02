@@ -8,6 +8,8 @@ using Movie.Model.Cinema;
 using Movie.Model.Custom;
 using Movie.Model.Ticket;
 using Movie.Model.Contract;
+using Movie.Model.Financial;
+using Movie.Model.ChargeCard;
 
 namespace Movie.BLL
 {
@@ -47,6 +49,14 @@ namespace Movie.BLL
             CheckTableExists<TicketInfo>();
             //创建合同协议表
             CheckTableExists<ContractModel>();
+            //创建客户财务表
+            CheckTableExists<CustomFinancialModel>();
+            //创建财务明细表
+            CheckTableExists<CustomFinancialDetailModel>();
+            //创建充卡记录表
+            CheckTableExists<CustomChargeCardsModel>();
+
+            
             
             return true;
         }

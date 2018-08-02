@@ -14,6 +14,12 @@
         启用</button>
     <button class="layui-btn layui-btn-normal" data-type="UnEnable">
         禁用</button>
+    <button class="layui-btn layui-btn-normal" data-type="Audit">
+        审核通过</button>
+    <button class="layui-btn layui-btn-normal" data-type="UnAudit">
+        审核不通过</button>
+    <button class="layui-btn layui-btn-normal" data-type="ChargeCard">
+        充卡</button>
     <button class="layui-btn layui-btn-normal" data-type="SetRole">
         分配角色</button>
 </div>
@@ -55,7 +61,93 @@
         </div>
     </div>
 </div>
-<table class="layui-table" lay-data="{ url:'/Admin/Contract/list', page:true, id:'idTest'}"
+
+<table class="layui-hide" id="test" lay-filter="demo">
+</table>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#test'
+    , url: '/Admin/Contract/list'
+    , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+        //,curr: 5 //设定初始在第 5 页
+      , groups: 1 //只显示 1 个连续页码
+      , first: false //不显示首页
+      , last: false //不显示尾页
+
+    }
+    , cols: [[
+      { field: 'ID',  title: 'ID', }
+      , { field: 'ContractNo', title: '协议单号' }
+      , { field: 'CustomName', width:170, title: '客户名称', } 
+      , { field: 'CustomTypeName', title: '客户类型' }
+      , { field: 'ContractAmount', title: '协议金额' }
+      , { field: 'Deductions', title: '已充金额' }
+      , { field: 'Balance', title: '剩余金额' }
+      , { field: 'Remark', title: '备注' }
+      , { field: 'StatusStr', title: '状态' }
+      , { field: 'CreateBy', title: '录入人' }
+      , { field: 'CreateIP', title: '录入IP' }
+      , { field: 'CreateTime', title: '录入时间' } 
+      , { field: 'lock', title: '操作', width: 60, toolbar: '#barDemo', unresize: true }
+    ]]
+
+        });
+    });
+</script> 
+<script type="text/html" id="barDemo"> 
+  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="ChargeCard">充卡</a> 
+</script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    var moduleKey = "Contract";
+    var moduleName = "合同/协议";
+    layui.use(['table', 'form', 'layedit', 'laydate'], function () {
+        var table = layui.table
+        , form = layui.form
+        , admin = layui.admin;
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('test', {
+                where: field
+            });
+        });
+
+
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function (obj) {
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(demo)', function (obj) {
+            if (obj.event === 'ChargeCard') {
+                location.href = "http://localhost:2713/Admin/CustomChargeCard/AddFromContract?contractId=" + obj.data.ID;
+            }
+        });
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function (obj) {
+            console.log(obj)
+        });
+
+        //头部操作按钮
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+
+            //js初始化 
+            Init(moduleKey, moduleName, type, table, form, $);
+            //active[type] ? active[type].call(this) : '';
+        });
+    });  
+</script>
+
+@*<table class="layui-table" lay-data="{ url:'/Admin/Contract/list', page:true, id:'idTest'}"
     lay-filter="demo">
     <thead>
         <tr>
@@ -85,7 +177,7 @@
             <th lay-data="{field:'Remark', }">
                 备注
             </th>
-            <th lay-data="{field:'Sort'}">
+            <th lay-data="{field:'StatusStr'}">
                 状态
             </th>
             <th lay-data="{field:'CreateBy'}">
@@ -139,4 +231,4 @@
          
     });
 
-</script>
+</script>*@
