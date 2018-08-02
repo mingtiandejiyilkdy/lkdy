@@ -93,11 +93,7 @@ namespace Movie.BLL.Financial
         /// <param name="model"></param>
         /// <returns></returns>
         public JsonRsp Add(CustomFinancialModel model)
-        {  
-            model.Balance = model.Balance - model.Deductions; 
-            string salt = model.CreateTime.ToString("yyyyMMddHHmmss");
-            string signStr = model.AccumulativeAmount.ToString()+model.Deductions.ToString()+model.Balance+salt ;
-            model.CheckSign = EncryptHelper.MD5Encoding(signStr, salt);
+        {   
 
             model.CreateBy = "admin";
             model.CreateIP = Util.GetLocalIP();

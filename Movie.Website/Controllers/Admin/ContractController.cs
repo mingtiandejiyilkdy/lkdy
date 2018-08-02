@@ -69,12 +69,18 @@ namespace Movie.Website.Controllers.Admin
             return Json(bll.SetStatus(Ids,1), JsonRequestBehavior.AllowGet);
         }
 
-
         // GET: /Admin/Contract/UnEnable
         [HttpPost]
         public ActionResult UnEnable(long[] Ids)
         {
             return Json(bll.SetStatus(Ids, 0), JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: /Admin/Contract/Audit
+        [HttpPost]
+        public ActionResult Audit(long[] Ids)
+        {
+            return Json(bll.Audit(Ids, 1), JsonRequestBehavior.AllowGet);
         }
 
     }

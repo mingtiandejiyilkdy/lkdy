@@ -151,6 +151,7 @@
     <Compile Include="Controllers\Admin\TicketBatchController.cs" />
     <Compile Include="Controllers\Admin\TicketInfoController.cs" />
     <Compile Include="Controllers\Admin\ContractController.cs" />
+    <Compile Include="Controllers\Admin\CustomChargeCardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -525,6 +526,9 @@
     <Content Include="Views\Admin\TicketInfo\副本 Index.cshtml" />
     <Content Include="Views\Admin\Contract\Index.cshtml" />
     <Content Include="Views\Admin\Contract\Show.cshtml" />
+    <Content Include="Views\Admin\CustomChargeCard\Index.cshtml" />
+    <Content Include="Views\Admin\CustomChargeCard\Show.cshtml" />
+    <Content Include="Views\Admin\CustomChargeCard\AddFromContract.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Movie.BLL\Movie.BLL.csproj">
@@ -560,7 +564,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>3020</DevelopmentServerPort>
+          <DevelopmentServerPort>2713</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

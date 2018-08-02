@@ -37,7 +37,7 @@ namespace Movie.ViewModel.Contract
         {
             get
             {
-                return Util.getStatus(Status, typeof(BaseEnum.CredentialTypeEnum));
+                return Util.getStatus(Status, typeof(BaseEnum.ProtocolTypeEnum));
             }
         } 
     }

@@ -32,13 +32,6 @@ namespace Movie.Model.Contract
             get { return getProperty<string>("ContractNo"); }
             set { setProperty("ContractNo", value); }
         }
-
-        public Decimal ContractAmount
-        {
-            get { return getProperty<Decimal>("ContractAmount"); }
-            set { setProperty("ContractAmount", value); }
-        }
-
         public Decimal AccountReceivable
         {
             get { return getProperty<Decimal>("AccountReceivable"); }
@@ -53,6 +46,37 @@ namespace Movie.Model.Contract
         {
             get { return getProperty<Decimal>("ExChangeAmount"); }
             set { setProperty("ExChangeAmount", value); }
+        }
+        /// <summary>
+        /// 合同金额
+        /// </summary>
+        public Decimal ContractAmount
+        {
+            get { return getProperty<Decimal>("ContractAmount"); }
+            set { setProperty("ContractAmount", value); }
+        }
+        /// <summary>
+        /// 已使用金额
+        /// </summary>
+        public decimal Deductions
+        {
+            get { return getProperty<decimal>("Deductions"); }
+            set { setProperty("Deductions", value); }
+        }
+
+        /// <summary>
+        /// 可用余额
+        /// </summary>
+        public decimal Balance
+        {
+            get { return getProperty<decimal>("Balance"); }
+            set { setProperty("Balance", value); }
+        }
+
+        public string BalanceKey
+        {
+            get { return getProperty<string>("BalanceKey"); }
+            set { setProperty("BalanceKey", value, 200); }
         }
 
         public string Attachment
