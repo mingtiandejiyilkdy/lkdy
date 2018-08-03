@@ -26,27 +26,50 @@ namespace Movie.Model.Financial
         {
             get { return getProperty<long>("CustomId"); }
             set { setProperty("CustomId", value); }
-        }
-        /// <summary>
-        /// 累计余额
-        /// </summary>
-        public decimal AccumulativeAmount
-        {
-            get { return getProperty<decimal>("AccumulativeAmount"); }
-            set { setProperty("AccumulativeAmount", value); }
         } 
 
-        public decimal Balance
+        /// <summary>
+        /// 应收累计
+        /// </summary>
+        public decimal  ARAmount
         {
-            get { return getProperty<decimal>("Balance"); }
-            set { setProperty("Balance", value); }
+            get { return getProperty<decimal>("ARAmount"); }
+            set { setProperty("ARAmount", value); }
         }
 
-        public string BalanceKey
+        public decimal ARBalance
         {
-            get { return getProperty<string>("BalanceKey"); }
-            set { setProperty("BalanceKey", value, 200); }
+            get { return getProperty<decimal>("ARBalance"); }
+            set { setProperty("ARBalance", value); }
         }
+        /// <summary>
+        /// 赠送累计
+        /// </summary>
+        public decimal LargessAmount
+        {
+            get { return getProperty<decimal>("LargessAmount"); }
+            set { setProperty("LargessAmount", value); }
+        }
+
+        public decimal LargessBalance
+        {
+            get { return getProperty<decimal>("LargessBalance"); }
+            set { setProperty("LargessBalance", value); }
+        }
+        /// <summary>
+        /// 置换累计
+        /// </summary>
+        public decimal ExChangeAmount
+        {
+            get { return getProperty<decimal>("ExChangeAmount"); }
+            set { setProperty("ExChangeAmount", value); }
+        }
+
+        public decimal ExChangeBalance
+        {
+            get { return getProperty<decimal>("ExChangeBalance"); }
+            set { setProperty("ExChangeBalance", value); }
+        } 
 
         public string Remark
         {

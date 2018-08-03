@@ -26,7 +26,7 @@ namespace Movie.Website.Controllers.Admin
         [HttpGet]
         public JsonResult AllList()
         {
-            return Json(bll.GetAllList(), JsonRequestBehavior.AllowGet);
+            return Json(bll.GetAllModelList(), JsonRequestBehavior.AllowGet);
         }
 
         //
