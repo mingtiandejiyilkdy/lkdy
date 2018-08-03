@@ -26,7 +26,16 @@ namespace Movie.Model.Financial
         {
             get { return getProperty<long>("FinancialId"); }
             set { setProperty("FinancialId", value); }
-        } 
+        }
+
+        /// <summary>
+        /// 金额类型
+        /// </summary>
+        public int MoneyType
+        {
+            get { return getProperty<int>("MoneyType"); }
+            set { setProperty("MoneyType", value); }
+        }
 
         /// <summary>
         /// 财务操作类型

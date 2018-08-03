@@ -14,6 +14,8 @@ using Movie.Model.Contract;
 using Movie.ViewModel.Contract;
 using Movie.Model.Custom;
 using Movie.Model.Financial;
+using PWMIS.DataProvider.Data;
+using PWMIS.DataProvider.Adapter;
 
 namespace Movie.BLL.Contract
 {
@@ -26,9 +28,8 @@ namespace Movie.BLL.Contract
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public List<ContractModel> GetAllList()
-        {
-            JsonRsp<ContractViewModel> rsp = new JsonRsp<ContractViewModel>();
+        public List<ContractModel> GetAllModelList()
+        { 
             ContractModel model = new ContractModel();
             OQL q = OQL.From(model)
                 .Select()
@@ -212,6 +213,8 @@ namespace Movie.BLL.Contract
             {
                 return new JsonRsp { success = false, retmsg = "请选择要操作的数据" };
             }
+ 
+
             //更新状态
             ContractModel model = new ContractModel();
             model.Status = status;
@@ -226,39 +229,65 @@ namespace Movie.BLL.Contract
                 .OrderBy(model.Sort, "asc")
                 .END;
             List<ContractModel> items= qList.ToList<ContractModel>();
-            int returnvalue = 0;
+            int  returnvalue = 0;
             foreach (ContractModel item in items)
             {
                 if (item.Status != 0) {
                     return new JsonRsp { success = false, retmsg = "只能审核待审核合同，该合同当前状态为：" + Util.getStatus(item.Status, typeof(BaseEnum.ProtocolTypeEnum)) };
                 }
                 //客户财务信息初始化
-                CustomFinancialModel financialModel = new CustomFinancialModel();
+                CustomFinancialModel financialModel = new CustomFinancialModel(); 
                 financialModel.CreateBy = "admin";
                 financialModel.CreateIP = Util.GetLocalIP();
-                financialModel.CreateTime = DateTime.Now;
-                financialModel.CustomId = item.ID;
-                financialModel.AccumulativeAmount = item.ContractAmount;
-                financialModel.Balance = item.ContractAmount;
-                string salt = financialModel.CreateTime.ToString("yyyyMMddHHmmss");
-                string signStr = financialModel.AccumulativeAmount.ToString() + financialModel.Balance + salt;
-                financialModel.BalanceKey = EncryptHelper.MD5Encoding(signStr, salt);
+                financialModel.CreateTime = DateTime.Now; 
+                financialModel.CustomId = item.CustomId;
+                financialModel.ARAmount = item.AccountReceivable;
+                financialModel.ARBalance = item.AccountReceivable;
+                financialModel.LargessAmount = item.LargessAmount;
+                financialModel.LargessBalance = item.LargessAmount;
+                financialModel.ExChangeAmount = item.ExChangeAmount;
+                financialModel.ExChangeBalance = item.ExChangeAmount; 
                 financialModel.Remark = "合同/协议号：" + item.ContractNo;
-                returnvalue = EntityQuery<CustomFinancialModel>.Instance.Insert(financialModel);
+                returnvalue = context.Add(financialModel);
 
                 //新增客户财务信息日志
+                List<CustomFinancialDetailModel> details = new List<CustomFinancialDetailModel>();
+
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
                 financialDetail.CreateBy = "admin";
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
-                financialDetail.CurrentAmount = item.ContractAmount;
                 financialDetail.FinanciaOpeType = (int)FinanciaOpeTypeEnum.增加;
                 financialDetail.Balance = financialDetail.CurrentAmount;
-                financialDetail.Remark = "合同/协议号：" + item.ContractNo;
-                returnvalue = EntityQuery<CustomFinancialDetailModel>.Instance.Insert(financialDetail);
+                financialDetail.Remark = "合同/协议号：" + item.ContractNo; 
+                financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.应收;
+                financialDetail.CurrentAmount = item.AccountReceivable;
+                returnvalue = context.Add(financialDetail);
+
+                financialDetail.CreateBy = "admin";
+                financialDetail.CreateIP = Util.GetLocalIP();
+                financialDetail.CreateTime = DateTime.Now;
+                financialDetail.CustomFinancialId = financialModel.ID;
+                financialDetail.FinanciaOpeType = (int)FinanciaOpeTypeEnum.增加;
+                financialDetail.CurrentAmount = item.LargessAmount;
+                financialDetail.Balance = financialDetail.CurrentAmount;
+                financialDetail.Remark = "合同/协议号：" + item.ContractNo; 
+                financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.赠送;
+                returnvalue = context.Add(financialDetail);
+
+                financialDetail.CreateBy = "admin";
+                financialDetail.CreateIP = Util.GetLocalIP();
+                financialDetail.CreateTime = DateTime.Now;
+                financialDetail.CustomFinancialId = financialModel.ID;
+                financialDetail.FinanciaOpeType = (int)FinanciaOpeTypeEnum.增加;
+                financialDetail.CurrentAmount = item.ExChangeAmount;
+                financialDetail.Balance = financialDetail.CurrentAmount;
+                financialDetail.Remark = "合同/协议号：" + item.ContractNo; 
+                financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.置换;
+                returnvalue = context.Add(financialDetail);
             }
-            returnvalue = EntityQuery<ContractModel>.Instance.ExecuteOql(q);
+             returnvalue = EntityQuery<TicketInfo>.Instance.ExecuteOql(q);
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
 
@@ -300,6 +329,29 @@ namespace Movie.BLL.Contract
             else
                 return null; 
         }
+
+
+        #region  获取合同SelectTree
+        public JsonRsp<TreeSelect> GetSelectTrees(long? customId)
+        {
+            JsonRsp<TreeSelect> rsp = new JsonRsp<TreeSelect>();
+            List<ContractModel> contractList = GetAllModelList().FindAll(o=>o.Balance>0);
+            if(customId>0){
+                contractList = contractList.FindAll(o=>o.CustomId==customId);
+            };
+            foreach (var item in GetAllModelList())
+            {
+                rsp.data.Add(new TreeSelect
+                {
+                    id = item.ID,
+                    name = item.ContractNo,
+                    value = item.ID,
+                });
+            }
+            rsp.success=true;
+            return rsp;
+        }
+        #endregion
 
     }
 }

@@ -62,14 +62,14 @@
     </div>
 </div>
 
-<table class="layui-hide" id="test" lay-filter="demo">
+<table class="layui-hide" id="idTest" lay-filter="demo">
 </table>
 <script>
     layui.use('table', function () {
         var table = layui.table;
 
         table.render({
-            elem: '#test'
+            elem: '#idTest'
     , url: '/Admin/Contract/list'
     , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
         layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -80,7 +80,8 @@
 
     }
     , cols: [[
-      { field: 'ID',  title: 'ID', }
+      {type:'checkbox'}
+      ,{ field: 'ID',  title: 'ID',filter:"demo" }
       , { field: 'ContractNo', title: '协议单号' }
       , { field: 'CustomName', width:170, title: '客户名称', } 
       , { field: 'CustomTypeName', title: '客户类型' }

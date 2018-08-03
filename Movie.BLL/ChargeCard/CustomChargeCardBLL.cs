@@ -11,6 +11,9 @@ using Movie.Model.Ticket;
 using Movie.ViewModel.Ticket;
 using Movie.Model.ChargeCard;
 using Movie.Model.Custom;
+using Movie.Model.Financial;
+using Movie.BLL.Financial;
+using Movie.Enum;
 
 namespace Movie.BLL.Ticket
 {
@@ -97,14 +100,66 @@ namespace Movie.BLL.Ticket
         /// <param name="model"></param>
         /// <returns></returns>
         public JsonRsp Add(CustomChargeCardsModel model)
-        { 
+        {
+            //客户财务信息操作
 
+            //新增客户财务信息日志 
+            CustomFinancialModel financialModel = new CustomFinancialBLL().GetCustomFinancialByCustomId(model.CustomId);
+            decimal amount = model.CurrentAmount ;
+            if (model.MoneyType == (int)BaseEnum.MoneyTypeEnum.应收)
+            {
+                financialModel.ARBalance -= amount;
 
+                CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
+                financialDetail.CreateBy = "admin";
+                financialDetail.CreateIP = Util.GetLocalIP();
+                financialDetail.CreateTime = DateTime.Now;
+                financialDetail.CustomFinancialId = financialModel.ID;
+                financialDetail.FinanciaOpeType = (int)FinanciaOpeTypeEnum.减少; 
+                financialDetail.Remark = "客户充卡";
+                financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.应收;
+                financialDetail.CurrentAmount = amount;
+                financialDetail.Balance = financialModel.ARBalance - amount; ;
+                Add(financialDetail);
+            }
+            else if (model.MoneyType == (int)BaseEnum.MoneyTypeEnum.赠送)
+            {
+                financialModel.LargessBalance -= amount;
+
+                CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
+                financialDetail.CreateBy = "admin";
+                financialDetail.CreateIP = Util.GetLocalIP();
+                financialDetail.CreateTime = DateTime.Now;
+                financialDetail.CustomFinancialId = financialModel.ID;
+                financialDetail.FinanciaOpeType = (int)FinanciaOpeTypeEnum.减少;
+                financialDetail.Remark = "客户充卡";
+                financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.赠送;
+                financialDetail.CurrentAmount = amount;
+                financialDetail.Balance = financialModel.LargessBalance - amount; ;
+                Add(financialDetail);
+            }
+            else if (model.MoneyType == (int)BaseEnum.MoneyTypeEnum.置换)
+            {
+                financialModel.ExChangeBalance = amount;
+
+                CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
+                financialDetail.CreateBy = "admin";
+                financialDetail.CreateIP = Util.GetLocalIP();
+                financialDetail.CreateTime = DateTime.Now;
+                financialDetail.CustomFinancialId = financialModel.ID;
+                financialDetail.FinanciaOpeType = (int)FinanciaOpeTypeEnum.减少;
+                financialDetail.Remark = "客户充卡";
+                financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.置换;
+                financialDetail.CurrentAmount = amount;
+                financialDetail.Balance = financialModel.ExChangeBalance - amount; ;
+                Add(financialDetail);
+            }
+            int returnvalue = EntityQuery<CustomFinancialModel>.Instance.Update(financialModel); 
 
             model.CreateBy = "admin";
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
-            int returnvalue = EntityQuery<CustomChargeCardsModel>.Instance.Insert(model);
+            returnvalue = EntityQuery<CustomChargeCardsModel>.Instance.Insert(model);
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
         /// <summary>

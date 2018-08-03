@@ -26,15 +26,14 @@ namespace Movie.BLL.Financial
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public List<ContractModel> GetAllList()
+        public List<CustomFinancialModel> GetAllModelList()
         {
-            JsonRsp<ContractViewModel> rsp = new JsonRsp<ContractViewModel>();
-            ContractModel model = new ContractModel();
+            CustomFinancialModel model = new CustomFinancialModel();
             OQL q = OQL.From(model)
                 .Select()
-                .OrderBy(model.ID, "asc")
+                .OrderBy(model.ID, "desc")
                 .END;
-            return q.ToList<ContractModel>(); 
+            return q.ToList<CustomFinancialModel>(); 
         }
 
         /// <summary>
@@ -127,5 +126,34 @@ namespace Movie.BLL.Financial
         }
          
         #endregion
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public CustomFinancialModel GetCustomFinancialByCustomId(long customId)
+        { 
+            List<CustomFinancialModel> list= GetAllModelList().FindAll(o => o.CustomId == customId);
+            if(list.Count>0){
+                return list[0];
+            }
+            return null;
+        }
+        
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonRsp<CustomFinancialModel> GetList(long customId, int moneyType)
+        {
+            JsonRsp<CustomFinancialModel> rsp = new JsonRsp<CustomFinancialModel>();
+            rsp.data = GetAllModelList().FindAll(o => o.CustomId == customId);
+            rsp.success = true;
+            return rsp;
+        }
     }
 }
