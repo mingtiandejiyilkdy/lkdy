@@ -185,9 +185,13 @@ namespace Movie.BLL
 
         public JsonRsp<TreeSelect> GetMenuTreeSelect(int roleId)
         {
-            AdminRole role = new AdminRoleBLL().GetModelById(roleId); 
-            string menuIds=","+role.MenuIds+",";
-            int[] checkedArray = Array.ConvertAll(role.MenuIds.Split(','), int.Parse);
+            AdminRole role = new AdminRoleBLL().GetModelById(roleId);
+            string menuIds = "0";
+            if (roleId > 0)
+            {
+                menuIds="," + role.MenuIds + ",";
+            }
+            //int[] checkedArray = Array.ConvertAll(role.MenuIds.Split(','), int.Parse);
 
             JsonRsp<TreeSelect> rsp = new JsonRsp<TreeSelect>();
             AdminMenu model = new AdminMenu();
