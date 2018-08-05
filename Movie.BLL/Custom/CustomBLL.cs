@@ -231,7 +231,7 @@ namespace Movie.BLL.Custom
         }
         #endregion
 
-        #region  获取凭据类型SelectTree
+        #region  获取客户类型SelectTree
         public List<TreeSelect> GetSelectTrees() {
             List<TreeSelect> treeSelects = new List<TreeSelect>();
             foreach (var item in GetAllModelList()) {

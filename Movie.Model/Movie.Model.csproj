@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminAccount.cs" />
+    <Compile Include="Bank\BankModel.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="ChargeCard\CustomChargeCardsModel.cs" />
     <Compile Include="Cinema\CinemaChainModel.cs" />
@@ -60,8 +61,11 @@
     <Compile Include="Contract\ContractModel.cs" />
     <Compile Include="Custom\CustomModel.cs" />
     <Compile Include="Custom\CustomTypeModel.cs" />
+    <Compile Include="Bank\BankAccountModel.cs" />
     <Compile Include="Financial\CustomFinancialModel.cs" />
     <Compile Include="Financial\CustomFinancialDetailModel.cs" />
+    <Compile Include="Financial\CustomAccReceiptModel.cs" />
+    <Compile Include="Financial\CustomAccReceiptEntryModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdminRole.cs" />
     <Compile Include="AdminMenu.cs" />
