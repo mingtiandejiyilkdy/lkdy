@@ -21,7 +21,7 @@ namespace Movie.BLL.Ticket
     {
         #region 基础方法
         /// <summary>
-        /// 获取管理员列表（全部）
+        /// 获取列表（全部）
         /// </summary>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
@@ -101,9 +101,9 @@ namespace Movie.BLL.Ticket
         /// <returns></returns>
         public JsonRsp Add(CustomChargeCardsModel model)
         {
+            model.ChargeCardNo = "H" +model.CustomId+ DateTime.Now.ToString("yyyyMMddHHmmss"); ;
             //客户财务信息操作
-
-            //新增客户财务信息日志 
+            //新增客户财务明细信息 
             CustomFinancialModel financialModel = new CustomFinancialBLL().GetCustomFinancialByCustomId(model.CustomId);
             decimal amount = model.CurrentAmount ;
             if (model.MoneyType == (int)BaseEnum.MoneyTypeEnum.应收)
@@ -160,6 +160,19 @@ namespace Movie.BLL.Ticket
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             returnvalue = EntityQuery<CustomChargeCardsModel>.Instance.Insert(model);
+
+            //新增客户应付
+            CustomAccReceiptModel customAR = new CustomAccReceiptModel();
+            customAR.CustomId = model.CustomId;
+            customAR.ChargeCardNo = model.ChargeCardNo;
+            customAR.ARAmount = model.CurrentAmount;
+            customAR.Status = (int)ARStatusEnum.已确认;
+            customAR.CreateBy = "admin";
+            customAR.CreateIP = Util.GetLocalIP();
+            customAR.CreateTime = DateTime.Now;
+            returnvalue = EntityQuery<CustomAccReceiptModel>.Instance.Insert(customAR);
+
+
             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
         }
         /// <summary>
@@ -243,6 +256,23 @@ namespace Movie.BLL.Ticket
             return new JsonRsp { success = false };
         }
         #endregion 
+
+        #region  获取充值编号SelectTree
+        public List<TreeSelect> GetSelectTrees()
+        {
+            List<TreeSelect> treeSelects = new List<TreeSelect>();
+            foreach (var item in GetAllModelList())
+            {
+                treeSelects.Add(new TreeSelect
+                {
+                    id = item.ID,
+                    name = item.ChargeCardNo,
+                    value = item.ID,
+                });
+            }
+            return treeSelects;
+        }
+        #endregion
          
     }
 }

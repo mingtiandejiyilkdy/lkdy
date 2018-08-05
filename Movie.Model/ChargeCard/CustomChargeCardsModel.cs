@@ -22,6 +22,12 @@ namespace Movie.Model.ChargeCard
             set { setProperty("ChargeCardId", value); }
         }
 
+        public string ChargeCardNo
+        {
+            get { return getProperty<string>("ChargeCardNo"); }
+            set { setProperty("ChargeCardNo", value,50); }
+        }
+
         public long CustomId
         {
             get { return getProperty<long>("CustomId"); }

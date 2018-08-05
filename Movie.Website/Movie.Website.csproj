@@ -152,6 +152,9 @@
     <Compile Include="Controllers\Admin\TicketInfoController.cs" />
     <Compile Include="Controllers\Admin\ContractController.cs" />
     <Compile Include="Controllers\Admin\CustomChargeCardController.cs" />
+    <Compile Include="Controllers\Admin\CustomAccReceiptEntryController.cs" />
+    <Compile Include="Controllers\Admin\BankController.cs" />
+    <Compile Include="Controllers\Admin\BankAccountController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -470,7 +473,6 @@
     <Folder Include="Content\css\" />
     <Folder Include="Content\js\Admin\Account\" />
     <Folder Include="Content\js\副本 Admin\" />
-    <Folder Include="Controllers\Admin\Cinema\" />
     <Folder Include="Controllers\Api\V1\" />
     <Folder Include="Models\" />
   </ItemGroup>
@@ -529,6 +531,12 @@
     <Content Include="Views\Admin\CustomChargeCard\Index.cshtml" />
     <Content Include="Views\Admin\CustomChargeCard\Show.cshtml" />
     <Content Include="Views\Admin\CustomChargeCard\AddFromContract.cshtml" />
+    <Content Include="Views\Admin\CustomAccReceiptEntry\Index.cshtml" />
+    <Content Include="Views\Admin\CustomAccReceiptEntry\Show.cshtml" />
+    <Content Include="Views\Admin\Bank\Index.cshtml" />
+    <Content Include="Views\Admin\Bank\Show.cshtml" />
+    <Content Include="Views\Admin\BankAccount\Index.cshtml" />
+    <Content Include="Views\Admin\BankAccount\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Movie.BLL\Movie.BLL.csproj">
@@ -564,7 +572,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2713</DevelopmentServerPort>
+          <DevelopmentServerPort>9695</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
