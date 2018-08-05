@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminAccountBLL.cs" />
+    <Compile Include="Bank\BankBLL.cs" />
+    <Compile Include="Bank\BankAccountBLL.cs" />
     <Compile Include="BLLBase.cs" />
     <Compile Include="ChargeCard\CustomChargeCardBLL.cs" />
     <Compile Include="Cinema\CinemaChainBLL.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Custom\CustomBLL.cs" />
     <Compile Include="Custom\CustomTypeBLL.cs" />
     <Compile Include="Contract\ContractBLL.cs" />
+    <Compile Include="Financial\CustomAccReceiptEntryBLL.cs" />
     <Compile Include="Financial\CustomFinancialBLL.cs" />
     <Compile Include="LoginBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -28,7 +28,7 @@ namespace Movie.Model
         public string MenuKey
         {
             get { return getProperty<string>("MenuKey"); }
-            set { setProperty("MenuKey", value, 20); }
+            set { setProperty("MenuKey", value, 50); }
         }
         public string MenuName
         {

@@ -259,10 +259,10 @@ namespace Movie.BLL.Contract
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
                 financialDetail.FinanciaOpeType = (int)FinanciaOpeTypeEnum.增加;
+                financialDetail.CurrentAmount = item.AccountReceivable;
                 financialDetail.Balance = financialDetail.CurrentAmount;
                 financialDetail.Remark = "合同/协议号：" + item.ContractNo; 
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.应收;
-                financialDetail.CurrentAmount = item.AccountReceivable;
                 returnvalue = context.Add(financialDetail);
 
                 financialDetail.CreateBy = "admin";

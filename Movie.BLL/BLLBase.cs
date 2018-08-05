@@ -10,6 +10,7 @@ using Movie.Model.Ticket;
 using Movie.Model.Contract;
 using Movie.Model.Financial;
 using Movie.Model.ChargeCard;
+using Movie.Model.Bank;
 
 namespace Movie.BLL
 {
@@ -55,6 +56,14 @@ namespace Movie.BLL
             CheckTableExists<CustomFinancialDetailModel>();
             //创建充卡记录表
             CheckTableExists<CustomChargeCardsModel>();
+            //创建应收款记录表
+            CheckTableExists<CustomAccReceiptModel>();
+            //创建实收款记录表
+            CheckTableExists<CustomAccReceiptEntryModel>();
+            //创建银行表
+            CheckTableExists<BankModel>();
+            //创建银行账号表
+            CheckTableExists<BankAccountModel>();
 
             
             
