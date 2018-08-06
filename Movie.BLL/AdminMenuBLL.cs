@@ -103,7 +103,7 @@ namespace Movie.BLL
         public JsonRsp Add(AdminMenu model)
         {
             int returnvalue = EntityQuery<AdminMenu>.Instance.Insert(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -113,7 +113,7 @@ namespace Movie.BLL
         public JsonRsp Remove(AdminMenu model)
         {
             int returnvalue = EntityQuery<AdminMenu>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 改
@@ -123,7 +123,7 @@ namespace Movie.BLL
         public JsonRsp Update(AdminMenu model)
         {
             int returnvalue = EntityQuery<AdminMenu>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>

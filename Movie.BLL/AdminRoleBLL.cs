@@ -90,7 +90,7 @@ namespace Movie.BLL
         public JsonRsp Add(AdminRole model)
         {             
             int returnvalue = EntityQuery<AdminRole>.Instance.Insert(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -100,7 +100,7 @@ namespace Movie.BLL
         public JsonRsp Remove(AdminRole model)
         {
             int returnvalue = EntityQuery<AdminRole>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue }; 
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue }; 
         }
         /// <summary>
         /// 改
@@ -110,7 +110,7 @@ namespace Movie.BLL
         public JsonRsp Update(AdminRole model)
         {
             int returnvalue = EntityQuery<AdminRole>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };  
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };  
         }
         
         /// <summary>
@@ -256,7 +256,7 @@ namespace Movie.BLL
                  });
              } 
              int returnvalue =EntityQuery<AdminAccountRole>.Instance.Insert(list); 
-             return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         #endregion
 

@@ -129,7 +129,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\ExceptionLogAttribute.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\Filter\AuthenticationAttribute.cs" />
+    <Compile Include="App_Start\Filter\AuthenticationAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="App_Start\MyViewEngine.cs" />
     <Compile Include="App_Start\RequiresAuthenticationAttribute.cs" />
     <Compile Include="App_Start\RequiresRoleAttribute.cs" />
@@ -155,6 +157,7 @@
     <Compile Include="Controllers\Admin\CustomAccReceiptEntryController.cs" />
     <Compile Include="Controllers\Admin\BankController.cs" />
     <Compile Include="Controllers\Admin\BankAccountController.cs" />
+    <Compile Include="Controllers\Admin\TenantController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -537,6 +540,8 @@
     <Content Include="Views\Admin\Bank\Show.cshtml" />
     <Content Include="Views\Admin\BankAccount\Index.cshtml" />
     <Content Include="Views\Admin\BankAccount\Show.cshtml" />
+    <Content Include="Views\Admin\Tenant\Index.cshtml" />
+    <Content Include="Views\Admin\Tenant\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Movie.BLL\Movie.BLL.csproj">

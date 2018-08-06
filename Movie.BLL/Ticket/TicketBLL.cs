@@ -52,7 +52,7 @@ namespace Movie.BLL.Ticket
                     TicketBatchNo = model.TicketBatchNo,
                     GrantBy = 0,
                     //GrantTime=null, 
-                    CreateBy = "admin",
+                    CreateBy = AdminName,
                     CreateIP = Util.GetLocalIP(),
                     CreateTime = ticket.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     Sort = ticket.Sort, 
@@ -109,7 +109,7 @@ namespace Movie.BLL.Ticket
                 TicketBatchNo = ticket.TicketBatchNo,
                 GrantBy = 0,
                 //GrantTime=null, 
-                CreateBy = "admin",
+                CreateBy = AdminName,
                 CreateIP = Util.GetLocalIP(),
                 CreateTime = ticket.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 Sort = ticket.Sort, 
@@ -137,7 +137,7 @@ namespace Movie.BLL.Ticket
         public JsonRsp Remove(TicketInfo model)
         {
             int returnvalue = EntityQuery<TicketInfo>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 改
@@ -147,7 +147,7 @@ namespace Movie.BLL.Ticket
         public JsonRsp Update(TicketInfo model)
         {
             int returnvalue = EntityQuery<TicketInfo>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Movie.BLL.Ticket
                          .END;
             int returnvalue = EntityQuery<TicketInfo>.Instance.ExecuteOql(deleteQ);
 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
 
@@ -218,7 +218,7 @@ namespace Movie.BLL.Ticket
                           .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                        .END;
             int returnvalue = EntityQuery<TicketInfo>.Instance.ExecuteOql(q);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         #endregion
     }

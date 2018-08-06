@@ -39,13 +39,13 @@ namespace Movie.Website.Controllers
             if (!json.success) {
                 return Json(json, JsonRequestBehavior.AllowGet); 
             }
-
-            //4. 用户描述用户基本信息
-            AccountViewModel userInfo = new AccountViewModel()
-            {
-                ID = json.code,
-                AccountName = json.retmsg, 
-            };
+            AdminAccount account = (AdminAccount)json.returnObj;
+            ////4. 用户描述用户基本信息
+            //AccountViewModel userInfo = new AccountViewModel()
+            //{
+            //    ID = json.code,
+            //    AccountName = json.retmsg, 
+            //};
 
             //2.用它来序列化要对象
             JavaScriptSerializer serial = new JavaScriptSerializer();
@@ -56,7 +56,7 @@ namespace Movie.Website.Controllers
                 DateTime.Now,
                 DateTime.Now.AddMinutes(30),
                 false,
-                serial.Serialize(userInfo)
+                serial.Serialize(account)
                 );
             //6. 加密
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
@@ -64,6 +64,14 @@ namespace Movie.Website.Controllers
             System.Web.HttpCookie authCookie = new System.Web.HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
             System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);
             //8. 返回首页， 也可以跳回 RetureUrl
+
+            //获取用户权限
+
+            //获取用户配置信息
+            //租户ID
+            //TenantId 
+
+
 
             if (!String.IsNullOrEmpty(returnUrl))
                 json.retmsg = returnUrl;

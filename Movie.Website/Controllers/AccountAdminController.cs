@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Movie.BLL;
 using Movie.Model;
-using Newtonsoft.Json;
-using Movie.Common.Filter;
+using Newtonsoft.Json; 
 
 namespace Movie.Website.Controllers
 {

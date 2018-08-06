@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Movie.ViewModel;
 using System.Web.Script.Serialization;
+using Movie.Model.Tenant;
+using Movie.Common;
+using Movie.BLL.Tenant;
 
 namespace Movie.Website.App_Start.Filter
 {
@@ -14,8 +17,41 @@ namespace Movie.Website.App_Start.Filter
     /// </summary>
     public class AuthenticationAttribute : ActionFilterAttribute
     {
+        protected readonly TenantBLL tenantBLL = new TenantBLL();
+        /// <summary>
+        /// 是否记录日志
+        /// </summary>
+        protected bool _log;
+        /// <summary>
+        /// 备注信息
+        /// </summary>
+        protected string _message;
+        /// <summary>
+        /// 控制器名称
+        /// </summary>
+        protected string controllername;
+        /// <summary>
+        /// 操作名称
+        /// </summary>
+        protected string actionname;
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            //获取当前域名
+            string host = filterContext.HttpContext.Request.Url.Host;
+            long tenantId = 0;
+            TenantModel tenant = tenantBLL.GetAllModelList().Find(o => o.TenantDomain.ToLower() == host.ToLower());
+            if (tenant != null)
+            {
+                tenantId = tenant.ID;
+            } 
+
+            //获取当前控制器信息
+            string controllername = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower();
+            string actionname = filterContext.ActionDescriptor.ActionName.ToLower();
+            string allowActions = string.Empty;
+          
+
             if (!filterContext.RequestContext.HttpContext.Request.IsAuthenticated)
             {
                 //未登录的时候，此处加了一个判断，判断同步请求还是一部请求

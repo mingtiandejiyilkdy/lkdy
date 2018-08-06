@@ -36,15 +36,15 @@ namespace Movie.Common.Utils
         }
 
 
-        private int _returnvalue = 0;
+        private object _returnvalue ;
         /// <summary>
-        /// 存储过程返回值
+        /// 返回值
         /// </summary>
-        public int returnvalue
+        public object returnObj
         {
             set { _returnvalue = value; }
             get { return _returnvalue; }
-        } 
+        }
 
         private string _retmsg = string.Empty;
         /// <summary>
