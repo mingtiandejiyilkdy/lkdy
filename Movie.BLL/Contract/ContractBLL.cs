@@ -101,13 +101,13 @@ namespace Movie.BLL.Contract
             string signStr = model.ContractAmount.ToString() + model.Deductions.ToString() + model.Balance + salt;
             model.BalanceKey = EncryptHelper.MD5Encoding(signStr, salt);
 
-            model.ContractNo = "H"+DateTime.Now.ToString("yyyyMMddHHmmss");             
-            model.CreateBy = "admin";
+            model.ContractNo = "H"+DateTime.Now.ToString("yyyyMMddHHmmss");
+            model.CreateBy = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             int returnvalue = EntityQuery<ContractModel>.Instance.Insert(model);
 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -117,7 +117,7 @@ namespace Movie.BLL.Contract
         public JsonRsp Remove(ContractModel model)
         {
             int returnvalue = EntityQuery<ContractModel>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 改
@@ -127,7 +127,7 @@ namespace Movie.BLL.Contract
         public JsonRsp Update(ContractModel model)
         {
             int returnvalue = EntityQuery<ContractModel>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Movie.BLL.Contract
                          .END;
             int returnvalue = EntityQuery<ContractModel>.Instance.ExecuteOql(deleteQ);
 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
 
@@ -198,7 +198,7 @@ namespace Movie.BLL.Contract
                           .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                        .END;
             int returnvalue = EntityQuery<ContractModel>.Instance.ExecuteOql(q);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         #endregion
 
@@ -236,8 +236,8 @@ namespace Movie.BLL.Contract
                     return new JsonRsp { success = false, retmsg = "只能审核待审核合同，该合同当前状态为：" + Util.getStatus(item.Status, typeof(BaseEnum.ProtocolTypeEnum)) };
                 }
                 //客户财务信息初始化
-                CustomFinancialModel financialModel = new CustomFinancialModel(); 
-                financialModel.CreateBy = "admin";
+                CustomFinancialModel financialModel = new CustomFinancialModel();
+                financialModel.CreateBy = AdminName;
                 financialModel.CreateIP = Util.GetLocalIP();
                 financialModel.CreateTime = DateTime.Now; 
                 financialModel.CustomId = item.CustomId;
@@ -254,7 +254,7 @@ namespace Movie.BLL.Contract
                 List<CustomFinancialDetailModel> details = new List<CustomFinancialDetailModel>();
 
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
-                financialDetail.CreateBy = "admin";
+                financialDetail.CreateBy = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -265,7 +265,7 @@ namespace Movie.BLL.Contract
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.应收;
                 returnvalue = context.Add(financialDetail);
 
-                financialDetail.CreateBy = "admin";
+                financialDetail.CreateBy = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -276,7 +276,7 @@ namespace Movie.BLL.Contract
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.赠送;
                 returnvalue = context.Add(financialDetail);
 
-                financialDetail.CreateBy = "admin";
+                financialDetail.CreateBy = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -288,7 +288,7 @@ namespace Movie.BLL.Contract
                 returnvalue = context.Add(financialDetail);
             }
              returnvalue = EntityQuery<TicketInfo>.Instance.ExecuteOql(q);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>

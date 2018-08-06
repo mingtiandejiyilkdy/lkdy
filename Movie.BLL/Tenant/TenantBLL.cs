@@ -6,31 +6,30 @@ using System.ComponentModel;
 using PWMIS.DataMap.Entity; 
 using PWMIS.Core.Extensions;
 using Movie.Common.Utils;
-using Movie.ViewModel.Cinema; 
-using Movie.Model.Ticket;
-using Movie.ViewModel.Ticket;
+using Movie.ViewModel.Tenant;
+using Movie.Model.Tenant;
+using PWMIS.Core.Extensions;
 
-namespace Movie.BLL.Ticket
+namespace Movie.BLL.Tenant
 {
-    public class TicketTypeBLL : BLLBase
+    public class TenantBLL : BLLBase
     {
         #region 基础方法
         /// <summary>
-        /// 获取管理员列表（全部）
+        /// 获取列表（全部）
         /// </summary>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public List<TicketTypeModel> GetAllModelList()
-        {
-            TicketTypeModel model = new TicketTypeModel();
+        public List<TenantModel> GetAllModelList()
+        { 
+            TenantModel model = new TenantModel();
             OQL q = OQL.From(model)
                 .Select()
-                .OrderBy(model.Sort, "desc")
                 .OrderBy(model.ID, "asc")
                 .END;
-            return q.ToList<TicketTypeModel>();//使用OQL扩展             
-        } 
+            return q.ToList<TenantModel>();//使用OQL扩展 
+        }
 
         /// <summary>
         /// 获取管理员列表（分页）
@@ -38,34 +37,32 @@ namespace Movie.BLL.Ticket
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<TicketTypeViewModel> GetPageList(int pageIndex, int pageSize)
+        public JsonRsp<TenantViewModel> GetPageList(int pageIndex, int pageSize)
         {
-            JsonRsp<TicketTypeViewModel> rsp = new JsonRsp<TicketTypeViewModel>();
+            JsonRsp<TenantViewModel> rsp = new JsonRsp<TenantViewModel>();
 
-            TicketTypeModel m = new TicketTypeModel();
+            TenantModel m = new TenantModel();
             OQL q = OQL.From(m)
                 .Select()
-                .OrderBy(m.Sort, "desc") 
+                .OrderBy(m.ID, "asc")
                 .END;
             //分页
             q.Limit(pageSize, pageIndex, true);
             //q.PageWithAllRecordCount = allCount;
             //List<Employee> list= EntityQuery<Employee>.QueryList(q);
-            List<TicketTypeModel> list = q.ToList<TicketTypeModel>();//使用OQL扩展
-            rsp.data = list.ConvertAll<TicketTypeViewModel>(o =>
+            List<TenantModel> list = q.ToList<TenantModel>();//使用OQL扩展
+            rsp.data = list.ConvertAll<TenantViewModel>(o =>
             {
-                return new TicketTypeViewModel()
+                return new TenantViewModel()
                 {
                     ID = o.ID,
-                    TicketTypeName = o.TicketTypeName,
-                    CreateBy = o.CreateBy,
-                    CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    TenantName = o.TenantName,
+                    TenantDomain = o.TenantDomain,
                     Sort = o.Sort,
                     Status = o.Status,
-                    UpdateBy = o.UpdateBy,
-                    UpdateIP = o.UpdateIP,
-                    UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"), 
+                    CreateBy = o.CreateBy,
+                    CreateIP = o.CreateIP,
+                    CreateTime = o.CreateTime,   
                 };
             }
             );
@@ -80,14 +77,14 @@ namespace Movie.BLL.Ticket
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Add(TicketTypeModel model)
+        public JsonRsp Add(TenantModel model)
         {
             //salt
             string strSalt = Guid.NewGuid().ToString();
             model.CreateBy = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now; 
-            int returnvalue = EntityQuery<TicketTypeModel>.Instance.Insert(model);
+            int returnvalue = EntityQuery<TenantModel>.Instance.Insert(model);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
@@ -95,9 +92,9 @@ namespace Movie.BLL.Ticket
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Remove(TicketTypeModel model)
+        public JsonRsp Remove(TenantModel model)
         {
-            int returnvalue = EntityQuery<TicketTypeModel>.Instance.Delete(model);
+            int returnvalue = EntityQuery<TenantModel>.Instance.Delete(model);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
@@ -105,21 +102,21 @@ namespace Movie.BLL.Ticket
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Update(TicketTypeModel model)
+        public JsonRsp Update(TenantModel model)
         {
-            int returnvalue = EntityQuery<TicketTypeModel>.Instance.Update(model);
+            int returnvalue = EntityQuery<TenantModel>.Instance.Update(model);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
         /// 查 根据Id获取详情，如果没有则返回空对象
         /// </summary>
-        /// <param name="TicketerID"></param>
+        /// <param name="customerID"></param>
         /// <returns></returns>
-        public TicketTypeModel GetModelById(int accountId)
+        public TenantModel GetModelById(int accountId)
         {
-            TicketTypeModel model = new TicketTypeModel() { ID = accountId };
-            if (EntityQuery<TicketTypeModel>.Fill(model))
+            TenantModel model = new TenantModel() { ID = accountId };
+            if (EntityQuery<TenantModel>.Fill(model))
                 return model;
             else
                 return null;
@@ -132,13 +129,13 @@ namespace Movie.BLL.Ticket
         public JsonRsp DeleteById(long[] Ids)
         {
             //删除 测试数据-----------------------------------------------------
-            TicketTypeModel user = new TicketTypeModel(); 
+            TenantModel user = new TenantModel(); 
              
             OQL deleteQ = OQL.From(user)
                             .Delete()
                             .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                          .END;
-            int returnvalue = EntityQuery<TicketTypeModel>.Instance.ExecuteOql(deleteQ);
+            int returnvalue = EntityQuery<TenantModel>.Instance.ExecuteOql(deleteQ);
 
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
@@ -149,7 +146,7 @@ namespace Movie.BLL.Ticket
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Save(TicketTypeModel model)
+        public JsonRsp Save(TenantModel model)
         {
             if (model.ID == 0)
             {
@@ -172,44 +169,40 @@ namespace Movie.BLL.Ticket
             {
                 return new JsonRsp { success = false, retmsg="请选择要操作的数据" };
             }
-            TicketTypeModel user = new TicketTypeModel();
+            TenantModel user = new TenantModel();
             user.Status = status;
             OQL q = OQL.From(user)
                .Update(user.Status)
                           .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                        .END;
-            int returnvalue = EntityQuery<TicketTypeModel>.Instance.ExecuteOql(q);
+            int returnvalue = EntityQuery<TenantModel>.Instance.ExecuteOql(q);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         #endregion
 
-        #region ViewModel
-
-        #region 获取列表（全部）
+        #region 基础方法
         /// <summary>
-        /// 获取管理员列表（全部）
+        /// 获取列表（全部）
         /// </summary>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<TicketTypeViewModel> GetAllList()
+        public JsonRsp<TenantViewModel> GetAllList()
         {
-            JsonRsp<TicketTypeViewModel> rsp = new JsonRsp<TicketTypeViewModel>();
-
-            rsp.data = GetAllModelList().ConvertAll<TicketTypeViewModel>(o =>
+            JsonRsp<TenantViewModel> rsp = new JsonRsp<TenantViewModel>();
+            List<TenantModel> list = GetAllModelList();
+            rsp.data = list.ConvertAll<TenantViewModel>(o =>
             {
-                return new TicketTypeViewModel()
+                return new TenantViewModel()
                 {
                     ID = o.ID,
-                    TicketTypeName = o.TicketTypeName,
-                    CreateBy = o.CreateBy,
-                    CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    TenantName = o.TenantName,
+                    TenantDomain = o.TenantDomain,
                     Sort = o.Sort,
                     Status = o.Status,
-                    UpdateBy = o.UpdateBy,
-                    UpdateIP = o.UpdateIP,
-                    UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreateBy = o.CreateBy,
+                    CreateIP = o.CreateIP,
+                    CreateTime = o.CreateTime,
                 };
             }
             );
@@ -217,22 +210,6 @@ namespace Movie.BLL.Ticket
             rsp.code = 0;
             return rsp;
         }
-        #endregion
-
-        #region  获取凭据类型SelectTree
-        public List<TreeSelect> GetSelectTrees() {
-            List<TreeSelect> treeSelects = new List<TreeSelect>();
-            foreach (var item in GetAllModelList()) {
-                treeSelects.Add(new TreeSelect { 
-                     id=item.ID,
-                      name=item.TicketTypeName,
-                        value=item.ID,
-                });
-            }
-            return treeSelects;
-        }
-        #endregion
-
         #endregion
     }
 }

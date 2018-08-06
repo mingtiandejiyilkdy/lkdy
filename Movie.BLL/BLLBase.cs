@@ -11,6 +11,11 @@ using Movie.Model.Contract;
 using Movie.Model.Financial;
 using Movie.Model.ChargeCard;
 using Movie.Model.Bank;
+using System.Web;
+using System.Web.Security;
+using Movie.ViewModel;
+using System.Web.Script.Serialization;
+using Movie.Model.Tenant;
 
 namespace Movie.BLL
 {
@@ -26,6 +31,8 @@ namespace Movie.BLL
 
         protected override bool CheckAllTableExists()
         {
+            //创建租户表
+            CheckTableExists<TenantModel>(); 
             //创建用户表
             CheckTableExists<AdminAccount>();
             //创建角色表
@@ -70,6 +77,42 @@ namespace Movie.BLL
             return true;
         }
 
+        #endregion 
+
+        #region cookies方法 
+        public static AccountViewModel AdminUser
+        {
+            get
+            {
+                //1.登录状态获取用户信息（自定义保存的用户）
+                var cookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
+
+                //2.使用 FormsAuthentication 解密用户凭据
+                var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                AccountViewModel model = new AccountViewModel();
+
+                //3. 直接解析到用户模型里去，有没有很神奇
+                model = new JavaScriptSerializer().Deserialize<AccountViewModel>(ticket.UserData);
+
+                return model;
+            }
+        }
+        //登录用户Id
+        public static long AdminId
+        {
+            get
+            {
+                return AdminUser.ID;
+            }
+        }
+        //登录用户名称
+        public static string AdminName
+        {
+            get
+            {
+                return AdminUser.AccountName;
+            }
+        }
         #endregion
     }
 }

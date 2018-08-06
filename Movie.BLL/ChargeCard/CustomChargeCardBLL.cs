@@ -111,7 +111,7 @@ namespace Movie.BLL.Ticket
                 financialModel.ARBalance -= amount;
 
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
-                financialDetail.CreateBy = "admin";
+                financialDetail.CreateBy = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -127,7 +127,7 @@ namespace Movie.BLL.Ticket
                 financialModel.LargessBalance -= amount;
 
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
-                financialDetail.CreateBy = "admin";
+                financialDetail.CreateBy = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -143,7 +143,7 @@ namespace Movie.BLL.Ticket
                 financialModel.ExChangeBalance = amount;
 
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
-                financialDetail.CreateBy = "admin";
+                financialDetail.CreateBy = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -154,9 +154,9 @@ namespace Movie.BLL.Ticket
                 financialDetail.Balance = financialModel.ExChangeBalance - amount; ;
                 Add(financialDetail);
             }
-            int returnvalue = EntityQuery<CustomFinancialModel>.Instance.Update(financialModel); 
+            int returnvalue = EntityQuery<CustomFinancialModel>.Instance.Update(financialModel);
 
-            model.CreateBy = "admin";
+            model.CreateBy = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             returnvalue = EntityQuery<CustomChargeCardsModel>.Instance.Insert(model);
@@ -167,13 +167,13 @@ namespace Movie.BLL.Ticket
             customAR.ChargeCardNo = model.ChargeCardNo;
             customAR.ARAmount = model.CurrentAmount;
             customAR.Status = (int)ARStatusEnum.已确认;
-            customAR.CreateBy = "admin";
+            customAR.CreateBy = AdminName;
             customAR.CreateIP = Util.GetLocalIP();
             customAR.CreateTime = DateTime.Now;
             returnvalue = EntityQuery<CustomAccReceiptModel>.Instance.Insert(customAR);
 
 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -183,7 +183,7 @@ namespace Movie.BLL.Ticket
         public JsonRsp Remove(CustomChargeCardsModel model)
         {
             int returnvalue = EntityQuery<CustomChargeCardsModel>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 改
@@ -193,7 +193,7 @@ namespace Movie.BLL.Ticket
         public JsonRsp Update(CustomChargeCardsModel model)
         {
             int returnvalue = EntityQuery<CustomChargeCardsModel>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace Movie.BLL.Ticket
                          .END;
             int returnvalue = EntityQuery<CustomChargeCardsModel>.Instance.ExecuteOql(deleteQ);
 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
 

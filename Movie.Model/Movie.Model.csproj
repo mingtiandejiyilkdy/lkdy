@@ -70,6 +70,7 @@
     <Compile Include="AdminRole.cs" />
     <Compile Include="AdminMenu.cs" />
     <Compile Include="AdminAccountRole.cs" />
+    <Compile Include="Tenant\TenantModel.cs" />
     <Compile Include="Ticket\TicketInfo.cs" />
     <Compile Include="Ticket\TicketTypeModel.cs" />
     <Compile Include="Ticket\TicketBatchModel.cs" />

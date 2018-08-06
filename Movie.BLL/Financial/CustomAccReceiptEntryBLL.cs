@@ -83,11 +83,11 @@ namespace Movie.BLL.Financial
         {
             //salt
             string strSalt = Guid.NewGuid().ToString();
-            model.CreateBy = "admin";
+            model.CreateBy = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now; 
             int returnvalue = EntityQuery<CustomAccReceiptEntryModel>.Instance.Insert(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -97,7 +97,7 @@ namespace Movie.BLL.Financial
         public JsonRsp Remove(CustomAccReceiptEntryModel model)
         {
             int returnvalue = EntityQuery<CustomAccReceiptEntryModel>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 改
@@ -107,7 +107,7 @@ namespace Movie.BLL.Financial
         public JsonRsp Update(CustomAccReceiptEntryModel model)
         {
             int returnvalue = EntityQuery<CustomAccReceiptEntryModel>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Movie.BLL.Financial
                          .END;
             int returnvalue = EntityQuery<CustomAccReceiptEntryModel>.Instance.ExecuteOql(deleteQ);
 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
 
@@ -178,7 +178,7 @@ namespace Movie.BLL.Financial
                           .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                        .END;
             int returnvalue = EntityQuery<CustomAccReceiptEntryModel>.Instance.ExecuteOql(q);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         #endregion
 

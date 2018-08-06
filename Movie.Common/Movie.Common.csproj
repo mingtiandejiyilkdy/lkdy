@@ -46,8 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Filter\LoginFilterAttribute.cs" />
+    <Compile Include="CacheHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\AppSettings.cs" />
     <Compile Include="Utils\TreeSelect.cs" />
     <Compile Include="Utils\CommonEnum.cs" />
     <Compile Include="Utils\ConvertHelper.cs" />
@@ -61,7 +62,9 @@
     <Compile Include="Utils\Util.cs" />
     <Compile Include="Utils\ValidationHelper.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Filter\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

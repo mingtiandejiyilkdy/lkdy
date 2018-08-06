@@ -64,8 +64,8 @@ namespace Movie.Model
 
         public DateTime LoginTime
         {
-            get { return getProperty<DateTime>("LastLoginTime"); }
-            set { setProperty("LastLoginTime", value); }
+            get { return getProperty<DateTime>("LoginTime"); }
+            set { setProperty("LoginTime", value); }
         }
 
         public DateTime LastLoginTime
