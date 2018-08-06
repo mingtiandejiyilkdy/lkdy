@@ -109,7 +109,7 @@ namespace Movie.BLL.Ticket
         public JsonRsp Add(TicketBatchModel model)
         {
             model.TicketBatchNo = "P"+DateTime.Now.ToString("yyyyMMddHHmmss");
-            model.CreateBy = "admin";
+            model.CreateBy = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             int returnvalue = EntityQuery<TicketBatchModel>.Instance.Insert(model);
@@ -146,13 +146,13 @@ namespace Movie.BLL.Ticket
                     GrantBy = 0,
                     //GrantTime=null,
                     Sort = i,
-                    CreateBy = "admin",
+                    CreateBy = AdminName,
                     CreateIP = Util.GetLocalIP(),
                     CreateTime = DateTime.Now,
                 });
             }
             returnvalue=context.AddList<TicketInfo>(ticketList);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -162,7 +162,7 @@ namespace Movie.BLL.Ticket
         public JsonRsp Remove(TicketBatchModel model)
         {
             int returnvalue = EntityQuery<TicketBatchModel>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 改
@@ -172,7 +172,7 @@ namespace Movie.BLL.Ticket
         public JsonRsp Update(TicketBatchModel model)
         {
             int returnvalue = EntityQuery<TicketBatchModel>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Movie.BLL.Ticket
                          .END;
             int returnvalue = EntityQuery<TicketBatchModel>.Instance.ExecuteOql(deleteQ);
 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
 
@@ -243,7 +243,7 @@ namespace Movie.BLL.Ticket
                           .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                        .END;
             int returnvalue = EntityQuery<TicketBatchModel>.Instance.ExecuteOql(q);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         #endregion
     }

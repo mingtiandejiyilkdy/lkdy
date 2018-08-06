@@ -8,6 +8,7 @@ namespace Movie.ViewModel
     public class AccountViewModel
     { 
         public long ID { get; set; }
+        public long TenantId { get; set; }
         public string AccountName { get; set; }
         public string TrueName { get; set; }
         public int AccountStatus { get; set; }

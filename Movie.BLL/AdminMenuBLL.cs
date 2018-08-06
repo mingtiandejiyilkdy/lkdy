@@ -103,7 +103,7 @@ namespace Movie.BLL
         public JsonRsp Add(AdminMenu model)
         {
             int returnvalue = EntityQuery<AdminMenu>.Instance.Insert(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -113,7 +113,7 @@ namespace Movie.BLL
         public JsonRsp Remove(AdminMenu model)
         {
             int returnvalue = EntityQuery<AdminMenu>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 改
@@ -123,7 +123,7 @@ namespace Movie.BLL
         public JsonRsp Update(AdminMenu model)
         {
             int returnvalue = EntityQuery<AdminMenu>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
@@ -185,9 +185,13 @@ namespace Movie.BLL
 
         public JsonRsp<TreeSelect> GetMenuTreeSelect(int roleId)
         {
-            AdminRole role = new AdminRoleBLL().GetModelById(roleId); 
-            string menuIds=","+role.MenuIds+",";
-            int[] checkedArray = Array.ConvertAll(role.MenuIds.Split(','), int.Parse);
+            AdminRole role = new AdminRoleBLL().GetModelById(roleId);
+            string menuIds = "0";
+            if (roleId > 0)
+            {
+                menuIds="," + role.MenuIds + ",";
+            }
+            //int[] checkedArray = Array.ConvertAll(role.MenuIds.Split(','), int.Parse);
 
             JsonRsp<TreeSelect> rsp = new JsonRsp<TreeSelect>();
             AdminMenu model = new AdminMenu();

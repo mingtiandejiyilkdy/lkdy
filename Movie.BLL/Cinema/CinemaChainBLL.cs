@@ -104,11 +104,11 @@ namespace Movie.BLL.Cinema
         {
             //salt
             string strSalt = Guid.NewGuid().ToString();
-            model.CreateBy = "admin";
+            model.CreateBy = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now; 
             int returnvalue = EntityQuery<CinemaChainModel>.Instance.Insert(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -118,7 +118,7 @@ namespace Movie.BLL.Cinema
         public JsonRsp Remove(CinemaChainModel model)
         {
             int returnvalue = EntityQuery<CinemaChainModel>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 改
@@ -128,7 +128,7 @@ namespace Movie.BLL.Cinema
         public JsonRsp Update(CinemaChainModel model)
         {
             int returnvalue = EntityQuery<CinemaChainModel>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Movie.BLL.Cinema
                          .END;
             int returnvalue = EntityQuery<CinemaChainModel>.Instance.ExecuteOql(deleteQ);
 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
 
@@ -199,7 +199,7 @@ namespace Movie.BLL.Cinema
                           .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                        .END;
             int returnvalue = EntityQuery<CinemaChainModel>.Instance.ExecuteOql(q);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         #endregion
     }

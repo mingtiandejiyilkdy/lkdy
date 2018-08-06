@@ -94,11 +94,11 @@ namespace Movie.BLL.Financial
         public JsonRsp Add(CustomFinancialModel model)
         {   
 
-            model.CreateBy = "admin";
+            model.CreateBy = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             int returnvalue = EntityQuery<CustomFinancialModel>.Instance.Insert(model); 
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         } 
         /// <summary>
         /// 查 根据Id获取详情，如果没有则返回空对象

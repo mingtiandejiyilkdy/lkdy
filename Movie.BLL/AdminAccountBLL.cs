@@ -102,7 +102,7 @@ namespace Movie.BLL
             model.Salt = strSalt;
             model.AccountPwd = EncryptHelper.MD5Encoding(model.AccountPwd,strSalt);
             int returnvalue = EntityQuery<AdminAccount>.Instance.Insert(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
         /// 删
@@ -112,7 +112,7 @@ namespace Movie.BLL
         public JsonRsp Remove(AdminAccount model)
         {
             int returnvalue = EntityQuery<AdminAccount>.Instance.Delete(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue }; 
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue }; 
         }
         /// <summary>
         /// 改
@@ -122,7 +122,7 @@ namespace Movie.BLL
         public JsonRsp Update(AdminAccount model)
         {
             int returnvalue = EntityQuery<AdminAccount>.Instance.Update(model);
-            return new JsonRsp { success = returnvalue > 0, code = 0, returnvalue = returnvalue };  
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };  
         }
         
         /// <summary>
@@ -207,6 +207,7 @@ namespace Movie.BLL
                 {
                     json.success = true;
                     json.code = 0;
+                    json.returnObj = model;
                 }
                 else {
                     json.success = false;

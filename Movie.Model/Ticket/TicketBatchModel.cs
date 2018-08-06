@@ -6,7 +6,7 @@ using PWMIS.DataMap.Entity;
 
 namespace Movie.Model.Ticket
 {
-    public class TicketBatchModel : EntityBase
+    public class TicketBatchModel : BaseModel
     {
         public TicketBatchModel()
         {
@@ -46,33 +46,7 @@ namespace Movie.Model.Ticket
         {
             get { return getProperty<long>("Amount"); }
             set { setProperty("Amount", value); }
-        } 
-
-        public int Sort
-        {
-            get { return getProperty<int>("Sort"); }
-            set { setProperty("Sort", value); }
-        }
-        public int Status
-        {
-            get { return getProperty<int>("Status"); }
-            set { setProperty("Status", value); }
-        }
-        public string CreateBy
-        {
-            get { return getProperty<string>("CreateBy"); }
-            set { setProperty("CreateBy", value); }
-        }
-        public string CreateIP
-        {
-            get { return getProperty<string>("CreateIP"); }
-            set { setProperty("CreateIP", value, 20); }
-        }
-        public DateTime CreateTime
-        {
-            get { return getProperty<DateTime>("CreateTime"); }
-            set { setProperty("CreateTime", value); }
-        } 
+        }  
     }
 }
 
