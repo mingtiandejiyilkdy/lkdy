@@ -11,7 +11,7 @@ namespace Movie.Model.Financial
     {
         public CustomFinancialModel()
         {
-            TableName = "CustomFinancial";
+            TableName = "P_CustomFinancial";
             IdentityName = "CustomFinancialId";
             PrimaryKeys.Add("CustomFinancialId");//主键
         }
@@ -75,17 +75,21 @@ namespace Movie.Model.Financial
         {
             get { return getProperty<string>("Remark"); }
             set { setProperty("Remark", value); }
-        }
-
+        } 
         public int Status
         {
             get { return getProperty<int>("Status"); }
             set { setProperty("Status", value); }
         }
-        public string CreateBy
+        public long CreateId
         {
-            get { return getProperty<string>("CreateBy"); }
-            set { setProperty("CreateBy", value); }
+            get { return getProperty<long>("CreateId"); }
+            set { setProperty("CreateId", value); }
+        }
+        public string CreateUser
+        {
+            get { return getProperty<string>("CreateUser"); }
+            set { setProperty("CreateUser", value); }
         }
         public string CreateIP
         {
@@ -97,5 +101,35 @@ namespace Movie.Model.Financial
             get { return getProperty<DateTime>("CreateTime"); }
             set { setProperty("CreateTime", value); }
         }
+
+        public long UpdateId
+        {
+            get { return getProperty<long>("UpdateId"); }
+            set { setProperty("UpdateId", value); }
+        }
+        public string UpdateUser
+        {
+            get { return getProperty<string>("UpdateUser"); }
+            set { setProperty("UpdateUser", value); }
+        }
+        public string UpdateIP
+        {
+            get { return getProperty<string>("UpdateIP"); }
+            set { setProperty("UpdateIP", value, 20); }
+        }
+        public DateTime? UpdateTime
+        {
+            get { return getProperty<DateTime>("UpdateTime"); }
+            set { setProperty("UpdateTime", value); }
+        } 
+
+        /// <summary>
+        /// 合作单位
+        /// </summary>
+        public long TenantId
+        {
+            get { return getProperty<long>("TenantId"); }
+            set { setProperty("TenantId", value); }
+        } 
     }
 }

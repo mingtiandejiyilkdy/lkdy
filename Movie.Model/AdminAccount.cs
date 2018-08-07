@@ -10,7 +10,7 @@ namespace Movie.Model
     {
         public AdminAccount()
         {
-            TableName = "Admin_Account";
+            TableName = "P_Admin_Account";
             IdentityName = "AccountId";
             PrimaryKeys.Add("AccountId");//主键
         }
@@ -82,6 +82,15 @@ namespace Movie.Model
         {
             get { return getProperty<DateTime>("CreateTIme"); }
             set { setProperty("CreateTIme", value); }
+        }
+
+        /// <summary>
+        /// 合作单位
+        /// </summary>
+        public long TenantId
+        {
+            get { return getProperty<long>("TenantId"); }
+            set { setProperty("TenantId", value); }
         } 
     }
 }

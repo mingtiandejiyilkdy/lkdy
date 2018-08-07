@@ -10,7 +10,7 @@ namespace Movie.Model.Custom
     {
         public CustomTypeModel()
         {
-            TableName = "CustomType";
+            TableName = "P_CustomType";
             IdentityName = "CustomTypeId";
             PrimaryKeys.Add("CustomTypeId");//主键
         }
@@ -37,10 +37,15 @@ namespace Movie.Model.Custom
             get { return getProperty<int>("Status"); }
             set { setProperty("Status", value); }
         }
-        public string CreateBy
+        public long CreateId
         {
-            get { return getProperty<string>("CreateBy"); }
-            set { setProperty("CreateBy", value); }
+            get { return getProperty<long>("CreateId"); }
+            set { setProperty("CreateId", value); }
+        }
+        public string CreateUser
+        {
+            get { return getProperty<string>("CreateUser"); }
+            set { setProperty("CreateUser", value); }
         }
         public string CreateIP
         {
@@ -53,10 +58,15 @@ namespace Movie.Model.Custom
             set { setProperty("CreateTime", value); }
         }
 
-        public string UpdateBy
+        public long UpdateId
         {
-            get { return getProperty<string>("UpdateBy"); }
-            set { setProperty("UpdateBy", value); }
+            get { return getProperty<long>("UpdateId"); }
+            set { setProperty("UpdateId", value); }
+        }
+        public string UpdateUser
+        {
+            get { return getProperty<string>("UpdateUser"); }
+            set { setProperty("UpdateUser", value); }
         }
         public string UpdateIP
         {
@@ -67,7 +77,16 @@ namespace Movie.Model.Custom
         {
             get { return getProperty<DateTime>("UpdateTime"); }
             set { setProperty("UpdateTime", value); }
-        } 
+        }
+
+        /// <summary>
+        /// 商家Id
+        /// </summary>
+        public long TenantId
+        {
+            get { return getProperty<long>("TenantId"); }
+            set { setProperty("TenantId", value); }
+        }    
     }
 }
 

@@ -44,6 +44,7 @@ namespace Movie.Website.App_Start.Filter
             if (tenant != null)
             {
                 tenantId = tenant.ID;
+                CacheHelper.SetCookie("tenantId", "tenantId");
             } 
 
             //获取当前控制器信息

@@ -81,10 +81,10 @@ namespace Movie.BLL.Ticket
                 Consumptionlevel = c.Consumptionlevel,
                 IsCommonCard = c.IsCommonCard,
                 Sort = c.Sort,
-                CreateBy = c.CreateBy,
+                CreateBy = c.CreateUser,
                 CreateIP = c.CreateIP,
                 CreateTime = c.CreateTime,
-                UpdateBy = c.UpdateBy,
+                UpdateBy = c.UpdateUser,
                 UpdateIP = c.UpdateIP,
                 UpdateTime = c.UpdateTime,                
             }); 
@@ -111,7 +111,7 @@ namespace Movie.BLL.Ticket
                 financialModel.ARBalance -= amount;
 
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
-                financialDetail.CreateBy = AdminName;
+                financialDetail.CreateUser = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -127,7 +127,7 @@ namespace Movie.BLL.Ticket
                 financialModel.LargessBalance -= amount;
 
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
-                financialDetail.CreateBy = AdminName;
+                financialDetail.CreateUser = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -143,7 +143,7 @@ namespace Movie.BLL.Ticket
                 financialModel.ExChangeBalance = amount;
 
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
-                financialDetail.CreateBy = AdminName;
+                financialDetail.CreateUser = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -156,7 +156,7 @@ namespace Movie.BLL.Ticket
             }
             int returnvalue = EntityQuery<CustomFinancialModel>.Instance.Update(financialModel);
 
-            model.CreateBy = AdminName;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             returnvalue = EntityQuery<CustomChargeCardsModel>.Instance.Insert(model);
@@ -167,7 +167,7 @@ namespace Movie.BLL.Ticket
             customAR.ChargeCardNo = model.ChargeCardNo;
             customAR.ARAmount = model.CurrentAmount;
             customAR.Status = (int)ARStatusEnum.已确认;
-            customAR.CreateBy = AdminName;
+            customAR.CreateUser = AdminName;
             customAR.CreateIP = Util.GetLocalIP();
             customAR.CreateTime = DateTime.Now;
             returnvalue = EntityQuery<CustomAccReceiptModel>.Instance.Insert(customAR);

@@ -43,8 +43,10 @@
     <Compile Include="ARStatusEnum.cs" />
     <Compile Include="BankTypeEnum.cs" />
     <Compile Include="BaseEnum.cs" />
+    <Compile Include="CustomStatusEnum.cs" />
     <Compile Include="FinanciaOpeTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CustomTypeStatusEnum.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
