@@ -41,10 +41,9 @@ namespace Movie.BLL.Ticket
                     TicketPrefix = o.TicketPrefix,
                     Amount = o.Amount,
                     TicketBatchName = o.TicketBatchName,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Sort = o.Sort,
+                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), 
                     Status = o.Status,
                 };
             }
@@ -72,7 +71,7 @@ namespace Movie.BLL.Ticket
             OQL joinQ = OQL.From(ticket)
                 .Join(ticketType).On(ticket.TicketTypeId, ticketType.ID)
                 .Select()
-                .OrderBy(ticket.Sort, "desc")
+                .OrderBy(ticket.ID, "desc")
                 .END;
 
             joinQ.Limit(pageSize, pageIndex, true);
@@ -89,10 +88,9 @@ namespace Movie.BLL.Ticket
                 TicketPrefix = ticket.TicketPrefix,
                 Amount = ticket.Amount,
                 TicketBatchName = ticket.TicketBatchName,
-                CreateBy = ticket.CreateBy,
+                CreateBy = ticket.CreateUser,
                 CreateIP = ticket.CreateIP,
-                CreateTime = ticket.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                Sort = ticket.Sort,
+                CreateTime = ticket.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), 
                 Status = ticket.Status,
             });
             rsp.success = true;
@@ -109,7 +107,7 @@ namespace Movie.BLL.Ticket
         public JsonRsp Add(TicketBatchModel model)
         {
             model.TicketBatchNo = "P"+DateTime.Now.ToString("yyyyMMddHHmmss");
-            model.CreateBy = AdminName;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             int returnvalue = EntityQuery<TicketBatchModel>.Instance.Insert(model);
@@ -146,7 +144,7 @@ namespace Movie.BLL.Ticket
                     GrantBy = 0,
                     //GrantTime=null,
                     Sort = i,
-                    CreateBy = AdminName,
+                    CreateUser = AdminName,
                     CreateIP = Util.GetLocalIP(),
                     CreateTime = DateTime.Now,
                 });

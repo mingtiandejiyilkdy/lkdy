@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="AdminAccount.cs" />
     <Compile Include="Bank\BankModel.cs" />
-    <Compile Include="BaseModel.cs" />
     <Compile Include="ChargeCard\CustomChargeCardsModel.cs" />
     <Compile Include="Cinema\CinemaChainModel.cs" />
     <Compile Include="Cinema\CinemaModel.cs" />

@@ -58,7 +58,7 @@ namespace Movie.BLL.Bank
                     ID = o.ID,
                     BankName = o.BankName,
                     BankType = o.BankType,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     Sort = o.Sort,
@@ -81,7 +81,7 @@ namespace Movie.BLL.Bank
         {
             //salt
             string strSalt = Guid.NewGuid().ToString();
-            model.CreateBy = AdminName;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now; 
             int returnvalue = EntityQuery<BankModel>.Instance.Insert(model);
@@ -197,7 +197,7 @@ namespace Movie.BLL.Bank
                     ID = o.ID,
                     BankName = o.BankName,
                     BankType = o.BankType,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     Sort = o.Sort,

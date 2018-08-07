@@ -30,7 +30,7 @@ namespace Movie.ViewModel.Ticket
         public DateTime CreateTime { get; set; }
         public string UpdateBy { get; set; }
         public string UpdateIP { get; set; }
-        public DateTime UpdateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
         
         public string ExpireDateStr { 
             get { return ExpireDate.ToString(""); } 
@@ -50,10 +50,5 @@ namespace Movie.ViewModel.Ticket
         {
             get { return CreateTime.ToString("yyyy-MM-dd HH:mm:ss"); }
         }
-
-        public string UpdateTimeStr
-        {
-            get { return UpdateTime.ToString("yyyy-MM-dd HH:mm:ss"); }
-        } 
     }
 }

@@ -79,7 +79,7 @@ namespace Movie.BLL.Contract
                 Remark = contract.Remark,
                 Sort = contract.Sort,
                 Status = contract.Status,
-                CreateBy = contract.CreateBy,
+                CreateBy = contract.CreateUser,
                 CreateIP = contract.CreateIP,
                 CreateTime = contract.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
             });
@@ -102,7 +102,7 @@ namespace Movie.BLL.Contract
             model.BalanceKey = EncryptHelper.MD5Encoding(signStr, salt);
 
             model.ContractNo = "H"+DateTime.Now.ToString("yyyyMMddHHmmss");
-            model.CreateBy = AdminName;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             int returnvalue = EntityQuery<ContractModel>.Instance.Insert(model);
@@ -237,7 +237,7 @@ namespace Movie.BLL.Contract
                 }
                 //客户财务信息初始化
                 CustomFinancialModel financialModel = new CustomFinancialModel();
-                financialModel.CreateBy = AdminName;
+                financialModel.CreateUser = AdminName;
                 financialModel.CreateIP = Util.GetLocalIP();
                 financialModel.CreateTime = DateTime.Now; 
                 financialModel.CustomId = item.CustomId;
@@ -254,7 +254,7 @@ namespace Movie.BLL.Contract
                 List<CustomFinancialDetailModel> details = new List<CustomFinancialDetailModel>();
 
                 CustomFinancialDetailModel financialDetail = new CustomFinancialDetailModel();
-                financialDetail.CreateBy = AdminName;
+                financialDetail.CreateUser = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -265,7 +265,7 @@ namespace Movie.BLL.Contract
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.应收;
                 returnvalue = context.Add(financialDetail);
 
-                financialDetail.CreateBy = AdminName;
+                financialDetail.CreateUser = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -276,7 +276,7 @@ namespace Movie.BLL.Contract
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.赠送;
                 returnvalue = context.Add(financialDetail);
 
-                financialDetail.CreateBy = AdminName;
+                financialDetail.CreateUser = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
                 financialDetail.CreateTime = DateTime.Now;
                 financialDetail.CustomFinancialId = financialModel.ID;
@@ -316,7 +316,7 @@ namespace Movie.BLL.Contract
                             Remark = contract.Remark,
                             Sort = contract.Sort,
                             Status = contract.Status,
-                            CreateBy = contract.CreateBy,
+                            CreateBy = contract.CreateUser,
                             CreateIP = contract.CreateIP,
                             CreateTime = contract.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                         };

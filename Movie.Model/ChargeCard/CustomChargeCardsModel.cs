@@ -11,7 +11,7 @@ namespace Movie.Model.ChargeCard
     {
         public CustomChargeCardsModel()
         {
-            TableName = "Custom_ChargeCards";
+            TableName = "P_Custom_ChargeCards";
             IdentityName = "ChargeCardId";
             PrimaryKeys.Add("ChargeCardId");//主键
         }
@@ -99,16 +99,26 @@ namespace Movie.Model.ChargeCard
             set { setProperty("IsCommonCard", value); }
         }
 
+
         public int Sort
         {
             get { return getProperty<int>("Sort"); }
             set { setProperty("Sort", value); }
         }
-
-        public string CreateBy
+        public int Status
         {
-            get { return getProperty<string>("CreateBy"); }
-            set { setProperty("CreateBy", value); }
+            get { return getProperty<int>("Status"); }
+            set { setProperty("Status", value); }
+        }
+        public long CreateId
+        {
+            get { return getProperty<long>("CreateId"); }
+            set { setProperty("CreateId", value); }
+        }
+        public string CreateUser
+        {
+            get { return getProperty<string>("CreateUser"); }
+            set { setProperty("CreateUser", value); }
         }
         public string CreateIP
         {
@@ -120,20 +130,35 @@ namespace Movie.Model.ChargeCard
             get { return getProperty<DateTime>("CreateTime"); }
             set { setProperty("CreateTime", value); }
         }
-        public string UpdateBy
+
+        public long UpdateId
         {
-            get { return getProperty<string>("UpdateBy"); }
-            set { setProperty("UpdateBy", value); }
+            get { return getProperty<long>("UpdateId"); }
+            set { setProperty("UpdateId", value); }
+        }
+        public string UpdateUser
+        {
+            get { return getProperty<string>("UpdateUser"); }
+            set { setProperty("UpdateUser", value); }
         }
         public string UpdateIP
         {
             get { return getProperty<string>("UpdateIP"); }
             set { setProperty("UpdateIP", value, 20); }
         }
-        public DateTime UpdateTime
+        public DateTime? UpdateTime
         {
             get { return getProperty<DateTime>("UpdateTime"); }
             set { setProperty("UpdateTime", value); }
-        } 
+        }
+
+        /// <summary>
+        /// 商家Id
+        /// </summary>
+        public long TenantId
+        {
+            get { return getProperty<long>("TenantId"); }
+            set { setProperty("TenantId", value); }
+        }    
     }
 }

@@ -61,7 +61,7 @@ namespace Movie.BLL.Financial
                     CurrentAmount = o.CurrentAmount,
                     BankSerialNumber = o.BankSerialNumber,
                     DateOfEntry = o.DateOfEntry, 
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime, 
                     Status = o.Status, 
@@ -83,7 +83,7 @@ namespace Movie.BLL.Financial
         {
             //salt
             string strSalt = Guid.NewGuid().ToString();
-            model.CreateBy = AdminName;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now; 
             int returnvalue = EntityQuery<CustomAccReceiptEntryModel>.Instance.Insert(model);
@@ -206,7 +206,7 @@ namespace Movie.BLL.Financial
                     CurrentAmount = o.CurrentAmount,
                     BankSerialNumber = o.BankSerialNumber,
                     DateOfEntry = o.DateOfEntry,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime,
                     Status = o.Status,
