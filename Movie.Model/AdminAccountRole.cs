@@ -10,7 +10,7 @@ namespace Movie.Model
     {
         public AdminAccountRole()
         {
-            TableName = "Admin_Account_Role";
+            TableName = "P_Admin_Account_Role";
             IdentityName = "AccountRoleId";
             PrimaryKeys.Add("AccountRoleId");//主键
         }
@@ -32,5 +32,14 @@ namespace Movie.Model
             get { return getProperty<long>("RoleID"); }
             set { setProperty("RoleID", value); }
         }
+
+        /// <summary>
+        /// 商家Id
+        /// </summary>
+        public long TenantId
+        {
+            get { return getProperty<long>("TenantId"); }
+            set { setProperty("TenantId", value); }
+        }    
     }
 }

@@ -36,12 +36,12 @@ namespace Movie.BLL.Cinema
                 {
                     ID = o.ID,
                     CinemaChainName = o.CinemaChainName,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     Sort = o.Sort,
                     Status = o.Status,
-                    UpdateBy = o.UpdateBy,
+                    UpdateBy = o.UpdateUser,
                     UpdateIP = o.UpdateIP,
                     UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"), 
                 };
@@ -78,12 +78,12 @@ namespace Movie.BLL.Cinema
                 {
                     ID = o.ID,
                     CinemaChainName = o.CinemaChainName,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     Sort = o.Sort,
                     Status = o.Status,
-                    UpdateBy = o.UpdateBy,
+                    UpdateBy = o.UpdateUser,
                     UpdateIP = o.UpdateIP,
                     UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"), 
                 };
@@ -104,7 +104,7 @@ namespace Movie.BLL.Cinema
         {
             //salt
             string strSalt = Guid.NewGuid().ToString();
-            model.CreateBy = AdminName;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now; 
             int returnvalue = EntityQuery<CinemaChainModel>.Instance.Insert(model);

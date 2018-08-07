@@ -60,7 +60,7 @@ namespace Movie.BLL.Tenant
                     TenantDomain = o.TenantDomain,
                     Sort = o.Sort,
                     Status = o.Status,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime,   
                 };
@@ -81,7 +81,7 @@ namespace Movie.BLL.Tenant
         {
             //salt
             string strSalt = Guid.NewGuid().ToString();
-            model.CreateBy = AdminName;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now; 
             int returnvalue = EntityQuery<TenantModel>.Instance.Insert(model);
@@ -200,7 +200,7 @@ namespace Movie.BLL.Tenant
                     TenantDomain = o.TenantDomain,
                     Sort = o.Sort,
                     Status = o.Status,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime,
                 };

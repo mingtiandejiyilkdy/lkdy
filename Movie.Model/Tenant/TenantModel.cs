@@ -10,7 +10,7 @@ namespace Movie.Model.Tenant
     {
         public TenantModel()
         {
-            TableName = "Tenant";
+            TableName = "P_Tenant";
             IdentityName = "TenantId";
             PrimaryKeys.Add("TenantId");//主键
         }
@@ -32,6 +32,7 @@ namespace Movie.Model.Tenant
             get { return getProperty<string>("TenantDomain"); }
             set { setProperty("TenantDomain", value, 50); }
         }
+
         public int Sort
         {
             get { return getProperty<int>("Sort"); }
@@ -42,10 +43,15 @@ namespace Movie.Model.Tenant
             get { return getProperty<int>("Status"); }
             set { setProperty("Status", value); }
         }
-        public string CreateBy
+        public long CreateId
         {
-            get { return getProperty<string>("CreateBy"); }
-            set { setProperty("CreateBy", value); }
+            get { return getProperty<long>("CreateId"); }
+            set { setProperty("CreateId", value); }
+        }
+        public string CreateUser
+        {
+            get { return getProperty<string>("CreateUser"); }
+            set { setProperty("CreateUser", value); }
         }
         public string CreateIP
         {
@@ -56,6 +62,27 @@ namespace Movie.Model.Tenant
         {
             get { return getProperty<DateTime>("CreateTime"); }
             set { setProperty("CreateTime", value); }
+        }
+
+        public long UpdateId
+        {
+            get { return getProperty<long>("UpdateId"); }
+            set { setProperty("UpdateId", value); }
+        }
+        public string UpdateUser
+        {
+            get { return getProperty<string>("UpdateUser"); }
+            set { setProperty("UpdateUser", value); }
+        }
+        public string UpdateIP
+        {
+            get { return getProperty<string>("UpdateIP"); }
+            set { setProperty("UpdateIP", value, 20); }
+        }
+        public DateTime? UpdateTime
+        {
+            get { return getProperty<DateTime>("UpdateTime"); }
+            set { setProperty("UpdateTime", value); }
         } 
     }
 }

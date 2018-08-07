@@ -36,7 +36,7 @@ namespace Movie.BLL
                 {
                     ID = o.ID,
                     RoleName = o.RoleName, 
-                    CreateTIme = o.CreateTIme.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreateTIme = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 };
             }
             );
@@ -57,7 +57,7 @@ namespace Movie.BLL
               
             AdminRole m = new AdminRole();
             OQL q = OQL.From(m)
-                .Select(m.ID,m.RoleName,m.Status,m.CreateTIme)
+                .Select(m.ID,m.RoleName,m.Status,m.CreateTime)
                 .OrderBy(m.ID, "asc")
                 .END;
             //分页
@@ -72,7 +72,7 @@ namespace Movie.BLL
                     ID = o.ID,
                     RoleName = o.RoleName, 
                     Status=o.Status,
-                    CreateTIme = o.CreateTIme.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreateTIme = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 };
             }
             );
@@ -146,7 +146,7 @@ namespace Movie.BLL
         {
             if (model.ID == 0)
             {
-                model.CreateTIme = DateTime.Now;
+                model.CreateTime = DateTime.Now;
                 return Add(model);
             }
             else {

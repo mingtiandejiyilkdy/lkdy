@@ -9,12 +9,15 @@ using Movie.Model;
 using Movie.Common.Utils;
 using System.Web.Script.Serialization;
 using Movie.ViewModel;
+using Movie.Model.Tenant;
+using Movie.BLL.Tenant;
 
 namespace Movie.Website.Controllers
 {
     public class LoginController : Controller
     {
         protected readonly AdminAccountBLL bll = new AdminAccountBLL();
+        protected readonly TenantBLL tenantBLL = new TenantBLL();
         //
         // GET: /Admin/Login/
 
@@ -40,6 +43,17 @@ namespace Movie.Website.Controllers
                 return Json(json, JsonRequestBehavior.AllowGet); 
             }
             AdminAccount account = (AdminAccount)json.returnObj;
+
+            string host = HttpContext.Request.Url.Host;
+            long tenantId = 0;
+            TenantModel tenant = tenantBLL.GetAllModelList().Find(o => o.TenantDomain.ToLower() == host.ToLower());
+            if (tenant != null)
+            {
+                tenantId = tenant.ID;
+                account.TenantId = tenantId;
+            } 
+
+
             ////4. 用户描述用户基本信息
             //AccountViewModel userInfo = new AccountViewModel()
             //{

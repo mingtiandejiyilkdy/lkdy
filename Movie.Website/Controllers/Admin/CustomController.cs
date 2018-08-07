@@ -12,6 +12,7 @@ namespace Movie.Website.Controllers.Admin
     public class CustomController : BaseController
     {
         protected readonly CustomBLL bll = new CustomBLL();
+        protected readonly CustomTypeBLL customTypeBLL = new CustomTypeBLL();
         //
         // GET: /Admin/Custom/
         public ActionResult Index()
@@ -40,6 +41,7 @@ namespace Movie.Website.Controllers.Admin
         // GET: /Admin/Custom/Show
         public ActionResult Show(int Id)
         {
+            ViewBag.selectTrees = customTypeBLL.GetSelectTrees();
             ViewBag.model = bll.GetModelById(Id);
             return View();
         }

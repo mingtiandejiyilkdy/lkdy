@@ -97,6 +97,14 @@ namespace Movie.BLL
                 return model;
             }
         }
+        //商户Id
+        public static long TenantId
+        {
+            get
+            {
+                return AdminUser.TenantId;
+            }
+        }
         //登录用户Id
         public static long AdminId
         {

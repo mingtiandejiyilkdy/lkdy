@@ -20,35 +20,14 @@ namespace Movie.BLL.Custom
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<CustomTypeViewModel> GetAllList()
-        {
-            JsonRsp<CustomTypeViewModel> rsp = new JsonRsp<CustomTypeViewModel>();
+        public List<CustomTypeModel> GetAllModelList()
+        { 
             CustomTypeModel model = new CustomTypeModel();
             OQL q = OQL.From(model)
                 .Select()
                 .OrderBy(model.ID, "asc")
                 .END;
-            List<CustomTypeModel> list = q.ToList<CustomTypeModel>();//使用OQL扩展
-            rsp.data = list.ConvertAll<CustomTypeViewModel>(o =>
-            {
-                return new CustomTypeViewModel()
-                {
-                    ID = o.ID,
-                    CustomTypeName = o.CustomTypeName,
-                    CreateBy = o.CreateBy,
-                    CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Sort = o.Sort,
-                    Status = o.Status,
-                    UpdateBy = o.UpdateBy,
-                    UpdateIP = o.UpdateIP,
-                    UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"), 
-                };
-            }
-            );
-            rsp.success = true;
-            rsp.code = 0;
-            return rsp;
+            return q.ToList<CustomTypeModel>();//使用OQL扩展 
         }
 
         /// <summary>
@@ -77,14 +56,14 @@ namespace Movie.BLL.Custom
                 {
                     ID = o.ID,
                     CustomTypeName = o.CustomTypeName,
-                    CreateBy = o.CreateBy,
+                    CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
-                    CreateTime = o.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreateTime = o.CreateTime,
                     Sort = o.Sort,
                     Status = o.Status,
-                    UpdateBy = o.UpdateBy,
+                    UpdateBy = o.UpdateUser,
                     UpdateIP = o.UpdateIP,
-                    UpdateTime = o.UpdateTime == null ? "" : Convert.ToDateTime(o.UpdateTime).ToString("yyyy-MM-dd HH:mm:ss"), 
+                    UpdateTime = o.UpdateTime, 
                 };
             }
             );
@@ -100,10 +79,9 @@ namespace Movie.BLL.Custom
         /// <param name="model"></param>
         /// <returns></returns>
         public JsonRsp Add(CustomTypeModel model)
-        {
-            //salt
-            string strSalt = Guid.NewGuid().ToString();
-            model.CreateBy = AdminName;
+        { 
+            model.CreateId = AdminId;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now; 
             int returnvalue = EntityQuery<CustomTypeModel>.Instance.Insert(model);
@@ -126,6 +104,10 @@ namespace Movie.BLL.Custom
         /// <returns></returns>
         public JsonRsp Update(CustomTypeModel model)
         {
+            model.UpdateId = AdminId;
+            model.UpdateUser = AdminName;
+            model.UpdateIP = Util.GetLocalIP();
+            model.UpdateTime = DateTime.Now; 
             int returnvalue = EntityQuery<CustomTypeModel>.Instance.Update(model);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
@@ -192,13 +174,68 @@ namespace Movie.BLL.Custom
                 return new JsonRsp { success = false, retmsg="请选择要操作的数据" };
             }
             CustomTypeModel user = new CustomTypeModel();
-            user.Status = status;
-            OQL q = OQL.From(user)
-               .Update(user.Status)
-                          .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
+            CustomModel model = new CustomModel();
+            model.Status = status;
+            model.UpdateId = AdminId;
+            model.UpdateUser = AdminName;
+            model.UpdateIP = Util.GetLocalIP();
+            model.UpdateTime = DateTime.Now;
+            OQL q = OQL.From(model)
+               .Update(model.Status, model.UpdateId, model.UpdateUser, model.UpdateIP, model.UpdateIP)
+                          .Where(cmp => cmp.Comparer(model.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的 
                        .END;
             int returnvalue = EntityQuery<CustomTypeModel>.Instance.ExecuteOql(q);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
+        }
+        #endregion
+
+
+        /// <summary>
+        /// 获取管理员列表（全部）
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonRsp<CustomTypeViewModel> GetAllList()
+        {
+            JsonRsp<CustomTypeViewModel> rsp = new JsonRsp<CustomTypeViewModel>();
+            List<CustomTypeModel> list = GetAllModelList();
+            rsp.data = list.ConvertAll<CustomTypeViewModel>(o =>
+            {
+                return new CustomTypeViewModel()
+                {
+                    ID = o.ID,
+                    CustomTypeName = o.CustomTypeName,
+                    CreateBy = o.CreateUser,
+                    CreateIP = o.CreateIP,
+                    CreateTime = o.CreateTime,
+                    Sort = o.Sort,
+                    Status = o.Status,
+                    UpdateBy = o.UpdateUser,
+                    UpdateIP = o.UpdateIP,
+                    UpdateTime = o.UpdateTime,
+                };
+            }
+            );
+            rsp.success = true;
+            rsp.code = 0;
+            return rsp;
+        }
+
+        #region  获取客户类型SelectTree
+        public List<TreeSelect> GetSelectTrees()
+        {
+            List<TreeSelect> treeSelects = new List<TreeSelect>();
+            foreach (var item in GetAllModelList())
+            {
+                treeSelects.Add(new TreeSelect
+                {
+                    id = item.ID,
+                    name = item.CustomTypeName,
+                    value = item.ID,
+                });
+            }
+            return treeSelects;
         }
         #endregion
     }

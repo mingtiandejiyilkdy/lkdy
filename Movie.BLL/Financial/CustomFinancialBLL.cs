@@ -77,7 +77,7 @@ namespace Movie.BLL.Financial
                 Remark = contract.Remark,
                 Sort = contract.Sort,
                 Status = contract.Status,
-                CreateBy = contract.CreateBy,
+                CreateBy = contract.CreateUser,
                 CreateIP = contract.CreateIP,
                 CreateTime = contract.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
             });
@@ -94,7 +94,7 @@ namespace Movie.BLL.Financial
         public JsonRsp Add(CustomFinancialModel model)
         {   
 
-            model.CreateBy = AdminName;
+            model.CreateUser = AdminName;
             model.CreateIP = Util.GetLocalIP();
             model.CreateTime = DateTime.Now;
             int returnvalue = EntityQuery<CustomFinancialModel>.Instance.Insert(model); 

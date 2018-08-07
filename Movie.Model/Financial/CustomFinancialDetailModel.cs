@@ -11,7 +11,7 @@ namespace Movie.Model.Financial
     {
         public CustomFinancialDetailModel()
         {
-            TableName = "Custom_FinancialDetail";
+            TableName = "P_Custom_FinancialDetail";
             IdentityName = "FinancialDetailId";
             PrimaryKeys.Add("FinancialDetailId");//主键
         }
@@ -70,10 +70,16 @@ namespace Movie.Model.Financial
             set { setProperty("Remark", value); }
         }
 
-        public string CreateBy
+        public long CreateId
         {
-            get { return getProperty<string>("CreateBy"); }
-            set { setProperty("CreateBy", value); }
+            get { return getProperty<long>("CreateId"); }
+            set { setProperty("CreateId", value); }
+        }
+
+        public string CreateUser
+        {
+            get { return getProperty<string>("CreateUser"); }
+            set { setProperty("CreateUser", value); }
         }
         public string CreateIP
         {
@@ -85,5 +91,14 @@ namespace Movie.Model.Financial
             get { return getProperty<DateTime>("CreateTime"); }
             set { setProperty("CreateTime", value); }
         }
+
+        /// <summary>
+        /// 商家Id
+        /// </summary>
+        public long TenantId
+        {
+            get { return getProperty<long>("TenantId"); }
+            set { setProperty("TenantId", value); }
+        }    
     }
 }
