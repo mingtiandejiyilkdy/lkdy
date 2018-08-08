@@ -6,12 +6,12 @@ using System.ComponentModel;
 using PWMIS.DataMap.Entity; 
 using PWMIS.Core.Extensions;
 using Movie.Common.Utils;
-using Movie.ViewModel.Custom;
-using Movie.Model.Custom; 
+using Movie.ViewModel.Merchant;
+using Movie.Model.Merchant; 
 
-namespace Movie.BLL.Custom
+namespace Movie.BLL.Merchant
 {
-    public class CustomBLL : BLLBase
+    public class MerchantBLL : BLLBase
     {
         #region 基础方法
         /// <summary>
@@ -20,25 +20,16 @@ namespace Movie.BLL.Custom
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public List<CustomModel> GetAllModelList()
+        public List<MerchantModel> GetAllModelList()
         {
-            JsonRsp<CustomViewModel> rsp = new JsonRsp<CustomViewModel>();
-            CustomModel model = new CustomModel();
-            model.TenantId = TenantId;
+            JsonRsp<MerchantViewModel> rsp = new JsonRsp<MerchantViewModel>();
+            MerchantModel model = new MerchantModel(); 
             OQL q = OQL.From(model)
                 .Select() 
-                .Where(model.TenantId)
+                .Where(model.TenantId==TenantId)
                 .OrderBy(model.Sort, "desc")
                 .END;
-            return q.ToList<CustomModel>();  
-        }
-
-        OQLCompare CreateCondition(OQLCompare cmp, CustomModel custom)
-        {
-            OQLCompare cmpResult = null;
-            if (custom.CustomName != "")
-                cmpResult = cmp.Comparer(custom.CustomName, OQLCompare.CompareType.Like, "%" + custom.CustomName + "%");
-            return cmpResult;
+            return q.ToList<MerchantModel>();  
         }
 
         /// <summary>
@@ -47,63 +38,51 @@ namespace Movie.BLL.Custom
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<CustomModel> GetPageList(string searchTxt,int pageIndex, int pageSize)
+        public JsonRsp<MerchantViewModel> GetPageList(int pageIndex, int pageSize)
         {
+            JsonRsp<MerchantViewModel> rsp = new JsonRsp<MerchantViewModel>();
 
-            CustomModel CustomModel = new Model.Custom.CustomModel();
-            JsonRsp<CustomModel> rsp = new JsonRsp<CustomModel>();
 
-            OQLCompareFunc<CustomModel> cmpResult = (cmp, c) =>
-                    (
-                      //cmp.Property(c.CustomName) == "ABC" &
-                      cmp.Comparer(c.CustomName, OQLCompare.CompareType.Like, "%" + searchTxt + "%")
-                    );
+            MerchantModel model = new MerchantModel();
+            MerchantTypeModel MerchantType = new MerchantTypeModel();
 
+            model.TenantId = TenantId;
+            //Select 方法不指定具体要选择的实体类属性，可以推迟到EntityContainer类的MapToList 方法上指定
+            OQL joinQ = OQL.From(model)
+                .Join(MerchantType).On(model.MerchantTypeId, MerchantType.ID) 
+                .Select()
+                .OrderBy(model.Sort, "desc")
+                .END;
+
+            joinQ.Limit(pageSize, pageIndex, true);
+
+            PWMIS.DataProvider.Data.AdoHelper db = PWMIS.DataProvider.Adapter.MyDB.GetDBHelper();
+            EntityContainer ec = new EntityContainer(joinQ, db);
+
+            rsp.data = (List<MerchantViewModel>)ec.MapToList<MerchantViewModel>(() => new MerchantViewModel()
+            {
+                ID = model.ID,
+                MerchantTypeId = model.MerchantTypeId,
+                MerchantTypeName = MerchantType.MerchantTypeName,
+                MerchantName = model.MerchantName,
+                LinkPhone = model.LinkPhone,
+                LinkName = model.LinkName,
+                LinkMobile = model.LinkMobile,
+                MerchantArea = model.MerchantArea,
+                MerchantAddress = model.MerchantAddress,
+                CreateBy = model.CreateUser,
+                CreateIP = model.CreateIP,
+                CreateTime = model.CreateTime,
+                Sort = model.Sort,
+                Status = model.Status,
+                UpdateBy = model.UpdateUser,
+                UpdateIP = model.UpdateIP,
+                UpdateTime = model.UpdateTime,
+            }); 
+             
             rsp.success = true;
             rsp.code = 0;
-            rsp.data = GetList<CustomModel>(cmpResult, null, pageSize, pageIndex);
-            
-
-            //CustomModel model = new CustomModel();
-            //CustomTypeModel customType = new CustomTypeModel();
-
-            //model.TenantId = TenantId;
-            ////Select 方法不指定具体要选择的实体类属性，可以推迟到EntityContainer类的MapToList 方法上指定
-            //OQL joinQ = OQL.From(model)
-            //    .Join(customType).On(model.CustomTypeId, customType.ID) 
-            //    .Select()
-            //    .OrderBy(model.Sort, "desc")
-            //    .END;
-
-            //joinQ.Limit(pageSize, pageIndex, true);
-
-            //PWMIS.DataProvider.Data.AdoHelper db = PWMIS.DataProvider.Adapter.MyDB.GetDBHelper();
-            //EntityContainer ec = new EntityContainer(joinQ, db);
-
-            //rsp.data = (List<CustomViewModel>)ec.MapToList<CustomViewModel>(() => new CustomViewModel()
-            //{
-            //    ID = model.ID,
-            //    CustomTypeId = model.CustomTypeId,
-            //    CustomTypeName = customType.CustomTypeName,
-            //    CustomName = model.CustomName,
-            //    LinkPhone = model.LinkPhone,
-            //    LinkName = model.LinkName,
-            //    LinkMobile = model.LinkMobile,
-            //    CustomArea = model.CustomArea,
-            //    CustomAddress = model.CustomAddress,
-            //    CreateBy = model.CreateUser,
-            //    CreateIP = model.CreateIP,
-            //    CreateTime = model.CreateTime,
-            //    Sort = model.Sort,
-            //    Status = model.Status,
-            //    UpdateBy = model.UpdateUser,
-            //    UpdateIP = model.UpdateIP,
-            //    UpdateTime = model.UpdateTime,
-            //}); 
-             
-            //rsp.success = true;
-            //rsp.code = 0;
-            //rsp.count = joinQ.PageWithAllRecordCount;
+            rsp.count = joinQ.PageWithAllRecordCount;
             return rsp;
         }
 
@@ -112,9 +91,9 @@ namespace Movie.BLL.Custom
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Add(CustomModel model)
+        public JsonRsp Add(MerchantModel model)
         {
-            int returnvalue = Add<CustomModel>(model);
+            int returnvalue = EntityQuery<MerchantModel>.Instance.Insert(model);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
@@ -122,9 +101,9 @@ namespace Movie.BLL.Custom
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Remove(CustomModel model)
+        public JsonRsp Remove(MerchantModel model)
         { 
-            int returnvalue = EntityQuery<CustomModel>.Instance.Delete(model);
+            int returnvalue = EntityQuery<MerchantModel>.Instance.Delete(model);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
@@ -132,20 +111,24 @@ namespace Movie.BLL.Custom
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Update(CustomModel model)
+        public JsonRsp Update(MerchantModel model)
         {
-            bool result = Update<CustomModel>(model);
-            return new JsonRsp { success = result };
+            int returnvalue = EntityQuery<MerchantModel>.Instance.Update(model);
+            return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
 
         /// <summary>
         /// 查 根据Id获取详情，如果没有则返回空对象
         /// </summary>
-        /// <param name="customerID"></param>
+        /// <param name="MerchanterID"></param>
         /// <returns></returns>
-        public CustomModel GetModelById(int Id)
+        public MerchantModel GetModelById(int Id)
         {
-            return GetModel<CustomModel>(Id); 
+            MerchantModel model = new MerchantModel() { TenantId=TenantId , ID = Id };
+            if (EntityQuery<MerchantModel>.Fill(model))
+                return model;
+            else
+                return null;
         }
         /// <summary>
         /// save
@@ -155,13 +138,13 @@ namespace Movie.BLL.Custom
         public JsonRsp DeleteById(long[] Ids)
         {
             //删除 测试数据-----------------------------------------------------
-            CustomModel user = new CustomModel(); 
+            MerchantModel user = new MerchantModel(); 
              
             OQL deleteQ = OQL.From(user)
                             .Delete()
                             .Where(cmp => cmp.Comparer(user.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                          .END;
-            int returnvalue = EntityQuery<CustomModel>.Instance.ExecuteOql(deleteQ);
+            int returnvalue = EntityQuery<MerchantModel>.Instance.ExecuteOql(deleteQ);
 
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
@@ -172,14 +155,27 @@ namespace Movie.BLL.Custom
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public JsonRsp Save(CustomModel model)
-        { 
+        public JsonRsp Save(MerchantModel model)
+        {
+            model.TenantId = TenantId;
             if (model.ID == 0)
-            { 
+            {
+                model.CreateId = AdminId;
+                model.CreateUser = AdminName;
+                model.CreateIP = Util.GetLocalIP();
+                model.CreateTime = DateTime.Now; 
                 return Add(model);
             }
             else
-            { 
+            {
+                if (model.TenantId != TenantId)
+                {
+                    return new JsonRsp { success = false, code = -1, retmsg = "数据验证失败" };
+                }
+                model.UpdateId = AdminId;
+                model.UpdateUser = AdminName;
+                model.UpdateIP = Util.GetLocalIP();
+                model.UpdateTime = DateTime.Now; 
                 return Update(model);
             }
         }
@@ -195,7 +191,7 @@ namespace Movie.BLL.Custom
             {
                 return new JsonRsp { success = false, retmsg="请选择要操作的数据" };
             }
-            CustomModel model = new CustomModel();
+            MerchantModel model = new MerchantModel();
             model.Status = status;
             model.UpdateId = AdminId;
             model.UpdateUser = AdminName;
@@ -205,7 +201,7 @@ namespace Movie.BLL.Custom
                .Update(model.Status, model.UpdateId, model.UpdateUser, model.UpdateIP, model.UpdateIP)
                           .Where(cmp => cmp.Comparer(model.ID, "IN", Ids)) //为了安全，不带Where条件是不会全部删除数据的
                        .END;
-            int returnvalue = EntityQuery<CustomModel>.Instance.ExecuteOql(q);
+            int returnvalue = EntityQuery<MerchantModel>.Instance.ExecuteOql(q);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         #endregion
@@ -220,22 +216,22 @@ namespace Movie.BLL.Custom
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JsonRsp<CustomViewModel> GetAllList()
+        public JsonRsp<MerchantViewModel> GetAllList()
         {
-            JsonRsp<CustomViewModel> rsp = new JsonRsp<CustomViewModel>();
+            JsonRsp<MerchantViewModel> rsp = new JsonRsp<MerchantViewModel>();
 
-            rsp.data = GetAllModelList().ConvertAll<CustomViewModel>(o =>
+            rsp.data = GetAllModelList().ConvertAll<MerchantViewModel>(o =>
             {
-                return new CustomViewModel()
+                return new MerchantViewModel()
                 {
                     ID = o.ID,
-                    CustomTypeId = o.CustomTypeId,
-                    CustomName = o.CustomName,
+                    MerchantTypeId = o.MerchantTypeId,
+                    MerchantName = o.MerchantName,
                     LinkPhone = o.LinkPhone,
                     LinkName = o.LinkName,
                     LinkMobile = o.LinkMobile,
-                    CustomArea = o.CustomArea,
-                    CustomAddress = o.CustomAddress,
+                    MerchantArea = o.MerchantArea,
+                    MerchantAddress = o.MerchantAddress,
                     CreateBy = o.CreateUser,
                     CreateIP = o.CreateIP,
                     CreateTime = o.CreateTime,
@@ -259,7 +255,7 @@ namespace Movie.BLL.Custom
             foreach (var item in GetAllModelList()) {
                 treeSelects.Add(new TreeSelect { 
                      id=item.ID,
-                      name=item.CustomName,
+                      name=item.MerchantName,
                         value=item.ID,
                 });
             }

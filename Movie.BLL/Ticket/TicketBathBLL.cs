@@ -149,7 +149,7 @@ namespace Movie.BLL.Ticket
                     CreateTime = DateTime.Now,
                 });
             }
-            returnvalue=context.AddList<TicketInfo>(ticketList);
+            //returnvalue=context.AddList<TicketInfo>(ticketList);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>

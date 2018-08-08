@@ -61,10 +61,13 @@
     <Compile Include="Custom\CustomModel.cs" />
     <Compile Include="Custom\CustomTypeModel.cs" />
     <Compile Include="Bank\BankAccountModel.cs" />
+    <Compile Include="EntityBaseExtension.cs" />
     <Compile Include="Financial\CustomFinancialModel.cs" />
     <Compile Include="Financial\CustomFinancialDetailModel.cs" />
     <Compile Include="Financial\CustomAccReceiptModel.cs" />
     <Compile Include="Financial\CustomAccReceiptEntryModel.cs" />
+    <Compile Include="Merchant\MerchantModel.cs" />
+    <Compile Include="Merchant\MerchantTypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdminRole.cs" />
     <Compile Include="AdminMenu.cs" />
@@ -81,6 +84,10 @@
     <ProjectReference Include="..\Movie.Enum\Movie.Enum.csproj">
       <Project>{23D5494B-5670-4A04-8EE3-7409376612E2}</Project>
       <Name>Movie.Enum</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movie.Interface\Movie.Interface.csproj">
+      <Project>{7410902A-38A7-4AC4-A9B7-B80FB27C127D}</Project>
+      <Name>Movie.Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -45,6 +45,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime">
+      <HintPath>..\Source\lib\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Optimization">
@@ -71,7 +75,10 @@
     <Compile Include="Financial\CustomAccReceiptEntryBLL.cs" />
     <Compile Include="Financial\CustomFinancialBLL.cs" />
     <Compile Include="JavaScriptSerializer.cs" />
+    <Compile Include="LocalDbContext.cs" />
     <Compile Include="LoginBLL.cs" />
+    <Compile Include="Merchant\MerchantBLL.cs" />
+    <Compile Include="Merchant\MerchantTypeBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdminRoleBLL.cs" />
     <Compile Include="AdminMenuBLL.cs" />
@@ -88,6 +95,10 @@
     <ProjectReference Include="..\Movie.Enum\Movie.Enum.csproj">
       <Project>{23D5494B-5670-4A04-8EE3-7409376612E2}</Project>
       <Name>Movie.Enum</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movie.Interface\Movie.Interface.csproj">
+      <Project>{7410902A-38A7-4AC4-A9B7-B80FB27C127D}</Project>
+      <Name>Movie.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movie.Model\Movie.Model.csproj">
       <Project>{2E1B814B-162B-48A4-A313-78E941C586B1}</Project>

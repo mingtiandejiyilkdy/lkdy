@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using PWMIS.DataMap.Entity;
 using Movie.Enum;
+using Movie.Interface;
 
 namespace Movie.Model.Financial
 {
-    public class CustomFinancialModel : EntityBase
+    public class CustomFinancialModel : EntityBaseExtension, ILongID
     {
         public CustomFinancialModel()
         {
