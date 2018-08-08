@@ -120,7 +120,7 @@ namespace Movie.BLL.Ticket
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.应收;
                 financialDetail.CurrentAmount = amount;
                 financialDetail.Balance = financialModel.ARBalance - amount; ;
-                Add(financialDetail);
+                Add<CustomFinancialDetailModel>(financialDetail);
             }
             else if (model.MoneyType == (int)BaseEnum.MoneyTypeEnum.赠送)
             {
@@ -136,7 +136,7 @@ namespace Movie.BLL.Ticket
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.赠送;
                 financialDetail.CurrentAmount = amount;
                 financialDetail.Balance = financialModel.LargessBalance - amount; ;
-                Add(financialDetail);
+                Add<CustomFinancialDetailModel>(financialDetail);
             }
             else if (model.MoneyType == (int)BaseEnum.MoneyTypeEnum.置换)
             {
@@ -152,7 +152,7 @@ namespace Movie.BLL.Ticket
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.置换;
                 financialDetail.CurrentAmount = amount;
                 financialDetail.Balance = financialModel.ExChangeBalance - amount; ;
-                Add(financialDetail);
+                Add<CustomFinancialDetailModel>(financialDetail);
             }
             int returnvalue = EntityQuery<CustomFinancialModel>.Instance.Update(financialModel);
 

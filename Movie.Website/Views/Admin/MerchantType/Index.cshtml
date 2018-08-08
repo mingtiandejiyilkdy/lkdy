@@ -23,9 +23,9 @@
             <div class="layui-form-item"> 
                 <div class="layui-inline">
                     <label class="layui-form-label">
-                        客户名称</label>
+                        商家类型</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="MerchantTypeName" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -55,7 +55,7 @@
         </div>
     </div>
 </div>
-<table class="layui-table" lay-data="{ url:'/Admin/Custom/list', page:true, id:'idTest'}"
+<table class="layui-table" lay-data="{ url:'/Admin/MerchantType/list', page:true, id:'idTest'}"
     lay-filter="demo">
     <thead>
         <tr>
@@ -64,37 +64,25 @@
             <th lay-data="{field:'ID', width:80, fixed: true}">
                 ID
             </th>
-            <th lay-data="{field:'CustomName', }">
-                客户名称
-            </th>
-            <th lay-data="{field:'CustomTypeName', }">
-                客户类型
-            </th>
-            <th lay-data="{field:'LinkPhone', }">
-                电话
-            </th>
-            <th lay-data="{field:'LinkName', }">
-                联系人
-            </th>
-            <th lay-data="{field:'LinkMobile', }">
-                联系手机
-            </th>
-            <th lay-data="{field:'CustomArea', }">
-                所属区域
-            </th>
-            <th lay-data="{field:'CustomAddress', }">
-                详细地址
-            </th>
+            <th lay-data="{field:'MerchantTypeName', }">
+                商家类型
+            </th> 
+            <th lay-data="{field:'CreateBy'}">
+                添加人
+            </th> 
+            <th lay-data="{field:'CreateTimeStr'}">
+                添加时间
+            </th> 
             <th lay-data="{field:'StatusStr'}">
                 状态
-            </th>  
+            </th>
         </tr>
     </thead>
 </table>
 <script type="text/javascript">
 
-    var moduleKey = "Custom";
-    var moduleName = "客户";
+    var moduleKey = "MerchantType";
+    var moduleName = "商家类型";
     //js初始化
     layui.use(['table', 'form', 'layedit', 'laydate'], function () {
         var ajaxUrl = "/Admin/" + moduleName + "/";

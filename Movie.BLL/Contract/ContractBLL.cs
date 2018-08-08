@@ -88,7 +88,6 @@ namespace Movie.BLL.Contract
             rsp.count = joinQ.PageWithAllRecordCount;
             return rsp;
         }
-        BLLBase context = new BLLBase();//自动创建表
         /// <summary>
         /// 增
         /// </summary>
@@ -96,17 +95,7 @@ namespace Movie.BLL.Contract
         /// <returns></returns>
         public JsonRsp Add(ContractModel model)
         { 
-            //合同信息
-            string salt = model.CreateTime.ToString("yyyyMMddHHmmss");
-            string signStr = model.ContractAmount.ToString() + model.Deductions.ToString() + model.Balance + salt;
-            model.BalanceKey = EncryptHelper.MD5Encoding(signStr, salt);
-
-            model.ContractNo = "H"+DateTime.Now.ToString("yyyyMMddHHmmss");
-            model.CreateUser = AdminName;
-            model.CreateIP = Util.GetLocalIP();
-            model.CreateTime = DateTime.Now;
             int returnvalue = EntityQuery<ContractModel>.Instance.Insert(model);
-
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };
         }
         /// <summary>
@@ -170,12 +159,31 @@ namespace Movie.BLL.Contract
         /// <returns></returns>
         public JsonRsp Save(ContractModel model)
         {
+            model.TenantId = TenantId;
             if (model.ID == 0)
             {
+                //合同信息
+                string salt = model.CreateTime.ToString("yyyyMMddHHmmss");
+                string signStr = model.ContractAmount.ToString() + model.Deductions.ToString() + model.Balance + salt;
+                model.BalanceKey = EncryptHelper.MD5Encoding(signStr, salt);
+
+                model.ContractNo = "H" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                model.CreateId = AdminId;
+                model.CreateUser = AdminName;
+                model.CreateIP = Util.GetLocalIP();
+                model.CreateTime = DateTime.Now;
                 return Add(model);
             }
             else
             {
+                if (model.TenantId != TenantId)
+                {
+                    return new JsonRsp { success = false, code = -1, retmsg = "数据验证失败" };
+                }
+                model.UpdateId = AdminId;
+                model.UpdateUser = AdminName;
+                model.UpdateIP = Util.GetLocalIP();
+                model.UpdateTime = DateTime.Now; 
                 return Update(model);
             }
         }
@@ -203,7 +211,7 @@ namespace Movie.BLL.Contract
         #endregion
 
          /// <summary>
-        /// 增
+        /// 审核
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -248,7 +256,7 @@ namespace Movie.BLL.Contract
                 financialModel.ExChangeAmount = item.ExChangeAmount;
                 financialModel.ExChangeBalance = item.ExChangeAmount; 
                 financialModel.Remark = "合同/协议号：" + item.ContractNo;
-                returnvalue = context.Add(financialModel);
+                returnvalue = Add<CustomFinancialModel>(financialModel);
 
                 //新增客户财务信息日志
                 List<CustomFinancialDetailModel> details = new List<CustomFinancialDetailModel>();
@@ -263,7 +271,7 @@ namespace Movie.BLL.Contract
                 financialDetail.Balance = financialDetail.CurrentAmount;
                 financialDetail.Remark = "合同/协议号：" + item.ContractNo; 
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.应收;
-                returnvalue = context.Add(financialDetail);
+                returnvalue = Add<CustomFinancialDetailModel>(financialDetail);
 
                 financialDetail.CreateUser = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
@@ -274,7 +282,7 @@ namespace Movie.BLL.Contract
                 financialDetail.Balance = financialDetail.CurrentAmount;
                 financialDetail.Remark = "合同/协议号：" + item.ContractNo; 
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.赠送;
-                returnvalue = context.Add(financialDetail);
+                returnvalue = Add<CustomFinancialDetailModel>(financialDetail);
 
                 financialDetail.CreateUser = AdminName;
                 financialDetail.CreateIP = Util.GetLocalIP();
@@ -285,7 +293,7 @@ namespace Movie.BLL.Contract
                 financialDetail.Balance = financialDetail.CurrentAmount;
                 financialDetail.Remark = "合同/协议号：" + item.ContractNo; 
                 financialDetail.MoneyType = (int)BaseEnum.MoneyTypeEnum.置换;
-                returnvalue = context.Add(financialDetail);
+                returnvalue = Add <CustomFinancialDetailModel>(financialDetail);
             }
              returnvalue = EntityQuery<TicketInfo>.Instance.ExecuteOql(q);
             return new JsonRsp { success = returnvalue > 0, code = returnvalue };

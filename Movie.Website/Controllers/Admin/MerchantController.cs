@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;  
-using Movie.BLL.Custom;
-using Movie.Model.Custom;
+using Movie.BLL.Merchant;
+using Movie.Model.Merchant;
 
 namespace Movie.Website.Controllers.Admin
 {
 
-    public class CustomController : BaseController
+    public class MerchantController : BaseController
     {
-        protected readonly CustomBLL bll = new CustomBLL();
-        protected readonly CustomTypeBLL customTypeBLL = new CustomTypeBLL();
+        protected readonly MerchantBLL bll = new MerchantBLL();
+        protected readonly MerchantTypeBLL MerchantTypeBLL = new MerchantTypeBLL();
         //
-        // GET: /Admin/Custom/
+        // GET: /Admin/Merchant/
         public ActionResult Index()
         {
             return View();
@@ -22,7 +22,7 @@ namespace Movie.Website.Controllers.Admin
 
 
         //
-        // GET: /Admin/Custom/AllList
+        // GET: /Admin/Merchant/AllList
         [HttpGet]
         public JsonResult AllList()
         {
@@ -30,39 +30,39 @@ namespace Movie.Website.Controllers.Admin
         }
 
         //
-        // GET: /Admin/Custom/List
+        // GET: /Admin/Merchant/List
         [HttpGet]
-        public JsonResult List(string name, int page, int limit)
+        public JsonResult List(int page, int limit)
         {
-            return Json(bll.GetPageList(name,page, limit), JsonRequestBehavior.AllowGet);
+            return Json(bll.GetPageList(page, limit), JsonRequestBehavior.AllowGet);
         }
 
         //
-        // GET: /Admin/Custom/Show
+        // GET: /Admin/Merchant/Show
         public ActionResult Show(int Id)
         {
-            ViewBag.selectTrees = customTypeBLL.GetSelectTrees();
+            ViewBag.selectTrees = MerchantTypeBLL.GetSelectTrees();
             ViewBag.model = bll.GetModelById(Id);
             return View();
         }
 
         //
-        // GET: //Admin/Custom/Add
+        // GET: //Admin/Merchant/Add
         [HttpPost]
-        public ActionResult Save(CustomModel model)
+        public ActionResult Save(MerchantModel model)
         {
             return Json(bll.Save(model), JsonRequestBehavior.AllowGet);
         }
 
         //
-        // GET: //Admin/Custom/Delete
+        // GET: //Admin/Merchant/Delete
         [HttpPost]
         public ActionResult DeleteById(long[] Ids)
         {
             return Json(bll.DeleteById(Ids), JsonRequestBehavior.AllowGet);
         }
 
-        // GET: /Admin/Custom/IsEnable
+        // GET: /Admin/Merchant/IsEnable
         [HttpPost]
         public ActionResult IsEnable(long[] Ids)
         {
@@ -70,7 +70,7 @@ namespace Movie.Website.Controllers.Admin
         }
 
 
-        // GET: /Admin/Custom/UnEnable
+        // GET: /Admin/Merchant/UnEnable
         [HttpPost]
         public ActionResult UnEnable(long[] Ids)
         {

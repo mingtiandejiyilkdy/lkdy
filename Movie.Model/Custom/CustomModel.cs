@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PWMIS.DataMap.Entity;
+using Movie.Interface;
 
 namespace Movie.Model.Custom
 {
-    public class CustomModel : EntityBase
+    public class CustomModel : EntityBase, ILongID
     {
         public CustomModel()
         {

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AEDC5E93-AE57-4355-AFDD-6A930EED65D5}</ProjectGuid>
+    <ProjectGuid>{7410902A-38A7-4AC4-A9B7-B80FB27C127D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Movie.ViewModel</RootNamespace>
-    <AssemblyName>Movie.ViewModel</AssemblyName>
+    <RootNamespace>Movie.Interface</RootNamespace>
+    <AssemblyName>Movie.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PWMIS.Core">
+      <HintPath>..\Movie.BLL\bin\Debug\PWMIS.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,38 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountViewModel.cs" />
-    <Compile Include="Bank\BankViewModel.cs" />
-    <Compile Include="Bank\BankAccountViewModel.cs" />
-    <Compile Include="BaseViewModel.cs" />
-    <Compile Include="ChargeCard\CustomChargeCardViewModel.cs" />
-    <Compile Include="Cinema\CinemaChainViewModel.cs" />
-    <Compile Include="Cinema\CinemaViewModel.cs" />
-    <Compile Include="Contract\ContractViewModel.cs" />
-    <Compile Include="Custom\CustomViewModel.cs" />
-    <Compile Include="Financial\CustomAccReceiptEntryViewModel.cs" />
-    <Compile Include="LayoutViewModel.cs" />
-    <Compile Include="Merchant\MerchantTypeViewModel.cs" />
-    <Compile Include="Merchant\MerchantViewModel.cs" />
+    <Compile Include="IID.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoleViewModel.cs" />
-    <Compile Include="MenuViewModel.cs" />
-    <Compile Include="AccountRoleViewModel.cs" />
-    <Compile Include="Custom\CustomTypeViewModel.cs" />
-    <Compile Include="Tenant\TenantViewModel.cs" />
-    <Compile Include="Ticket\TicketViewModel.cs" />
-    <Compile Include="Ticket\TicketTypeViewModel.cs" />
-    <Compile Include="Ticket\TicketBatchViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Movie.Common\Movie.Common.csproj">
-      <Project>{F9D17500-6F1B-4EBA-895F-B08B83AD300F}</Project>
-      <Name>Movie.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Movie.Enum\Movie.Enum.csproj">
-      <Project>{23D5494B-5670-4A04-8EE3-7409376612E2}</Project>
-      <Name>Movie.Enum</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

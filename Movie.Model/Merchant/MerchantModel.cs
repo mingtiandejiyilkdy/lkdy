@@ -4,56 +4,67 @@ using System.Linq;
 using System.Text;
 using PWMIS.DataMap.Entity;
 
-namespace Movie.Model.Ticket
-{
-    public class TicketBatchModel : EntityBase
+namespace Movie.Model.Merchant
+{ 
+    public class MerchantModel : EntityBase
     {
-        public TicketBatchModel()
+        public MerchantModel()
         {
-            TableName = "P_TicketBatch";
-            IdentityName = "TicketBatchId";
-            PrimaryKeys.Add("TicketBatchId");//主键
+            TableName = "P_Merchant";
+            IdentityName = "MerchantId";
+            PrimaryKeys.Add("MerchantId");//主键
         }
 
         public long ID
         {
-            get { return getProperty<long>("TicketBatchId"); }
-            set { setProperty("TicketBatchId", value); }
+            get { return getProperty<long>("MerchantId"); }
+            set { setProperty("MerchantId", value); }
         }
 
-        public long TicketTypeId
+        public long MerchantTypeId
         {
-            get { return getProperty<long>("TicketTypeId"); }
-            set { setProperty("TicketTypeId", value); }
-        }
-        public string TicketBatchName
-        {
-            get { return getProperty<string>("TicketBatchName"); }
-            set { setProperty("TicketBatchName", value, 50); }
-        }
-        public string TicketBatchNo
-        {
-            get { return getProperty<string>("TicketBatchNo"); }
-            set { setProperty("TicketBatchNo", value, 50); }
+            get { return getProperty<long>("MerchantTypeId"); }
+            set { setProperty("MerchantTypeId", value); }
         }
 
-        public string TicketPrefix
+        public string MerchantName
         {
-            get { return getProperty<string>("TicketPrefix"); }
-            set { setProperty("TicketPrefix", value, 50); }
+            get { return getProperty<string>("MerchantName"); }
+            set { setProperty("MerchantName", value, 50); }
         }
-        public long Amount
+
+        public string LinkName
         {
-            get { return getProperty<long>("Amount"); }
-            set { setProperty("Amount", value); }
+            get { return getProperty<string>("LinkName"); }
+            set { setProperty("LinkName", value, 50); }
         }
+        public string LinkPhone
+        {
+            get { return getProperty<string>("LinkPhone"); }
+            set { setProperty("LinkPhone", value, 20); }
+        }
+        public string LinkMobile
+        {
+            get { return getProperty<string>("LinkMobile"); }
+            set { setProperty("LinkMobile", value, 15); }
+        }
+        public string MerchantArea
+        {
+            get { return getProperty<string>("MerchantArea"); }
+            set { setProperty("MerchantArea", value, 15); }
+        }
+        public string MerchantAddress
+        {
+            get { return getProperty<string>("MerchantAddress"); }
+            set { setProperty("MerchantAddress", value, 15); }
+        }
+
 
         public int Sort
         {
             get { return getProperty<int>("Sort"); }
             set { setProperty("Sort", value); }
         }
-
         public int Status
         {
             get { return getProperty<int>("Status"); }
@@ -99,7 +110,8 @@ namespace Movie.Model.Ticket
         {
             get { return getProperty<DateTime>("UpdateTime"); }
             set { setProperty("UpdateTime", value); }
-        } 
+        }
+
 
         /// <summary>
         /// 商家Id
@@ -108,7 +120,6 @@ namespace Movie.Model.Ticket
         {
             get { return getProperty<long>("TenantId"); }
             set { setProperty("TenantId", value); }
-        } 
+        }    
     }
 }
-

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Enum", "Movie.Enum\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.BLL", "Movie.BLL\Movie.BLL.csproj", "{647673FE-AA20-4A84-AFBB-B859519A1DE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Interface", "Movie.Interface\Movie.Interface.csproj", "{7410902A-38A7-4AC4-A9B7-B80FB27C127D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{647673FE-AA20-4A84-AFBB-B859519A1DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{647673FE-AA20-4A84-AFBB-B859519A1DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{647673FE-AA20-4A84-AFBB-B859519A1DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7410902A-38A7-4AC4-A9B7-B80FB27C127D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7410902A-38A7-4AC4-A9B7-B80FB27C127D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7410902A-38A7-4AC4-A9B7-B80FB27C127D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7410902A-38A7-4AC4-A9B7-B80FB27C127D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

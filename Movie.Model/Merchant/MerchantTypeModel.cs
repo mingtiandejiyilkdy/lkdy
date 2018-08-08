@@ -4,48 +4,27 @@ using System.Linq;
 using System.Text;
 using PWMIS.DataMap.Entity;
 
-namespace Movie.Model.Ticket
+namespace Movie.Model.Merchant
 {
-    public class TicketBatchModel : EntityBase
+    public class MerchantTypeModel: EntityBase
     {
-        public TicketBatchModel()
+        public MerchantTypeModel()
         {
-            TableName = "P_TicketBatch";
-            IdentityName = "TicketBatchId";
-            PrimaryKeys.Add("TicketBatchId");//主键
+            TableName = "P_MerchantType";
+            IdentityName = "MerchantTypeId";
+            PrimaryKeys.Add("MerchantTypeId");//主键
         }
 
         public long ID
         {
-            get { return getProperty<long>("TicketBatchId"); }
-            set { setProperty("TicketBatchId", value); }
+            get { return getProperty<long>("MerchantTypeId"); }
+            set { setProperty("MerchantTypeId", value); }
         }
 
-        public long TicketTypeId
+        public string MerchantTypeName
         {
-            get { return getProperty<long>("TicketTypeId"); }
-            set { setProperty("TicketTypeId", value); }
-        }
-        public string TicketBatchName
-        {
-            get { return getProperty<string>("TicketBatchName"); }
-            set { setProperty("TicketBatchName", value, 50); }
-        }
-        public string TicketBatchNo
-        {
-            get { return getProperty<string>("TicketBatchNo"); }
-            set { setProperty("TicketBatchNo", value, 50); }
-        }
-
-        public string TicketPrefix
-        {
-            get { return getProperty<string>("TicketPrefix"); }
-            set { setProperty("TicketPrefix", value, 50); }
-        }
-        public long Amount
-        {
-            get { return getProperty<long>("Amount"); }
-            set { setProperty("Amount", value); }
+            get { return getProperty<string>("MerchantTypeName"); }
+            set { setProperty("MerchantTypeName", value,50); }
         }
 
         public int Sort
@@ -53,7 +32,6 @@ namespace Movie.Model.Ticket
             get { return getProperty<int>("Sort"); }
             set { setProperty("Sort", value); }
         }
-
         public int Status
         {
             get { return getProperty<int>("Status"); }
@@ -99,7 +77,7 @@ namespace Movie.Model.Ticket
         {
             get { return getProperty<DateTime>("UpdateTime"); }
             set { setProperty("UpdateTime", value); }
-        } 
+        }
 
         /// <summary>
         /// 商家Id
@@ -108,7 +86,7 @@ namespace Movie.Model.Ticket
         {
             get { return getProperty<long>("TenantId"); }
             set { setProperty("TenantId", value); }
-        } 
+        }    
     }
 }
 

@@ -158,6 +158,8 @@
     <Compile Include="Controllers\Admin\BankController.cs" />
     <Compile Include="Controllers\Admin\BankAccountController.cs" />
     <Compile Include="Controllers\Admin\TenantController.cs" />
+    <Compile Include="Controllers\Admin\MerchantController.cs" />
+    <Compile Include="Controllers\Admin\MerchantTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -542,6 +544,10 @@
     <Content Include="Views\Admin\BankAccount\Show.cshtml" />
     <Content Include="Views\Admin\Tenant\Index.cshtml" />
     <Content Include="Views\Admin\Tenant\Show.cshtml" />
+    <Content Include="Views\Admin\Merchant\Index.cshtml" />
+    <Content Include="Views\Admin\Merchant\Show.cshtml" />
+    <Content Include="Views\Admin\MerchantType\Index.cshtml" />
+    <Content Include="Views\Admin\MerchantType\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Movie.BLL\Movie.BLL.csproj">
@@ -551,6 +557,10 @@
     <ProjectReference Include="..\Movie.Common\Movie.Common.csproj">
       <Project>{F9D17500-6F1B-4EBA-895F-B08B83AD300F}</Project>
       <Name>Movie.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movie.Interface\Movie.Interface.csproj">
+      <Project>{7410902A-38A7-4AC4-A9B7-B80FB27C127D}</Project>
+      <Name>Movie.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movie.Model\Movie.Model.csproj">
       <Project>{2E1B814B-162B-48A4-A313-78E941C586B1}</Project>

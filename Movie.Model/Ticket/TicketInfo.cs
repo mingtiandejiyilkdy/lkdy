@@ -127,8 +127,7 @@ namespace Movie.Model.Ticket
         {
             get { return getProperty<DateTime>("GrantTime"); }
             set { setProperty("GrantTime", value); }
-        }
-
+        } 
 
         public int Sort
         {
